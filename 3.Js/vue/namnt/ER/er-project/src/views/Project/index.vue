@@ -169,17 +169,20 @@ export default {
     },
 
     async addProjectData(val){
+      //validate projectCode,projectName,projectTypeCode not ''
       const valiCode = this.validateInput(val.projectCode)
       const valiName = this.validateInput(val.projectName)
       const valiType = this.validateInput(val.projectTypeCode)
       this.dataMess.code = valiCode ? '' : CONTANT.message['013'] 
       this.dataMess.name = valiName ? '' : CONTANT.message['014']
       this.dataMess.type = valiType ? '' : CONTANT.message['025']
+      // convert value defaultProject ,active to booleen
       val.defaultProject = val.defaultProject === 0 ? false : true
       val.active = val.active === 0 ? false : true
+      //call API add if validate success 
       if (valiType && valiCode && valiName){
-        console.log('a')
         await this.$store.dispatch('project/addProject', val)
+        //if add success call api reload table
         if ( this.errorCode === 200 ) {
           await this.$store.dispatch('project/loadingData', true)
           await this.$store.dispatch('project/projectList', this.loadData)
@@ -189,6 +192,7 @@ export default {
     },
 
     async searchProjectData(val){
+      //validate projectCode,projectName,projectTypeCode not ''
       const valiCode = this.validateInput(val.projectCode)
       const valiName = this.validateInput(val.projectName)
       const valiType = this.validateInput(val.projectTypeCode)
@@ -205,7 +209,7 @@ export default {
           pageRecord: CONTANT.pageRecord,
           sortBy: 'projectCode-ASC'
         }
-         await this.$store.dispatch('project/searchData', data)
+        await this.$store.dispatch('project/searchData', data)
         await this.$store.dispatch('project/loadingData', true)
         await this.$store.dispatch('project/projectList', data)
       }
