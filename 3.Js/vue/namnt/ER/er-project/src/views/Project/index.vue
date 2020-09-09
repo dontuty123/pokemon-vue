@@ -191,8 +191,6 @@ export default {
       const valiCode = this.validateInput(val.projectCode)
       const valiName = this.validateInput(val.projectName)
       const valiType = this.validateInput(val.projectTypeCode)
-      // val.defaultProject = val.defaultProject === 0 ? false : true
-      // val.active = val.active === 0 ? false : true
       if (valiType || valiCode || valiName){
         const data = {
           isSearch: 1,
@@ -205,7 +203,6 @@ export default {
           currentPage: 1,
           pageRecord: CONTANT.pageRecord,
           sortBy: 'projectCode-ASC'
-
         }
         await this.$store.dispatch('project/loadingData', true)
         await this.$store.dispatch('project/projectList', data)
