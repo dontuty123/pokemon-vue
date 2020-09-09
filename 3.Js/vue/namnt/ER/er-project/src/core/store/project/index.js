@@ -13,7 +13,12 @@ const project = {
       mess: '',
       class: ''
     },
-    errorCode: ''
+    errorCode: '',
+    searchError:{
+      status: true,
+      mess: '',
+      color: ''
+    },
   },
   mutations: {
     LOADING_DATA(state, data) {
@@ -38,7 +43,22 @@ const project = {
     },
     RESET_ERROR(state, data) {
       state.messCode.mess = data
-    }
+      state.searchError.mess = data
+      state.searchError.status = true
+    },
+    SEARCH_DATA(state, data) {
+      state.errorCode = data.http_code
+      state.messCode.mess = CONTANT.message['004']
+      state.messCode.class = 'text-success'
+    },
+    SEARCH_ERROR(state, data) {
+      state.errorCode = data.http_code
+      state.messCode.mess = CONTANT.message['004']
+      state.messCode.class = 'text-success'
+      state.searchError.mess = CONTANT.message['018']
+      state.searchError.class = 'text-danger'
+      state.searchError.status = false
+    },
   },
   actions: {
     async loadingData( { commit }, param) {
@@ -57,12 +77,18 @@ const project = {
 
     async addProject( { commit }, param) {
       let respon = await authService.addProjectData(param)
-      console.log(respon.data.http_code)
       if ( respon.data.http_code === 200 ) {
         commit('ADD_PROJECT', respon.data)
       } else {
-        console.log(respon.data.error_code)
         commit('ADD_ERROR', respon.data)
+      }
+    },
+    async searchData( { commit }, param) {
+      let respon = await authService.getProject(param)
+      if ( respon.data.error_code === '' ) {
+          commit('SEARCH_DATA', respon.data)        
+      }  else {
+        commit('SEARCH_ERROR', respon.data)
       }
     },
     resetMess( { commit }, param) {

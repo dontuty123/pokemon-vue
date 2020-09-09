@@ -19,6 +19,7 @@
       @searchProjectData="searchProjectData"
      ></groupProject>
      <p :class="messCode.class">{{messCode.mess}}</p>
+     <p :class="searchError.class" class="mt-4" v-if="!searchError.status">{{searchError.mess}}</p>
       <tableCommon
         :isLoading="isLoading"
         :fields="headerName" 
@@ -143,7 +144,8 @@ export default {
       projectList: state => state.projectList,
       projectTypeList: state => state.projectTypeList,
       messCode: state => state.messCode,
-      errorCode: state => state.errorCode
+      errorCode: state => state.errorCode,
+      searchError: state => state.searchError
     }),
   },
   methods: {
@@ -155,7 +157,6 @@ export default {
       }
     },
     clickTable(val) {
-      console.log(val)
       this.dataForm = {
         projectCode: val.projectCode,
         projectName: val.projectName,
@@ -177,6 +178,7 @@ export default {
       val.defaultProject = val.defaultProject === 0 ? false : true
       val.active = val.active === 0 ? false : true
       if (valiType && valiCode && valiName){
+        console.log('a')
         await this.$store.dispatch('project/addProject', val)
         if ( this.errorCode === 200 ) {
           await this.$store.dispatch('project/loadingData', true)
@@ -184,7 +186,6 @@ export default {
         }
       }
       this.$store.dispatch('project/resetMess', '')
-      console.log(val)
     },
 
     async searchProjectData(val){
@@ -204,9 +205,11 @@ export default {
           pageRecord: CONTANT.pageRecord,
           sortBy: 'projectCode-ASC'
         }
+         await this.$store.dispatch('project/searchData', data)
         await this.$store.dispatch('project/loadingData', true)
         await this.$store.dispatch('project/projectList', data)
       }
+      this.$store.dispatch('project/resetMess', '')
     }
   }
 }

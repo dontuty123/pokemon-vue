@@ -101,6 +101,23 @@ export default {
     return {
     }
   },
+  watch: {
+    'dataForm.projectCode'(newValue, oldValue) {
+      if (oldValue !== newValue) {
+        this.dataMess.code = ''
+      }
+    },
+    'dataForm.projectTypeName'(newValue, oldValue) {
+      if (oldValue !== newValue) {
+        this.dataMess.name = ''
+      }
+    },
+    'dataForm.projectTypeCode'(newValue, oldValue) {
+      if (oldValue !== newValue) {
+        this.dataMess.type = ''
+      }
+    },
+  },
   props: ['projectType', 'dataForm', 'disabled', 'options', 'dataMess'],
   methods: {
     addProject(){
@@ -108,6 +125,9 @@ export default {
     },
     searchProject(){
       this.$emit('searchProjectData', this.dataForm)
+      this.dataMess.code = ''
+      this.dataMess.name = ''
+      this.dataMess.type = ''
     }
   }
 }
