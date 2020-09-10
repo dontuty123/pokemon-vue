@@ -8,9 +8,9 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <React.StrictMode>
-        <Header/>
-        <Login/>
-        <Footer/>
+        <Header />
+        <Login />
+        <Footer />
     </React.StrictMode>,
     document.getElementById('root')
 );

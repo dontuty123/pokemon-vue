@@ -1,15 +1,18 @@
 import React from 'react';
 import './Login.scss';
-function Login() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p className="title-login">
-         Login
-        </p>
-      </header>
-    </div>
-  );
+
+type LoginProps = {
+    title?: string,
 }
+/**
+ * Example function component
+ */
+const Login = ({ title }: LoginProps) => <aside>
+    <p>{ title }</p>
+</aside>
+
+Login.defaultProps = {
+    title: 'aaaaaaaaaaaaa',
+};
 
 export default Login;
