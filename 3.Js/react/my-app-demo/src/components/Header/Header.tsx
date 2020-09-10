@@ -1,15 +1,17 @@
 import React from 'react';
 
-function Header() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-         header
-        </p>
-      </header>
-    </div>
-  );
+interface ipprop {
+    name?: string;
 }
+/**
+ *
+ * Example function component
+ */
+const Header: React.FC<ipprop> = (props: ipprop) => {
+    return <h1>hello {props.name}</h1>;
+};
+Header.defaultProps = {
+    name: 'wo',
+};
 
 export default Header;

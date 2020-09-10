@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './assets/styles/index.scss';
-import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 import Login from "./container/Login/Login";
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Footer />
-    <Login />
-    <Header />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Header/>
+        <Login/>
+        <Footer/>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

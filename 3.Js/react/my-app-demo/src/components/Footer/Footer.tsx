@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ *
+ * Example function component
+ */
 function Footer() {
   return (
     <div className="App">
