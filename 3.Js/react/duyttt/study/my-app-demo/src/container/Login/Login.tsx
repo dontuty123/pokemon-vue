@@ -7,8 +7,8 @@ type LoginProps = {
 /**
  * Example function component
  */
-const Login = ({ title }: LoginProps) => <aside>
-    <p>{ title }</p>
+const Login = ({title}: LoginProps) => <aside>
+    <p className="title-login">{title}</p>
 </aside>
 
 Login.defaultProps = {

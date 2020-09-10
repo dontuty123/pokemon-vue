@@ -11,8 +11,8 @@ ReactDOM.render(
     <React.StrictMode>
         <Header />
         <Login />
-        <Footer />
         <Register />
+        <Footer />
     </React.StrictMode>,
     document.getElementById('root')
 );
