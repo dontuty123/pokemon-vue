@@ -7,10 +7,10 @@
       <ul class="list-button mt-3">
         <span class="mb-2">List màn hình</span>
         <li class="mr-2">
-          <b-button href="/project-use-bootstrap" variant="primary">Project (use Bootstrap)</b-button>
+          <b-button href="/project-use-bootstrap" variant="primary" disable>Project (use Bootstrap)</b-button>
         </li>
         <li class="mr-2">
-          <b-button href="/project" variant="primary">Project (Basic - Doing)</b-button>
+          <b-button href="/project" variant="primary">Project (Basic)</b-button>
         </li>
       </ul>
     </div>
