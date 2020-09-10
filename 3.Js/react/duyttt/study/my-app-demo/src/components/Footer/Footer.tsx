@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 type ClockState = {
     time: Date,
-    msg?: string;
 }
 /**
  *
@@ -22,7 +21,7 @@ class Footer extends Component<{},ClockState> {
             <div className="App">
                 <header className="App-header">
                     <div>
-                        Example class Footer
+                        Footer example demo class component
                         <p>The current time is {this.state.time.toLocaleTimeString()}</p>
                     </div>
                 </header>

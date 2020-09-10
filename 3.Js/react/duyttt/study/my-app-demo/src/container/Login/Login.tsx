@@ -12,7 +12,7 @@ const Login = ({ title }: LoginProps) => <aside>
 </aside>
 
 Login.defaultProps = {
-    title: 'aaaaaaaaaaaaa',
+    title: 'Login demo with function component',
 };
 
 export default Login;
