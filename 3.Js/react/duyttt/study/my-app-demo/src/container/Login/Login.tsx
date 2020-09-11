@@ -6,11 +6,15 @@ import './Login.scss';
  */
 class Login extends Component {
     render() {
+        const children = this.props.title;
         return (
             <div>
-                <p>ssssssssssssssssssssss</p>
+                {children}
             </div>
         );
     }
+}
+Login.defaultProps = {
+    title: 'ssaaaaa'
 }
 export default Login;

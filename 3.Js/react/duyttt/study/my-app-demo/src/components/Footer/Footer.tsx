@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
 type ClockState = {
     time: Date,
     name?: string;
@@ -15,16 +16,19 @@ class Footer extends Component<{}, ClockState> {
             time: new Date()
         });
     }
+
     //action function define
     componentWillMount() {
         this.tick();
     }
-   // action render
+
+    //  AJAX requests, DOM or update state request, connect js framework: setTimeout or setInterval
     componentDidMount() {
         setInterval(() => {
             this.tick()
         }, 1000)
     }
+
     render() {
         return (
             <div className="App">
@@ -38,11 +42,12 @@ class Footer extends Component<{}, ClockState> {
         );
     }
 }
+
 //validate input type value
-Footer.propTypes ={
-    name:PropTypes.string.isRequired
+Footer.propTypes = {
+    name: PropTypes.string.isRequired
 }
 Footer.defaultProps = {
-    name: 'Footer class component with prop',
+    name: 12,
 };
 export default Footer;
