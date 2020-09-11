@@ -14,8 +14,6 @@ class Register extends PureComponent{
             clickCount: 0
         };
     }
-
-
     // Method updateCount()
     updateCount() {
         this.setState((prevState, props) => {
