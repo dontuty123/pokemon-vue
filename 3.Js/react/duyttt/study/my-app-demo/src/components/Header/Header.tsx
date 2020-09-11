@@ -7,7 +7,7 @@ interface ipprop {
  *
  * Example function component
  */
-const Header: React.FC<ipprop> = (props: ipprop) => {
+const Header = (props:ipprop) => {
     return <h1>Example function component..{props.name}</h1>;
 };
 Header.defaultProps = {
