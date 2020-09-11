@@ -5,13 +5,14 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Login from "./container/Login/Login";
 import Register from "./container/Register/Register";
+import Search from "./container/Search/Search";
 import * as serviceWorker from './serviceWorker';
-
 ReactDOM.render(
     <React.StrictMode>
         <Header />
         <Login />
         <Register />
+        <Search />
         <Footer />
     </React.StrictMode>,
     document.getElementById('root')

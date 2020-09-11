@@ -1,18 +1,16 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './Login.scss';
-
-type LoginProps = {
-    title?: string,
-}
 /**
- * Example function component
+ *
+ * Example demo pure component
  */
-const Login = ({title}: LoginProps) => <aside>
-    <p className="title-login">{title}</p>
-</aside>
-
-Login.defaultProps = {
-    title: 'Login demo with function component',
-};
-
+class Login extends Component {
+    render() {
+        return (
+            <div>
+                <p>ssssssssssssssssssssss</p>
+            </div>
+        );
+    }
+}
 export default Login;
