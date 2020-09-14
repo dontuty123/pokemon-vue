@@ -1,12 +1,18 @@
 import React, {PureComponent} from 'react';
 import './Register.scss';
+
+interface props {
+    text: string,
+    clickCount: number;
+}
+
 /**
  *
  * Example demo pure component
  */
-class Register extends PureComponent{
+class Register extends PureComponent<{}, props> {
     //setting state component
-    constructor(props) {
+    constructor(props: Readonly<{}>) {
         //are component
         super(props);
         this.state = {
@@ -14,6 +20,7 @@ class Register extends PureComponent{
             clickCount: 0
         };
     }
+
     // Method updateCount()
     updateCount() {
         this.setState((prevState, props) => {
@@ -22,6 +29,7 @@ class Register extends PureComponent{
             };
         });
     }
+
     render() {
         return (
             <div>
@@ -32,4 +40,5 @@ class Register extends PureComponent{
         );
     }
 }
+
 export default Register;

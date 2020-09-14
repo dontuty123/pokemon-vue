@@ -1,19 +1,18 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
-type ClockState = {
+interface props {
     time: Date,
     name?: string;
 }
-
 /**
  *
  * Example class component
  */
-class Footer extends Component<{}, ClockState> {
+class Footer extends Component<{}, props > {
+    static defaultProps: { name: string };
     tick() {
         this.setState({
-            time: new Date()
+            time: new Date(),
         });
     }
 
@@ -43,11 +42,7 @@ class Footer extends Component<{}, ClockState> {
     }
 }
 
-//validate input type value
-Footer.propTypes = {
-    name: PropTypes.string.isRequired
-}
 Footer.defaultProps = {
-    name: 12,
+    name: "demo class component",
 };
 export default Footer;

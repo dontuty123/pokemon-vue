@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import './Search.scss'
 
+interface props {
+    searchText: string,
+    searchCount: number,
+    resultCount: number;
+}
+
 /**
  *
  * Example demo state component
  */
-class Search extends Component {
-    constructor(props) {
+class Search extends Component<{}, props> {
+    constructor(props: Readonly<{}>) {
         super(props);
         this.state = {
             searchText: "",
@@ -15,16 +21,16 @@ class Search extends Component {
         }
     }
 
-    changeSearchText(event) {
+    changeSearchText = (event: { target: { value: any; }; }): void => {
         let search = event.target.value;
         this.setState((prevState, props) => {
             return {
                 searchText: search
             };
         });
-    }
+    };
 
-    doSearch() {
+    doSearch(): void {
         this.setState((prevState, props) => {
             let count = this.state.searchText.length;
             return {

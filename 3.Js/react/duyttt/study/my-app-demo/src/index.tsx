@@ -6,12 +6,14 @@ import Footer from "./components/Footer/Footer";
 import Register from "./container/Register/Register";
 import Search from "./container/Search/Search";
 import * as serviceWorker from './serviceWorker';
+import DemoParent from "./container/DemoParent/DemoParent";
 ReactDOM.render(
     <React.StrictMode>
         <Header />
         <Register />
         <Search />
         <Footer />
+        <DemoParent />
     </React.StrictMode>,
     document.getElementById('root')
 );
