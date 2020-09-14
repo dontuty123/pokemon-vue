@@ -12,7 +12,7 @@ interface props {
  */
 class Register extends PureComponent<{}, props> {
     //setting state component
-    constructor(props: Readonly<{}>) {
+    constructor(props: props) {
         //are component
         super(props);
         this.state = {
