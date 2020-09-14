@@ -22,19 +22,20 @@ class Footer extends Component<{}, props > {
     }
 
     //  AJAX requests, DOM or update state request, connect js framework: setTimeout or setInterval
-    componentDidMount() {
+    componentDidMount = () => {
         setInterval(() => {
             this.tick()
         }, 1000)
     }
 
     render() {
+        const name = this.props.name;
         return (
             <div className="App">
                 <header className="App-header">
                     <div>
                         <p>Footer The current time is {this.state.time.toLocaleTimeString()}</p>
-                        <p>FooterName: {this.props.name} </p>
+                        <p>FooterName: {name} </p>
                     </div>
                 </header>
             </div>

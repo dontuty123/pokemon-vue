@@ -22,7 +22,7 @@ class Register extends PureComponent<{}, props> {
     }
 
     // Method updateCount()
-    updateCount() {
+    updateCount = () => {
         this.setState((prevState, props) => {
             return {
                 clickCount: prevState.clickCount + 1,

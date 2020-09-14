@@ -12,7 +12,7 @@ interface props {
  * Example demo state component
  */
 class Search extends Component<{}, props> {
-    constructor(props: Readonly<{}>) {
+    constructor(props: props) {
         super(props);
         this.state = {
             searchText: "",
@@ -30,7 +30,7 @@ class Search extends Component<{}, props> {
         });
     };
 
-    doSearch(): void {
+    doSearch = (): void => {
         this.setState((prevState, props) => {
             let count = this.state.searchText.length;
             return {
