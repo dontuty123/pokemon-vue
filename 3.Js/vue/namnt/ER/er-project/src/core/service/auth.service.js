@@ -19,31 +19,31 @@ authService.secret = (data) => {
 
 authService.changePass = (data) => {
   return fnAPI.putApi('change-password', data)
-},
-
-authService.getList = (data) => {
-  return fnAPI.getApi('position-list', data)
-},
-
-authService.addRecordPosition = (data) => {
-  return fnAPI.postApi('position-create', data)
-},
-
-authService.updateRecordPosition = (data) => {
-  return fnAPI.postApi('position-update', data)
-},
-authService.deleteRecordPosition = (data) => {
-  return fnAPI.postApi('position-delete', data)
-},
-authService.getProject = (data) => {
-  return fnAPI.getApi('project-list', data)
-},
-authService.getProjectType = (data) => {
-  return fnAPI.getApi('projecttype-list', data)
-},
-authService.addProjectData = (data) => {
-  return fnAPI.postApi('project-create', data)
 }
+
+// authService.getList = (data) => {
+//   return fnAPI.getApi('position-list', data)
+// },
+
+// authService.addRecordPosition = (data) => {
+//   return fnAPI.postApi('position-create', data)
+// },
+
+// authService.updateRecordPosition = (data) => {
+//   return fnAPI.postApi('position-update', data)
+// },
+// authService.deleteRecordPosition = (data) => {
+//   return fnAPI.postApi('position-delete', data)
+// },
+// authService.getProject = (data) => {
+//   return fnAPI.getApi('project-list', data)
+// },
+// authService.getProjectType = (data) => {
+//   return fnAPI.getApi('projecttype-list', data)
+// },
+// authService.addProjectData = (data) => {
+//   return fnAPI.postApi('project-create', data)
+// }
 
 
 export default authService

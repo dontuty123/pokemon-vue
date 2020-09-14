@@ -121,14 +121,10 @@ export default {
   },
   methods: {
     validateInput(val) {
-      if (val === '') {
-        return false
-      } else {
-        return true
-      }
+      return val ? true : false;
     },
     sortTable(val) {
-      let type = val.sortType === 'ASC' ? 'DESC' : 'ASC'
+      const type = val.sortType === 'ASC' ? 'DESC' : 'ASC'
       this.sort = {
         key: val.key,
         type: type
@@ -230,11 +226,7 @@ export default {
     },
 
     clickTable(val) {
-      this.dataTable = {
-        id: val.id,
-        positionCode: val.positionCode,
-        positionName: val.positionName
-      }
+      this.dataTable = val
       this.disabled = false
     },
 

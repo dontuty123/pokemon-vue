@@ -24,16 +24,14 @@ const changePass = {
 
   },
   actions: {
-    changePassword( { commit }, param){
-      authService.changePass(param)
-      .then(response => {
-        if (response.data.http_code === 200) {
-          router.push('/')
-        }
-        if (response.data.http_code === 403) {
-          commit('CHANGEPASSWORD', false)
-        }
-      })
+    async changePassword( { commit }, param){
+    const respon = await authService.changePass(param)
+    if (respon.data.http_code === 200) {
+      router.push('/')
+    }
+    if (respon.data.http_code === 403) {
+      commit('CHANGEPASSWORD', false)
+    }
     },
 
     resetMess( { commit }, param ){

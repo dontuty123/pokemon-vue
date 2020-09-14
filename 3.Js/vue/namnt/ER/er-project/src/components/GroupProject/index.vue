@@ -1,27 +1,47 @@
 <template>
   <div>
-    <b-button size="md" class="mr-3 font-weight-bold" variant="primary"  @click="searchProject"> 
-      <b-icon icon="search" aria-hidden="true" class="mr-2"></b-icon>Search
-    </b-button>
-    <b-button size="md" class="mr-3 font-weight-bold" variant="primary" @click="addProject">
-      <b-icon icon="plus-circle-fill" aria-hidden="true" class="mr-2"></b-icon>Add
-    </b-button>
-    <b-button :disabled="disabled" size="md" class="mr-3 font-weight-bold" variant="primary">
-      <b-icon icon="journal-plus" aria-hidden="true" class="mr-2"></b-icon>Update
-    </b-button>
-    <b-button :disabled="disabled" size="md" class="mr-3 font-weight-bold" variant="primary"> 
-      <b-icon icon="trash" aria-hidden="true" class="mr-2"></b-icon>Delete
-    </b-button>
-    <b-button size="md" class="mr-3 font-weight-bold">
-      <b-icon icon="file-earmark-medical" aria-hidden="true" class="mr-2"></b-icon>Import
-    </b-button>
-    <b-button size="md" class="mr-3 font-weight-bold">
-      <b-icon icon="file-earmark-medical" aria-hidden="true" class="mr-2"></b-icon>Export
-    </b-button>
-    <b-button size="md" class="font-weight-bold" >
-      <b-icon icon="arrow-clockwise" aria-hidden="true" class="mr-2"></b-icon>Clear All
-    </b-button>
-    
+    <div class="d-flex">
+
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" class="mr-3 font-weight-bold" variant="primary"  @click="searchProject"> 
+          <b-icon icon="search" aria-hidden="true" class="mr-2"></b-icon>Search
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" class="mr-3 font-weight-bold" variant="primary" @click="addProject">
+          <b-icon icon="plus-circle-fill" aria-hidden="true" class="mr-2"></b-icon>Add
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button 
+          :disabled="disabled"
+          size="md" 
+          class="mr-3 font-weight-bold" 
+          variant="primary"
+          @click="updateProject"
+          >
+          <b-icon icon="journal-plus" aria-hidden="true" class="mr-2"></b-icon>Update
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button :disabled="disabled" size="md" class="mr-3 font-weight-bold" variant="primary" @click="deleteProject"> 
+          <b-icon icon="trash" aria-hidden="true" class="mr-2"></b-icon>Delete
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" class="mr-3 font-weight-bold">
+          <b-icon icon="file-earmark-medical" aria-hidden="true" class="mr-2"></b-icon>Import
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" class="mr-3 font-weight-bold">
+          <b-icon icon="file-earmark-medical" aria-hidden="true" class="mr-2"></b-icon>Export
+        </b-button>
+      </b-overlay>
+      <b-button size="md" class="font-weight-bold" @click="clearAll">
+        <b-icon icon="arrow-clockwise" aria-hidden="true" class="mr-2"></b-icon>Clear All
+      </b-button>
+    </div>
     <div class="px-5 pt-5 pb-3 border mt-5">
       <div class="d-flex align-items-center mb-2 flex-wrap">
         <label class="mb-0 mr-5 label-form">Project Code <code>*</code></label>
@@ -43,7 +63,7 @@
       </div>
       <div class="d-flex align-items-center mb-2">
         <label class="mb-0 mr-5 label-form">Project Name <code>*</code></label>
-        <b-form-input v-model="dataForm.projectName" class="input-form" maxlength="50" type="text"></b-form-input>
+        <b-form-input v-model="dataForm.projectName" class="input-form" maxlength="100" type="text"></b-form-input>
       </div>
       <div class="d-flex align-items-center mb-2 flex-wrap">
         <span class="mb-0 mr-5 label-form"></span>
@@ -107,7 +127,7 @@ export default {
         this.dataMess.code = ''
       }
     },
-    'dataForm.projectTypeName'(newValue, oldValue) {
+    'dataForm.projectName'(newValue, oldValue) {
       if (oldValue !== newValue) {
         this.dataMess.name = ''
       }
@@ -118,17 +138,31 @@ export default {
       }
     },
   },
-  props: ['projectType', 'dataForm', 'disabled', 'options', 'dataMess'],
+  props: ['projectType', 'dataForm', 'disabled', 'options', 'dataMess', 'isLoading'],
   methods: {
     addProject(){
       this.$emit('addProjectData', this.dataForm)
     },
+
     searchProject(){
       this.$emit('searchProjectData', this.dataForm)
       this.dataMess.code = ''
       this.dataMess.name = ''
       this.dataMess.type = ''
+    },
+
+    updateProject(){
+      this.$emit('updateProjectData', this.dataForm)
+    },
+
+    deleteProject(){
+       this.$emit('deleteProjectData', this.dataForm)
+    },
+
+    clearAll(){
+      this.$emit('clearData')
     }
+    
   }
 }
 </script>

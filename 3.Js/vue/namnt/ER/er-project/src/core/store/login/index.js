@@ -29,19 +29,17 @@ const login = {
     }
   },
   actions: {
-    loginData( { commit }, param) {
-      authService.login(param)
-      .then(response => {
-        if (response.data.http_code === 403) {
+    async loginData( { commit }, param) {
+      const respon = await authService.login(param)
+        if (respon.data.http_code === 403) {
           commit('LOGINERROR', false)
         } else {
-          localStorage.setItem('result',JSON.stringify(response.data.result));
-          commit('DATALOGIN', response.data)
-          if (response.data.http_code === 200) {
+          localStorage.setItem('result',JSON.stringify(respon.data.result));
+          commit('DATALOGIN', respon.data)
+          if (respon.data.http_code === 200) {
             router.push('/position')
           }
         }
-      })
     },
     resetMess({ commit }){
       commit('RESETERROR', true)

@@ -8,12 +8,12 @@
         <b-icon icon="lock-fill" class="position-absolute icon__user"></b-icon>
         <input type="password" placeholder="Enter your new password" v-model="password.news" class="ip__login">
       </b-input-group>
-      <p class="mb-3 error__text" v-if="!messError.new.error"> {{messError.new.message}} </p>
+      <p class="mb-3 error__text" v-if="!error.newMess.error"> {{error.newMess.message}} </p>
       <b-input-group class="mb-2">
         <b-icon icon="lock-fill" class="position-absolute icon__pass"></b-icon>
         <input type="password" placeholder="Confirm your new password" v-model="password.confirm" class="ip__login">
       </b-input-group>
-      <p class="mb-3 error__text" v-if="!messError.confirm.error"> {{messError.confirm.message}} </p>
+      <p class="mb-3 error__text" v-if="!error.confirmMess.error"> {{error.confirmMess.message}} </p>
       <input type="button" class="btn btn-primary w-100 font-weight-bold" value="Save new password" @click="resetPass">
     </div>
   </div>
@@ -36,12 +36,12 @@ export default {
         news: '',
         confirm: '' 
       },
-      messError: {
-        new: {
+      error: {
+        newMess: {
           error: true,
           message: ''
         },
-        confirm: {
+        confirmMess: {
           error: true,
           message: ''
         }
@@ -50,29 +50,31 @@ export default {
   },
 
   created() {
-    let myparam = this.$route.params.paramPage
+    const myparam = this.$route.params.paramPage
     this.secret.resetPassSecretKey = myparam
     this.$store.dispatch('resetPass/secretPass', this.secret)
   },
 
   watch: {
     'password.confirm'(newVal,oldVal) {
-      if (oldVal !== newVal && this.messError.confirm.error === false ) {
-        this.messError.confirm.error = true
+      const { confirmMess } = this.error
+      if (oldVal !== newVal && confirmMess.error === false ) {
+        confirmMess.error = true
       }
       if (newVal === ''){
-        this.messError.confirm.error = false
-        this.messError.confirm.message = CONTANT.message['006']
+        confirmMess.error = false
+        confirmMess.message = CONTANT.message['006']
       }
     },
     
     'password.news'(newVal,oldVal) {
-      if (oldVal !== newVal && this.messError.new.error === false ) {
-        this.messError.new.error = true
+      const { newMess } = this.error
+      if (oldVal !== newVal && newMess.error === false ) {
+        newMess.error = true
       }
       if (newVal === ''){
-        this.messError.new.error = false
-        this.messError.new.message = CONTANT.message['005']
+        newMess.error = false
+        newMess.message = CONTANT.message['005']
       }
     },
   },
@@ -80,29 +82,30 @@ export default {
   methods:{
     resetPass() {
       //Check new pass is not '' and vaildate format password
-      let { news, confirm } = this.password 
+      const { news, confirm } = this.password 
+      const { newMess, confirmMess } = this.error 
       if ( news === '' ) {
-        this.messError.new.error = false
-        this.messError.new.message = CONTANT.message['005']
+        newMess.error = false
+        newMess.message = CONTANT.message['005']
       } else {
-        this.messError.new.error = validateData.validateFormatPass(news)
-        if ( this.messError.new.error === false) {
-          this.messError.new.message = CONTANT.message['015']
+        newMess.error = validateData.validateFormatPass(news)
+        if ( newMess.error === false) {
+          newMess.message = CONTANT.message['015']
         }
       }
       //Check confirmpass is not '' and matching newpassword 
       if ( confirm === '' ) {
-        this.messError.confirm.error = false
-        this.messError.confirm.message = CONTANT.message['006']
+        confirmMess.error = false
+        confirmMess.message = CONTANT.message['006']
       } else {
-        this.messError.confirm.error = validateData.validateComfirm(news, confirm)
-        if ( this.messError.confirm.error === false) {
-          this.messError.confirm.message = CONTANT.message['007']
+        confirmMess.error = validateData.validateComfirm(news, confirm)
+        if ( confirmMess.error === false) {
+          confirmMess.message = CONTANT.message['007']
         }
       }
       // Call api resetPass
-      if (this.messError.new.error === true && this.messError.confirm.error === true ) {
-        let myparam = this.$route.params.paramPage
+      if (newMess.error === true && confirmMess.error === true ) {
+        const myparam = this.$route.params.paramPage
         this.data.resetPassSecretKey = myparam
         this.data.newPassword = this.password.confirm
         this.$store.dispatch('resetPass/resetPass', this.data)

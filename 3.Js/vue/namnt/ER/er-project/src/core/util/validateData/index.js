@@ -2,35 +2,19 @@
 const validateData = {
   validateEmail(email) {
     const mailFormat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)+$/;
-    if (mailFormat.test(email)) {
-      return true
-    } else {
-      return  false 
-    }  
+    return mailFormat.test(email)
   },
 
   validateFormatPass(pass) {
-    let formatpass = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    if (formatpass.test(pass)) {
-      return  true
-    } else {
-      return  false
-    }      
+    const formatpass = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/ 
+    return formatpass.test(pass)
   },
 
   validateComfirm(pass,comfirm) {
-    if (comfirm !== pass) {
-      return  false
-    } else {
-      return true
-    }
+    return comfirm !== pass ? false : true
   },
   validateCurrent(pass) {
-    if (pass === '') {
-      return  false
-    } else {
-      return true
-    }
+    return pass ? true : false
   }
 
 }

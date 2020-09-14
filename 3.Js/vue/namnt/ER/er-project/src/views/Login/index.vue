@@ -67,8 +67,7 @@ export default {
   methods: {
     loginAPI() {
       const { email, password } = this.user
-      let { checkEmail, checkPass } = this.message 
-
+      const { checkEmail, checkPass } = this.message 
       if (email === ''){
         checkEmail.error = false
         checkEmail.message = CONTANT.message['002']

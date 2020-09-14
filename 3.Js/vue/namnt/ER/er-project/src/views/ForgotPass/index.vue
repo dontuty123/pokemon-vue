@@ -31,8 +31,7 @@ export default {
       mess: {
         checkEmail: true,
         emailError: '',
-      }
-      
+      },
     }
   },
 
@@ -55,19 +54,19 @@ export default {
   },
   methods: {
     forgetPass() {
-      let mailVali
       const { email } = this.data
+      let { checkEmail } = this.mess
       if (email === ''){
-        this.mess.checkEmail = false
+        checkEmail = false
         this.mess.emailError = CONTANT.message['002']
       }else{
-        mailVali = validateData.validateEmail(this.data.email)
+        const mailVali = validateData.validateEmail(this.data.email)
         if (mailVali === false){
-          this.mess.checkEmail = false
+          checkEmail = false
           this.mess.emailError = CONTANT.message['002']
         }
       }
-      if (this.mess.checkEmail === true) {
+      if (checkEmail) {
         this.$store.dispatch('forgotPass/loading', true)
         this.$store.dispatch('forgotPass/forgotPass', this.data)
       }

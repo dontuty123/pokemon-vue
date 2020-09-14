@@ -23,22 +23,18 @@ const resetPass = {
     },
   },
   actions: {
-    resetPass( { commit }, param){
-      authService.reset(param)
-      .then(response => {
-        commit('RESETPASS', response.data)
-        router.push('/') 
-      })
+    async resetPass( { commit }, param){
+      const respon = await authService.reset(param)
+      commit('RESETPASS', respon.data)
+      router.push('/') 
     },
 
-    secretPass( { commit }, param){
-      authService.secret(param)
-      .then(response => {
-        commit('SECRETPASS', response.data)
-        if (response.data.http_code !== 200) {
-          router.push('/')
-        }
-      })
+    async secretPass( { commit }, param){
+      const respon = await authService.secret(param)  
+      commit('SECRETPASS', respon.data)
+      if (respon.data.http_code !== 200) {
+        router.push('/')
+      }
     }
   }
 }

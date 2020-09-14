@@ -42,16 +42,13 @@ const forgotPass = {
     }
   },
   actions: {
-    forgotPass( { commit }, param){
-      authService.forgot(param)
-      .then(response => {
-        if (response.data.http_code === 403) {
-          commit('DATAFORGETFAIL', false) 
-        } else {
-          commit('DATAFORGET', false)
-        }
-        
-      })
+    async forgotPass( { commit }, param){
+      const respon = await authService.forgot(param)
+      if (respon.data.http_code === 403) {
+        commit('DATAFORGETFAIL', false) 
+      } else {
+        commit('DATAFORGET', false)
+      }
     },
 
     resetMess( { commit }, data ){

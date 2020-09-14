@@ -8,17 +8,17 @@
         <b-icon icon="lock-fill" class="position-absolute icon__user"></b-icon>
         <input type="password" placeholder="Enter your current password" class="ip__login" v-model="groupPassword.current">
       </b-input-group>
-      <p class="mb-3 error__text" v-if="!groupMess.current.error">{{groupMess.current.mess}}</p>
+      <p class="mb-3 error__text" v-if="!groupMess.currentMess.error">{{groupMess.currentMess.mess}}</p>
       <b-input-group class="mb-2">
         <b-icon icon="lock-fill" class="position-absolute icon__pass"></b-icon>
-        <input type="password" placeholder="Enter your new password" class="ip__login" v-model="groupPassword.new">
+        <input type="password" placeholder="Enter your new password" class="ip__login" v-model="groupPassword.news">
       </b-input-group>
-      <p class="mb-3 error__text" v-if="!groupMess.new.error">{{groupMess.new.mess}}</p>
+      <p class="mb-3 error__text" v-if="!groupMess.newMess.error">{{groupMess.newMess.mess}}</p>
        <b-input-group class="mb-2">
         <b-icon icon="lock-fill" class="position-absolute icon__pass"></b-icon>
         <input type="password" placeholder="Confirm your new password" class="ip__login" v-model="groupPassword.confirm">
       </b-input-group>
-      <p class="mb-3 error__text" v-if="!groupMess.confirm.error">{{groupMess.confirm.mess}}</p>
+      <p class="mb-3 error__text" v-if="!groupMess.confirmMess.error">{{groupMess.confirmMess.mess}}</p>
       <input type="button" class="btn btn-primary w-100 font-weight-bold" value="Save new password" @click="changePass">
     </div>
   </div>
@@ -32,19 +32,19 @@ export default {
     return { 
       groupPassword: {
         current: '',
-        new: '',
+        news: '',
         confirm: ''
       },
       groupMess: {
-        current: {
+        currentMess: {
           error: true,
           mess: ''
         },
-        new: {
+        newMess: {
           error: true,
           mess: ''
         },
-        confirm: {
+        confirmMess: {
           error: true,
           mess: ''
         }
@@ -60,13 +60,13 @@ export default {
 
   watch: {
     'groupPassword.current'(newValue, oldValue) {
-      this.messError(newValue, oldValue, 'current', CONTANT.message['011'])
+      this.messError(newValue, oldValue, 'currentMess', CONTANT.message['011'])
     },
-    'groupPassword.new'(newValue, oldValue) {
-      this.messError(newValue, oldValue, 'new', CONTANT.message['005'])
+    'groupPassword.news'(newValue, oldValue) {
+      this.messError(newValue, oldValue, 'newMess', CONTANT.message['005'])
     },
     'groupPassword.confirm'(newValue, oldValue) {
-      this.messError(newValue, oldValue, 'confirm', CONTANT.message['006'])
+      this.messError(newValue, oldValue, 'confirmMess', CONTANT.message['006'])
     }
   },
 
@@ -82,14 +82,14 @@ export default {
       this.$store.dispatch('changePass/resetMess', true)
     },
 
-    validateForm(typeValid) {
+    validateForm(typeValid, typeMess) {
       // Setting type function use validate
-      let typeFunction = typeValid === 'current' ? 'validateCurrent' : typeValid === 'new' ? 'validateFormatPass' : 'validateComfirm'
+      const typeFunction = typeValid === 'current' ? 'validateCurrent' : typeValid === 'news' ? 'validateFormatPass' : 'validateComfirm'
       // Check validate password
-      if (this.groupMess[typeValid].error === true) {
+      if (this.groupMess[typeMess].error === true) {
         let resVal
         if (typeValid === 'confirm') {
-          resVal = validateData[typeFunction](this.groupPassword['new'], this.groupPassword[typeValid])
+          resVal = validateData[typeFunction](this.groupPassword['news'], this.groupPassword[typeValid])
         } else {
           resVal = validateData[typeFunction](this.groupPassword[typeValid])
         }
@@ -97,36 +97,38 @@ export default {
       }
     },
     changePass() {
-      // Check currentPassword is not '' 
-      this.groupMess.current.error = this.validateForm('current')
-      if (this.groupMess.current.error === false) {
-        this.groupMess.current.mess = CONTANT.message['011']
+      // Check currentPassword is not ''   
+      const { currentMess, newMess, confirmMess } = this.groupMess
+      const { current, news, confirm } = this.groupPassword
+      currentMess.error = this.validateForm('current', 'currentMess')
+      if (currentMess.error === false) {
+        currentMess.mess = CONTANT.message['011']
       }
       // Check newPassword is not '' && validate forrmat password
-      if (this.groupPassword.new === '') {
-        this.groupMess.new.error = false
-        this.groupMess.new.mess = CONTANT.message['005']
+      if (news === '') {
+        newMess.error = false
+        newMess.mess = CONTANT.message['005']
       } else {
-        this.groupMess.new.error = this.validateForm('new')
-        if ( this.groupMess.new.error === false) {
-          this.groupMess.new.mess = CONTANT.message['015']
+        newMess.error = this.validateForm('news', 'newMess')
+        if ( newMess.error === false) {
+          newMess.mess = CONTANT.message['015']
         }
       }
       // Check confirmPassword is not '' && matching with currentPassword
-      if (this.groupPassword.confirm === '') {
-        this.groupMess.confirm.error = false
-        this.groupMess.confirm.mess = CONTANT.message['006']
+      if (confirm === '') {
+        confirmMess.error = false
+        confirmMess.mess = CONTANT.message['006']
       } else {
-        this.groupMess.confirm.error = this.validateForm('confirm')
-        if (this.groupMess.confirm.error === false) {
-          this.groupMess.confirm.mess = CONTANT.message['007']
+        confirmMess.error = this.validateForm('confirm', 'confirmMess')
+        if (confirmMess.error === false) {
+          confirmMess.mess = CONTANT.message['007']
         }
       }
       // Call api changePassword 
-      if ( this.groupMess.current.error === true && this.groupMess.new.error === true && this.groupMess.confirm.error === true ) {
-        let data = {
-          currentPassword: this.groupPassword.current,
-          newPassword: this.groupPassword.new
+      if ( currentMess.error === true && newMess.error === true && confirmMess.error === true ) {
+        const data = {
+          currentPassword: current,
+          newPassword: news
         }
           this.$store.dispatch('changePass/changePassword', data)
       }

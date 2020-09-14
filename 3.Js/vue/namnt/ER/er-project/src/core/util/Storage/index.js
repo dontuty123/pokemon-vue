@@ -1,6 +1,6 @@
 const storage = {
   getDataStorage(nameData){
-    let data = JSON.parse(localStorage.getItem('result'))
+    const data = JSON.parse(localStorage.getItem('result'))
     if(data === '' || data === null) {
       return 
     } else {

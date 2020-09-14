@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import authService from '@/core/service/auth.service'
+import authPosition from '@/core/service/auth.position'
 import CONTANT from '@/core/contant'
 Vue.use(Vuex)
 const position = {
@@ -101,7 +101,7 @@ const position = {
   },
   actions: {
     async positionData( { commit }, param) {
-      let respon = await authService.getList(param)
+      const respon = await authPosition.getList(param)
       if (respon.data.error_code === '018') {
         commit('POSITION_ERROR', respon.data.result)
       } else {
@@ -118,7 +118,7 @@ const position = {
     },
 
     async addPosition( { commit }, param) {
-      let respon = await authService.addRecordPosition(param)
+      const respon = await authPosition.addRecordPosition(param)
       if (respon.data.http_code === 200) {
         commit('ADD_LIST', respon.data)
       } else {
@@ -127,7 +127,7 @@ const position = {
     },
 
     async updatePosition( { commit }, param) {
-      let respon = await authService.updateRecordPosition(param)
+      const respon = await authPosition.updateRecordPosition(param)
       if (respon.data.http_code === 201) {
         commit('UPDATE_LIST', respon.data)
       } else {
@@ -136,7 +136,7 @@ const position = {
     },
 
     async deletePosition( { commit }, param) {
-      let respon = await authService.deleteRecordPosition(param)
+      const respon = await authPosition.deleteRecordPosition(param)
       if (respon.data.http_code === 200) {
         commit('DELETE_LIST', respon.data)
       } else {

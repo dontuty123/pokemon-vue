@@ -4,7 +4,7 @@ const service = {}
     const token = storage.getDataStorage('token')
     const email = storage.getDataStorage('email')
     const employeeCode = storage.getDataStorage('employeeCode')
-    if (token === '' || token === null ) {
+    if (!token) {
       return {
         token: '',
         email: '',

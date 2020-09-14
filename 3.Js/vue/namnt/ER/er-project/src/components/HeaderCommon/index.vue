@@ -7,7 +7,7 @@
           <!-- Navbar dropdowns -->
           <b-nav-item-dropdown text="MASTER" left class="items_menu ml-4">
             <b-dropdown-item :to="'/'" >EMPLOYEE</b-dropdown-item>
-            <b-dropdown-item >PROJECT</b-dropdown-item>
+            <b-dropdown-item :to="'/project'">PROJECT</b-dropdown-item>
             <b-dropdown-item >OM PROJECT MANAGEMENT</b-dropdown-item>
           </b-nav-item-dropdown>
 

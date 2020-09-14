@@ -12,11 +12,15 @@
       </nav>
      <groupProject
       :disabled="disabled"
-      :options="projectTypeList"
+      :options="typeList"
       :dataForm="dataForm"
       :dataMess="dataMess"
+      :isLoading="isLoading"
       @addProjectData="addProjectData"
       @searchProjectData="searchProjectData"
+      @updateProjectData="updateProjectData"
+      @deleteProjectData="deleteProjectData"
+      @clearData="clearData"
      ></groupProject>
      <p :class="messCode.class">{{messCode.mess}}</p>
      <p :class="searchError.class" class="mt-4" v-if="!searchError.status">{{searchError.mess}}</p>
@@ -25,9 +29,10 @@
         :fields="headerName" 
         :items="projectList.result"
         @clickTable="clickTable"
+        @sortTable="sortTable"
       >
       </tableCommon>
-      
+      <pagination v-if="resetPage" :totalPage="totalPage" @changePage="changePage"/>
     </div>
   </div>
 </template>
@@ -38,13 +43,15 @@ import groupProject from '@/components/GroupProject'
 import tableCommon from '@/components/TableCommon'
 import CONTANT from '@/core/contant'
 import { mapState } from 'vuex'
-// import pagination from '@/components/Pagination'
+import pagination from '@/components/Pagination'
+import operater from '@/core/util/operater.action'
+// import { qs } from 'qs'
 export default {
    components: {
     headerCommon,
     groupProject,
-    tableCommon
-    // pagination
+    tableCommon,
+    pagination
   },
   data() {
     return {
@@ -61,32 +68,37 @@ export default {
           label: 'Project Type',
           sort: true,
           checkbox: false,
-          class: 'curson-on'          
+          sortType: 'ASC',
+          class: 'curson-on w-15'          
         },
         { 
           key: 'projectCode',
           label: 'Project Code',
           sort: true,
           checkbox: false,
-          class: 'curson-on'       
+          sortType: 'ASC',
+          class: 'curson-on w-15'       
         },
         { 
           key: 'projectName',
           label: 'Project Name',
           sort: false,
-          checkbox: false          
-        },
+          checkbox: false,
+          class: 'w-22'   
+          },
         { 
           key: 'aliasName',
           label: 'Alias Name',
           sort: false,
-          checkbox: false          
+          checkbox: false,
+          class: 'w-26'          
         },
         { 
           key: 'active',
           label: 'Active Project',
           sort: false,
-          checkbox: false          
+          checkbox: false,
+          class: 'w-15'          
         }
       ],
       projectType: [],
@@ -111,6 +123,7 @@ export default {
         sortBy: 'projectTypeCode-ASC'
       },
       dataForm: {
+        id:'',
         projectCode: '',
         projectName: '',
         aliasName: '',
@@ -128,15 +141,22 @@ export default {
         code: '',
         name: '',
         type: ''
-      }
+      },
+      sort: {
+        key: 'projectCode',
+        type: 'ASC'
+      },
+      typeList: [],
+      resetPage: true,
+      currentPage: 1,
+      statusSearch: 0
     }
-   
   },
-  async created(){
+  async created() {
     this.$store.dispatch('project/loadingData', true)
     await this.$store.dispatch('project/projectList', this.loadData)
     await this.$store.dispatch('project/projecType', this.loadProjectType)
-    this.projectTypeList.unshift(this.default)
+    this.typeList = [this.default, ...this.projectTypeList]
   },
   computed: {
     ...mapState('project', {
@@ -145,30 +165,20 @@ export default {
       projectTypeList: state => state.projectTypeList,
       messCode: state => state.messCode,
       errorCode: state => state.errorCode,
-      searchError: state => state.searchError
+      searchError: state => state.searchError,
+      totalPage: state => state.totalPage
     }),
   },
   methods: {
     validateInput(val) {
-      if (val === '') {
-        return false
-      } else {
-        return true
-      }
+      return val ? true : false
     },
     clickTable(val) {
-      this.dataForm = {
-        projectCode: val.projectCode,
-        projectName: val.projectName,
-        aliasName: val.aliasName,
-        projectTypeId: val.projectTypeId,
-        defaultProject: val.defaultProject,
-        active: val.active,
-        projectTypeCode: val.projectTypeCode
-      }
+      this.dataForm = val
+      this.disabled = false
     },
 
-    async addProjectData(val){
+    async addProjectData(val) {
       //validate projectCode,projectName,projectTypeCode not ''
       const valiCode = this.validateInput(val.projectCode)
       const valiName = this.validateInput(val.projectName)
@@ -176,44 +186,172 @@ export default {
       this.dataMess.code = valiCode ? '' : CONTANT.message['013'] 
       this.dataMess.name = valiName ? '' : CONTANT.message['014']
       this.dataMess.type = valiType ? '' : CONTANT.message['025']
-      // convert value defaultProject ,active to booleen
-      val.defaultProject = val.defaultProject === 0 ? false : true
-      val.active = val.active === 0 ? false : true
       //call API add if validate success 
-      if (valiType && valiCode && valiName){
+      if (valiType && valiCode && valiName) {
         await this.$store.dispatch('project/addProject', val)
         //if add success call api reload table
         if ( this.errorCode === 200 ) {
+          // convert value defaultProject ,active to booleen
+          val.defaultProject = val.defaultProject === 0 ? false : true
+          val.active = val.active === 0 ? false : true
+          this.resetPage = false
+          this.loadData.currentPage = 1
+          this.currentPage = 1
           await this.$store.dispatch('project/loadingData', true)
           await this.$store.dispatch('project/projectList', this.loadData)
+          // add seccess reset value input
+          this.dataForm = {
+            projectCode: '',
+            projectName: '',
+            aliasName: '',
+            defaultProject: '',
+            active: '',
+            projectTypeCode: '',
+            projectTypeId: ''
+          }
+          // reset paging
+          this.resetPage = true
         }
       }
       this.$store.dispatch('project/resetMess', '')
     },
+    async searchProjectData(val) {
+      this.disabled = true
+      const tmp = val.projectTypeCode
+      this.resetPage = false
+      const param = ['id', 'projectTypeCode', 'projectTypeName']
+      // check status search if all val !== '' isSeach = 1, else isSearch = 0
+      if (
+        val.active === "" &&
+        val.aliasName === "" &&
+        val.defaultProject === "" &&
+        val.projectCode === "" &&
+        val.projectName === "" &&
+        val.projectTypeCode === "" &&
+        val.projectTypeId === ""
+      ) {
+        this.statusSearch = 0
+      } else {
+        this.statusSearch = 1
+      }
+      //remove operation
+      let data =  operater.delete(val, param)
+      data = {
+        isSearch: this.statusSearch, 
+        currentPage: 1,
+        pageRecord: CONTANT.pageRecord,
+        sortBy: this.sort.key + '-' + this.sort.type,
+        ...data
+      }
+      // call API search & reload table, reload project type
+      await this.$store.dispatch('project/searchData', data)
+      await this.$store.dispatch('project/loadingData', true)
+      await this.$store.dispatch('project/projectList', data)
+      await this.$store.dispatch('project/projecType', this.loadProjectType)
+      this.dataForm.projectTypeCode = tmp
+      this.typeList = [this.default, ...this.projectTypeList]
+      this.resetPage = true
+      this.$store.dispatch('project/resetMess', '')
+    },
 
-    async searchProjectData(val){
+    async changePage(val) {
+      this.currentPage = val
+      this.loadData.sortBy = this.sort.key + '-' + this.sort.type
+      this.loadData.currentPage = this.currentPage
+      this.$store.dispatch('project/loadingData', true)
+      await this.$store.dispatch('project/projectList', this.loadData)
+    },
+
+    sortTable(val) {
+      const type = val.sortType === 'ASC' ? 'DESC' : 'ASC'
+      this.sort = {
+        key: val.key,
+        type: type
+      }
+      val.sortType = type 
+      const data = this.dataForm
+      data.isSearch = 1,
+      data.currentPage = 1,
+      data.pageRecord = CONTANT.pageRecord,
+      data.sortBy = this.sort.key + '-' + this.sort.type
+      this.$store.dispatch('project/loadingData', true)
+      this.$store.dispatch('project/projectList', data)
+    },
+
+    async updateProjectData(val) {
       //validate projectCode,projectName,projectTypeCode not ''
       const valiCode = this.validateInput(val.projectCode)
       const valiName = this.validateInput(val.projectName)
       const valiType = this.validateInput(val.projectTypeCode)
-      if (valiType || valiCode || valiName){
-        const data = {
-          isSearch: 1,
-          projectCode: val.projectCode,
-          projectName: val.projectName,
-          projectTypeId: val.projectTypeId,
-          aliasName: val.aliasName,
-          active: val.active,
-          defaultProject: val.defaultProject,
-          currentPage: 1,
-          pageRecord: CONTANT.pageRecord,
-          sortBy: 'projectCode-ASC'
+      this.dataMess.code = valiCode ? '' : CONTANT.message['013'] 
+      this.dataMess.name = valiName ? '' : CONTANT.message['014']
+      this.dataMess.type = valiType ? '' : CONTANT.message['025']
+      if (valiType && valiCode && valiName) {
+        // check vaildate if success call API update
+        await this.$store.dispatch('project/updateProject', val)
+        // call API update and reload data table
+        if ( this.errorCode === 201) {
+          this.$store.dispatch('project/loadingData', true)
+          const param = ['projectTypeCode', 'projectTypeName']
+          let data =  operater.delete(val, param)
+          data = {
+            isSearch: this.statusSearch, 
+            currentPage: 1,
+            pageRecord: CONTANT.pageRecord,
+            sortBy: this.sort.key + '-' + this.sort.type,
+            ...data
+          } 
+          //check update with status isSearch 
+          if ( this.statusSearch === 1 ) {
+            await this.$store.dispatch('project/projectList', data)
+          } else {
+            await this.$store.dispatch('project/projectList', this.loadData)
+          }          
+          this.disabled = true
+          const dataClear = []
+          // clear data when update success
+          this.dataForm = await operater.clear(this.dataForm, dataClear)
+          this.dataForm.projectTypeCode = ""
         }
-        await this.$store.dispatch('project/searchData', data)
-        await this.$store.dispatch('project/loadingData', true)
-        await this.$store.dispatch('project/projectList', data)
       }
       this.$store.dispatch('project/resetMess', '')
+    },
+    
+    async deleteProjectData(val) {
+      await this.$store.dispatch('project/deleteProject', val)
+      // check error code when delete
+      if ( this.errorCode === 200) {
+        // delete success call API load data table
+        this.$store.dispatch('project/loadingData', true)
+        const param = ['projectTypeCode', 'projectTypeName']
+        let data =  operater.delete(val, param)
+        data = {
+          isSearch: this.statusSearch, 
+          currentPage: 1,
+          pageRecord: CONTANT.pageRecord,
+          sortBy: this.sort.key + '-' + this.sort.type,
+          ...data
+        } 
+        if ( this.statusSearch === 1 ) {
+          await this.$store.dispatch('project/projectList', data)
+        } else {
+          await this.$store.dispatch('project/projectList', this.loadData)
+        }
+        this.disabled = true
+        const dataClear = []
+        // clear all element form ưhen delete success
+        this.dataForm = await operater.clear(this.dataForm, dataClear)
+        this.dataForm.projectTypeCode = ""
+      }
+      this.$store.dispatch('project/resetMess', '')
+    },
+ 
+    async clearData() {
+      const dataClear = []
+      this.dataForm = await operater.clear(this.dataForm, dataClear)
+      this.dataForm.projectTypeCode = ""
+      const messClear = []
+      this.messClear = await operater.clear(this.dataMess, messClear)
     }
   }
 }
