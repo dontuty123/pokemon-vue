@@ -1,54 +1,37 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '@/views/DashBoard';
-import Login from '@/views/Login';
-import Project from '@/views/Project/UseBootstrap';
-import ProjectType from '@/views/Project/UseBootstrap/Type';
-
-import ProjectBasic from '@/views/Project/Basic';
-import ProjectBasicType from '@/views/Project/Basic/Type';
-
+import Project from '@/views/Project/Basic';
 import funcMemory from '@/core/service/memory.service.js';
 
 Vue.use(VueRouter);
-const routes = [{
-  path: '/',
-  name: 'Home',
-  component: Home,
-},
-//Login
-{
-  path: '/login',
-  name: 'Login',
-  component: Login,
-},
-//Project
-{
-  path: '/project-use-bootstrap',
-  name: 'Project',
-  component: Project,
-},
-//Project Type
-{
-  path: '/project-type-use-bootstrap',
-  name: 'ProjectType',
-  component: ProjectType,
-},
+const routes = [
+  //Home
+  {
+    path: '/',
+    name: 'Home',
+    component: () => import('@/views/DashBoard'),
+  },
 
-//Project Basic
-{
-  path: '/project',
-  name: 'ProjectBasic',
-  component: ProjectBasic,
-},
+  //Login
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login'),
+  },
 
-//Project Basic Type
-{
-  path: '/project-type',
-  name: 'ProjectBasicType',
-  component: ProjectBasicType,
-},
+  //Project
+  {
+    path: '/project',
+    name: 'Project',
+    component: () => import('@/views/Project/Basic'),
+  },
 
+  //Project Type
+  {
+    path: '/project-type',
+    name: 'ProjectBasicType',
+    component: () => import('@/views/Project/Basic/Type'),
+  },
 ];
 const router = new VueRouter({
   mode: 'history',

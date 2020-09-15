@@ -174,9 +174,6 @@ import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'Project',
-  components: {
-    
-  },
   
   data() {
     return {
@@ -268,7 +265,7 @@ export default {
         defaultProject: defaultProject === 0 ? null : defaultProject,
         pageRecord: 20,
         sortBy: this.sortCommon,
-      };
+      };  
       this.$store.commit('project/GET_PARAMS_LIST_PROJECT', dataSearch);
       this.$store.dispatch('project/searchProject');
       this.loadingBtn.update = true;
@@ -304,13 +301,13 @@ export default {
       } else {
         this.requiredMsg = '';
         const  dataUpdate = {
-          'id': id,
-          'projectCode': projectCode,
-          'projectName': projectName,
-          'aliasName': aliasName,
-          'projectTypeId': this.projectTypeId,
-          'active': active,
-          'defaultProject': defaultProject,
+          id: id,
+          projectCode: projectCode,
+          projectName: projectName,
+          aliasName: aliasName,
+          projectTypeId: this.projectTypeId,
+          active: active,
+          defaultProject: defaultProject,
         }
         this.$store.dispatch('project/updateProject', dataUpdate);
       }

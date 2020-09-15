@@ -7,6 +7,7 @@ const MESSAGE = {
 
 
   '013': 'Duplicate project code',
+  '014': 'Duplicate project type code',
   '018': 'No data'
 }
 export default MESSAGE

@@ -4,8 +4,10 @@
       <thead>
         <th v-for="(item, index) in fields"  :key="index" :class="fields[index].class" @click="sortTable(fields[index].valueSort)">
           <span>{{ fields[index].label }}</span>    
-          <b-icon v-show="fields[index].sort && fields[index].valueSort === 1" icon="caret-down-fill" class="icon-arrow" :rotate="rotate1 ? 0 : 180"></b-icon>
-          <b-icon v-show="fields[index].sort && fields[index].valueSort === 2" icon="caret-down-fill" class="icon-arrow" :rotate="rotate2 ? 0 : 180"></b-icon>
+          <b-icon v-if="fields[index].sort && (fields[index].valueSort === 1 || fields[index].valueSort === 2)"
+           icon="caret-down-fill" class="icon-arrow"
+          :rotate="fields[index].valueSort === 1 ? rotate1 ?  0 : 180  : rotate2 ?  0 : 180 ">
+          </b-icon>
         </th>
       </thead>
       <tbody>  
@@ -23,7 +25,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 export default {
   name: 'tableCommon',
   data() {

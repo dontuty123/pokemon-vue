@@ -12,7 +12,6 @@
         :fields="fieldsOfProject"
         @valueRowSelect="getDataProject"
         @sortData="sortData"
-        @resetPage="resetPage"
       />
       <Paging 
         :lengthOfList="lengthOfList"
@@ -26,10 +25,11 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 import Header from '@/views/Header';
-import FormProject from '@/components/Project/Basic/Detail/Form';
 import tableCommon from '@/components/Base/Table';
 import Paging from '@/components/Base/Paging';
 import scrollTop from '@/components/Base/ScrollTop';
+
+import FormProject from '@/components/Project/Basic/Detail/Form';
 
 export default {
   name: 'Project',
@@ -136,48 +136,31 @@ export default {
       this.numberPage = val
     },
 
+    //Add param for api
+    addParams(param1, param2, ...other){
+      const  paramList = { param1, param2, other } = this.getParamsProjects
+      const dataResult = paramList
+      dataResult.currentPage = this.numberPage
+      dataResult.pageRecord = 20
+      return dataResult
+    },
+
     //Paging
     changePaging(val){
       this.numberPage = val
-      const { projectCode, projectName, projectTypeId, aliasName, active, defaultProject } = this.getParamsProjects
-      const dataPaging = {
-        isSearch: 1,
-        projectCode:  projectCode,
-        projectName:  projectName,
-        projectTypeId: projectTypeId,
-        aliasName: aliasName,
-        currentPage: this.numberPage,
-        active:  active,
-        defaultProject: defaultProject,
-        pageRecord: 20,
-        sortBy: 'projectCode-ASC',
-      }
-      this.$store.dispatch('project/getListProject', dataPaging)
+      this.$store.dispatch('project/getListProject', this.addParams())
     },
 
     //Sort Table
-    sortData(sort, val){
-      const { projectCode, projectName, projectTypeId, aliasName, active, defaultProject } = this.getParamsProjects
-      const dataSort = {
-        isSearch: 1,
-        projectCode:  projectCode,
-        projectName:  projectName,
-        projectTypeId: projectTypeId,
-        aliasName: aliasName,
-        currentPage: this.numberPage,
-        active:  active,
-        defaultProject: defaultProject,
-        pageRecord: 20,
-        sortBy: 'projectCode-ASC',
-      }
+    sortData(sort, val){   
       if (val === 1) {
-        sort ? dataSort.sortBy = 'projectTypeName-ASC' : dataSort.sortBy = 'projectTypeName-DESC'
-        this.sortCommon = dataSort.sortBy
+        sort ? this.addParams().sortBy = 'projectTypeName-ASC' : this.addParams().sortBy = 'projectTypeName-DESC'
+        this.sortCommon = this.addParams().sortBy
       } else {
-        sort ? dataSort.sortBy = 'projectCode-ASC' : dataSort.sortBy = 'projectCode-DESC'
-        this.sortCommon = dataSort.sortBy
+        sort ? this.addParams().sortBy = 'projectCode-ASC' : this.addParams().sortBy = 'projectCode-DESC'
+        this.sortCommon = this.addParams().sortBy
       }
-      this.$store.dispatch('project/getListProject', dataSort)
+      this.$store.dispatch('project/getListProject', this.addParams())
     }
   },
   watch: {

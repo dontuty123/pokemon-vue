@@ -5,7 +5,6 @@ import Cookie from 'js-cookie'
 import authService from '@/core/service/auth.service'
 import router from '@/core/router'
 import MESSAGE from '@/core/message';
-import funcCommon from '@/core/common'
 Vue.use(Vuex)
 const getDefaultState = () => {
   return {
@@ -22,11 +21,8 @@ const auth = {
     messageResult: '',
   },
   mutations: {
-    SET_TOKEN: (state, token) => {
+    SET_COOKIE: (state, token, user) => {
       state.token = token
-    },
-
-    SET_USER: (state, user) => {
       state.user = user
     },
 
@@ -34,10 +30,12 @@ const auth = {
       state.isLoading = false
       state.messageResult = MESSAGE['001']
     },
+
     LOGIN_SUCCESS(state) {
       state.isLoading = true
       state.messageResult = ''
     },
+    
     RESET: state => {
       Object.assign(state, getDefaultState())
     },
@@ -49,16 +47,8 @@ const auth = {
       const numberTime = 20000
       authService.login(userData).then(res => {
         if (res.data.http_code === 200) {
-          const userDataResponse = {
-            token: res.data.result.token,
-            email: res.data.result.email,
-            name: res.data.result.employeeName,
-            employeeName: res.data.result.employeeName,
-            employeeCode: res.data.result.employeeCode
-          };
-          vuexContext.commit('SET_TOKEN', userDataResponse.token);
-          vuexContext.commit('SET_USER', userDataResponse.employeeName);
-          //Set cookie
+          const userDataResponse = res.data.result
+          vuexContext.commit('SET_COOKIE', userDataResponse.token, userDataResponse.employeeName);
           Cookie.set('user_data', qs.stringify(userDataResponse));
           Cookie.set('expirationDate', new Date().getTime() + Number.parseInt(numberTime) * 1000);
           authService.Authorization(userDataResponse.token);

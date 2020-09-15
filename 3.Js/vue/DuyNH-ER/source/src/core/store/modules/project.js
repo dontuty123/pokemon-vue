@@ -1,14 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import qs from 'qs';
-import axios from 'axios';
 import CONTANT from '@/core/contant';
-import Cookie from 'js-cookie';
-import authService from '@/core/service/auth.service';
-import router from '@/core/router';
+import projectService from '@/core/service/project.service';
 import MESSAGE from '@/core/message';
-import funcCommon from '@/core/common';
-import funcMemory from '@/core/service/memory.service.js'
 
 Vue.use(Vuex);
 const project = {
@@ -43,8 +37,6 @@ const project = {
     listProjects: [],
     totalRecord: 0,
     totalRecordType: 0,
-    valueSelected: [],
-    valueTypeSelected: {},
     listProjectType: [],
     newProject: {},
     newTypeProject: {},
@@ -66,7 +58,6 @@ const project = {
       setTimeout(() => {
         state.messageResult = ''
       }, 3000);
-
     },
 
     PROJECT_ERROR(state) {
@@ -98,13 +89,6 @@ const project = {
     GET_DATA_LIST_PROJECT_TYPE: (state, listProjectType) => {
       state.listProjectType = listProjectType;
     },
-    GET_DATA_PROJECT_TYPE_SELECTED: (state, valueTypeSelected) => {
-      state.valueTypeSelected = valueTypeSelected;
-    },
-
-    GET_DATA_VALUE_SELECTED(state, valueSelected) {
-      state.valueSelected = valueSelected;
-    },
 
     GET_NEW_PROJECT(state, newProject) {
       state.newProject = newProject;
@@ -119,11 +103,10 @@ const project = {
     //******************PROJECT********************
     //Show list project
     async getListProject(vuexContext, paramsProject){
-      funcCommon.getApi('project-list', paramsProject).then((res) => {
+      projectService.getProject(paramsProject).then(res => {
         if (res.data.http_code === 200) {
           const tmp = {}
           vuexContext.commit('GET_DATA_LIST_PROJECT', res.data.result.result);
-          vuexContext.commit('GET_DATA_VALUE_SELECTED', tmp);
           vuexContext.commit('GET_TOTAL_PROJECT', res.data.result.totalRecord);
           vuexContext.commit('PROJECT_ERROR')
           if (res.data.result.totalRecord === undefined) {
@@ -139,12 +122,12 @@ const project = {
 
     //Add 1 project
     async addProject(vuexContext, newProject){
-      funcCommon.postApi('project-create', newProject).then((res) => {
+      projectService.addProject(newProject).then(res => {
         if (res.data.http_code === 200) {
           vuexContext.commit('GET_NEW_PROJECT', newProject);
-          vuexContext.commit('GET_MESSAGE_FROM_API', MESSAGE['000']);
-          vuexContext.commit('RESET_MESSAGE')
           vuexContext.commit('PROJECT_SUCCESS');
+          vuexContext.commit('GET_MESSAGE_FROM_API', MESSAGE['000']);
+          vuexContext.commit('RESET_MESSAGE')      
         } else {
           vuexContext.commit('PROJECT_ERROR');
           vuexContext.commit('GET_MESSAGE_FROM_API', MESSAGE['013']);
@@ -157,10 +140,11 @@ const project = {
     // Get id projecttype when search
     async searchProject(vuexContext, paramsProject){
       paramsProject = vuexContext.state['paramsProject']
-      funcCommon.getApi('project-list', paramsProject).then((res) => {
+      projectService.searchProject(paramsProject).then(res => {
         if (res.data.http_code === 200) {
           vuexContext.commit('GET_DATA_LIST_PROJECT', res.data.result.result);
           vuexContext.commit('GET_TOTAL_PROJECT', res.data.result.totalRecord);
+          //No data
           if (res.data.result.totalRecord === undefined) {
             vuexContext.commit('GET_MESSAGE_FROM_API', MESSAGE['018']);
             vuexContext.commit('RESET_MESSAGE');
@@ -173,12 +157,12 @@ const project = {
 
     //Update 1 project
     async updateProject(vuexContext, idProject){
-      funcCommon.postApi('project-update', idProject).then((res) => {
+      projectService.updateProject(idProject).then(res => {
         if (res.data.http_code === 201) {
           vuexContext.commit('GET_NEW_PROJECT');
-          vuexContext.commit('GET_MESSAGE_FROM_API', MESSAGE['000']);
-          vuexContext.commit('RESET_MESSAGE')
           vuexContext.commit('PROJECT_SUCCESS');
+          vuexContext.commit('GET_MESSAGE_FROM_API', MESSAGE['000']);
+          vuexContext.commit('RESET_MESSAGE')   
         } else {
           vuexContext.commit('PROJECT_ERROR');
           vuexContext.commit('GET_MESSAGE_FROM_API', res.data.result);
@@ -188,20 +172,14 @@ const project = {
       });
     },
 
-    //Selected project
-    async selectedProject(vuexContext, selectedParams){
-      vuexContext.commit('GET_DATA_VALUE_SELECTED', selectedParams);
-    },
-
     //Delete 1 project
     async deleteProject(vuexContext, idProject){
-      funcCommon.postApi('project-delete', idProject).then((res) => {
+      projectService.deleteProject(idProject).then(res => {
         if (res.data.http_code === 200) {
           vuexContext.commit('GET_NEW_PROJECT');
           vuexContext.commit('PROJECT_SUCCESS');
           vuexContext.commit('GET_MESSAGE_FROM_API', MESSAGE['000']);
           vuexContext.commit('RESET_MESSAGE')
-
         } else {
           vuexContext.commit('PROJECT_ERROR');
           vuexContext.commit('GET_MESSAGE_FROM_API', res.data.result);
@@ -213,7 +191,7 @@ const project = {
 
     // Get key
     async getSecretKey(vuexContext){
-      funcCommon.getApi('Project/requestSecretKey').then((res) => {
+      projectService.getSecretKey().then(res => {
         if (res.data.http_code === 200) {
           vuexContext.state['secretKey'] = res.data.result.secretKey
         }
@@ -222,12 +200,12 @@ const project = {
 
     //Export Project
     async exportExcel(vuexContext, dataExport){
-      vuexContext.state['linkExportExcel'] = funcCommon.exportFile('Project/projectExport', dataExport)
+      vuexContext.state['linkExportExcel'] = projectService.exportFile(dataExport)
     },
 
     //Import File
     async importExcel(dataImport){
-      funcCommon.importFile('project/projectImport', dataImport).then((res) => {   
+      projectService.importExcel(dataImport).then(res => {
         if (res.data === '/error/404') {
           window.open(CONTANT.linkError, '_self')   
         } else{
@@ -238,7 +216,7 @@ const project = {
     
     //Add 1 project type
     async addProjectType(vuexContext, newPjType){
-      funcCommon.postApi('projecttype-create', newPjType).then((res) => {
+      projectService.addProjectType(newPjType).then(res => {
         if (res.data.http_code === 200) {
           vuexContext.commit('GET_NEW_TYPE_PROJECT', newPjType);
           vuexContext.commit('PROJECT_SUCCESS');
@@ -246,21 +224,16 @@ const project = {
           vuexContext.commit('RESET_MESSAGE')
         } else {
           vuexContext.commit('PROJECT_ERROR');
-          vuexContext.commit('GET_MESSAGE_FROM_API', res.data.result);
+          vuexContext.commit('GET_MESSAGE_FROM_API', MESSAGE['014']);
           vuexContext.commit('RESET_MESSAGE')
           return res;
         }
       });
     },
 
-    //Selected project Type
-    async selectedProjectType(vuexContext, selectedParams){
-      vuexContext.commit('GET_DATA_VALUE_SELECTED', selectedParams);
-    },
-
     //Delete 1 project Type
     async deleteProjectType(vuexContext, idPjType) {
-      funcCommon.postApi('projecttype-delete', idPjType).then((res) => {
+      projectService.deleteProjectType(idPjType).then(res => {
         if (res.data.http_code === 200){
           vuexContext.commit('GET_NEW_PROJECT');
           vuexContext.commit('PROJECT_SUCCESS');
@@ -277,10 +250,9 @@ const project = {
 
     //Show list project type
     async listProjectType(vuexContext, listProjectType){
-      funcCommon.getApi('projecttype-list', listProjectType).then((res) => {
+      projectService.getProjectType(listProjectType).then(res => {
         if (res.data.http_code === 200){
           vuexContext.commit('GET_DATA_LIST_PROJECT_TYPE', res.data.result.projectTypeList);
-          // vuexContext.commit('GET_DATA_PROJECT_TYPE_SELECTED', tmp);
           vuexContext.commit('GET_TOTAL_PROJECT_TYPE', res.data.result.totalRecord);
           vuexContext.commit('PROJECT_ERROR')
         } else {
@@ -293,7 +265,7 @@ const project = {
     // Get id projecttype when search
     async searchProjectType(vuexContext, paramsProjectType){
       paramsProjectType = vuexContext.state['paramsProjectType']
-      funcCommon.getApi('projecttype-list', paramsProjectType).then((res) => {
+      projectService.searchProjectType(paramsProjectType).then(res => {
         if (res.data.http_code === 200) {
           vuexContext.commit('GET_DATA_LIST_PROJECT_TYPE', res.data.result.projectTypeList);
           vuexContext.commit('GET_TOTAL_PROJECT_TYPE', res.data.result.totalRecord);
@@ -305,7 +277,7 @@ const project = {
 
     //Update 1 project Type
     async updateProjectType(vuexContext, idProject){
-      funcCommon.postApi('projecttype-update', idProject).then((res) => {
+      projectService.updateProjectType(idProject).then(res => {
         if (res.data.http_code === 201) {
           vuexContext.commit('GET_NEW_PROJECT');
           vuexContext.commit('PROJECT_SUCCESS');
@@ -322,15 +294,16 @@ const project = {
 
     // Get key
     async getSecretKeyPjType(vuexContext){
-      funcCommon.getApi('ProjectType/requestSecretKey').then((res) => {
+      projectService.getSecretKeyPjType().then(res => {
         if (res.data.http_code === 200) {
           vuexContext.state['secretKeylPjType'] = res.data.result.secretKey
         }
       });
     },
+    
     //Export project Type
     async exportExcelPjType(vuexContext, dataExport){
-      vuexContext.state['linkExportExcelPjType'] = funcCommon.exportFile('ProjectType/projectTypeExport', dataExport)
+      vuexContext.state['linkExportExcelPjType'] = projectService.exportExcelPjType(dataExport)
     },
   },
 
@@ -340,21 +313,6 @@ const project = {
     },
     getParamsTypeProjects: (state) => {
       return state.paramsProjectType;
-    },
-    getlistProjects: (state) => {
-      return state.listProjects;
-    },
-
-    getListProjectType: (state) => {
-      return state.listProjectType;
-    },
-
-    getListValueSelected: (state) => {
-      return state.valueSelected;
-    },
-
-    addNewProject: (state) => {
-      return state.newProject;
     },
   },
 };

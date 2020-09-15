@@ -6,9 +6,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import '@/assets/scss/style.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import JsonExcel from 'vue-json-excel'
 
-Vue.component('downloadExcel', JsonExcel)
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);

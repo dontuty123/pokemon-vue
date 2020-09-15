@@ -10,11 +10,11 @@
           <b-icon icon="plus-circle-fill"></b-icon>Add
         </b-button>
 
-        <b-button class="btn-type btn-type-1" @click="pjUpdate()" :disabled="loadingBtn.edit">
+        <b-button class="btn-type btn-type-1" @click="pjUpdate()" :disabled="loadingBtn.update">
           <b-icon icon="plus-circle-fill"></b-icon>Update
         </b-button>
 
-        <b-button class="btn-type btn-type-1" @click="pjDelete()" :disabled="loadingBtn.remove">
+        <b-button class="btn-type btn-type-1" @click="pjDelete()" :disabled="loadingBtn.delete">
           <b-icon icon="trash"></b-icon>Delete
         </b-button>
 
@@ -93,58 +93,89 @@ export default {
         projectTypeName: '',
         currentPage: 1,
         pageRecord: 20,
-        sortBy: 'projectCode-ASC',
+        sortBy: this.sortCommon,
       },
       loadingBtn: {
         search: false,
         add: false,
-        edit: true,
-        remove: true,
+        update: true,
+        delete: true,
       },
+      isAdd: false,
+      isClear: false
     };
+  },
+  props: {
+    numberPage: {
+      type: Number,
+      required: false,
+    },
+    projectTypeSelect: {
+      type: Object,
+      required: false
+    },
+    sortCommon: {
+      type: String,
+      required: false
+    },
   },
   methods: {
     // Search project Type
     pjSearch(){
-      const { isSearch, projectTypeCode, projectTypeName, currentPage, pageRecord, sortBy } = this.pjTypeData;
+      this.isAdd = false
+      const { isSearch, projectTypeCode, projectTypeName, currentPage, pageRecord } = this.pjTypeData;
       const dataSearch = {
         isSearch: 1,
         projectTypeCode: projectTypeCode ? projectTypeCode : '',
         projectTypeName: projectTypeName ? projectTypeName : '',
         currentPage: 1,
         pageRecord: 20,
-        sortBy: 'projectTypeCode-ASC',
+        sortBy: this.sortCommon,
       };
       this.$store.commit('project/GET_PARAMS_TYPE_PROJECT', dataSearch);
       this.$store.dispatch('project/searchProjectType');
+      this.loadingBtn.update = true;
+      this.loadingBtn.delete = true;
     },
 
     // Add Project Type
     pjAdd(){
+      this.isAdd = true
+      this.isClear = true
       const { projectTypeCode, projectTypeName } = this.pjTypeData;
       if (projectTypeCode === '' || projectTypeName === '') {
         this.requiredMsg = ' is required';
       } else {
         this.requiredMsg = '';
         const dataAdd = this.pjTypeData;
+        delete dataAdd['id'];
         this.$store.dispatch('project/addProjectType', dataAdd);
       }
     },
 
     // Update Project Type
     pjUpdate(){
-      const { projectTypeCode, projectTypeName } = this.pjTypeData;
+      this.isAdd = false
+      this.isClear = true
+      const { id, projectTypeCode, projectTypeName } = this.pjTypeData;
       if (projectTypeCode === '' || projectTypeName === '') {
         this.requiredMsg = ' is required';
       } else {
         this.requiredMsg = '';
-        const dataUpdate = this.pjTypeData;
+        const dataUpdate = {
+          isSearch: 1,
+          id: id,
+          projectTypeCode: projectTypeCode,
+          projectTypeName: projectTypeName
+        }
         this.$store.dispatch('project/updateProjectType', dataUpdate);
       }
     },
 
     //Delete Project type
     pjDelete(){
+      this.isAdd = false
+      this.isClear = true
       const dataDel = {
         id: this.pjTypeData.id,
       };
@@ -153,24 +184,24 @@ export default {
 
     // Clear all input of Form
     pjClear(){
+      this.isAdd = false
       this.pjTypeData = {
-        isSearch: 1,
         id: null,
         projectTypeCode: '',
         projectTypeName: '',
         currentPage: 1,
         pageRecord: 20,
       };
-      this.projectTypeId = 0;
     },
 
     //Export Excel
     exportExcel(){
+      this.isAdd = false
       const { projectTypeCode, projectTypeName } = this.pjTypeData;
       const dataSecretKey = {
         projectTypeCode: projectTypeCode ? projectTypeCode : '',
         projectTypeName: projectTypeName ? projectTypeName : '',
-        sortBy: 'projectTypeCode-ASC',
+        sortBy: this.sortCommon,
         secretKey: '',
       };
       this.$store.dispatch('project/getSecretKeyPjType', dataSecretKey);
@@ -178,7 +209,7 @@ export default {
         const dataExport = {
           projectTypeCode: projectTypeCode ? projectTypeCode : '',
           projectTypeName: projectTypeName ? projectTypeName : '',
-          sortBy: 'projectTypeCode-ASC',
+          sortBy: this.sortCommon,
           secretKey: this.secretKeylPjType,
         };
         this.$store.dispatch('project/exportExcelPjType', dataExport);
@@ -189,9 +220,7 @@ export default {
 
   computed: {
     ...mapState('project', {
-      listProjects: (state) => state.listProjects,
       listProjectType: (state) => state.listProjectType,
-      valueSelected: (state) => state.valueSelected,
       isLoading: (state) => state.isLoading,
       secretKeylPjType: (state) => state.secretKeylPjType,
       linkExportExcelPjType: (state) => state.linkExportExcelPjType,
@@ -202,35 +231,48 @@ export default {
   },
 
   watch: {
-    valueSelected(val){
-      if (val.length > 0) {
-        this.pjTypeData.id = val[0].id;
-        this.pjTypeData.projectTypeCode = val[0].projectTypeCode;
-        this.pjTypeData.projectTypeName = val[0].projectTypeName;
-        this.loadingBtn.edit = false;
-        this.loadingBtn.remove = false;
+    projectTypeSelect(val) {
+      if (val.projectTypeCode) {
+        this.pjTypeData.id = val.id;
+        this.pjTypeData.projectTypeCode = val.projectTypeCode;
+        this.pjTypeData.projectTypeName = val.projectTypeName;
+        this.loadingBtn.update = false;
+        this.loadingBtn.delete = false;
       } else {
-        this.loadingBtn.edit = true;
-        this.loadingBtn.remove = true;
+        this.loadingBtn.update = true;
+        this.loadingBtn.delete = true;
       }
     },
     
     isLoading(val){
       if (val === true) {
-        const tmpParam = {
-          id: '',
+        let tmpParam = {
           isSearch: 1,
-          projectTypeCode: '',
-          projectTypeName: '',
-          currentPage: this.getParamsTypeProjects.currentPage,
+          projectTypeCode: this.getParamsTypeProjects.projectTypeCode ? this.getParamsTypeProjects.projectTypeCode : '',
+          projectTypeName: this.getParamsTypeProjects.projectTypeName ? this.getParamsTypeProjects.projectTypeName :'',
+          currentPage: this.getParamsTypeProjects.projectTypeCode ?  1 : this.numberPage,
           pageRecord: 20,
-          sortBy: 'projectTypeCode-ASC',
+          sortBy: this.sortCommon,
         };
+        if (this.isAdd === true) {
+          this.$emit('resetPage', 1)
+          tmpParam = {
+            id: '',
+            isSearch: 0,
+            projectTypeCode: '',
+            projectTypeName: '',
+            currentPage: null,
+            pageRecord: 20,
+            sortBy: this.sortCommon,
+          };
+        }
         this.$store.dispatch('project/listProjectType', tmpParam);
-        this.pjTypeData = {
-          projectTypeCode: '',
-          projectTypeName: '',
-        };
+        if (this.isClear === true) {
+          this.pjTypeData = {
+            projectTypeCode: '',
+            projectTypeName: '',
+          };
+        }
       }
     },
   },

@@ -1,6 +1,16 @@
 
 table {
   max-width: 1170px;
+  .width-1{
+    width: 1%;
+    min-width: 50px;
+  }
+  .width-10{
+    width: 10%;
+  }
+  .width-50{
+    width: 50%;
+  }
   .icon-arrow{
     font-style: normal;
     font-weight: 400;
