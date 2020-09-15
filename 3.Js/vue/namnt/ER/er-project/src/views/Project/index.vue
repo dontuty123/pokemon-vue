@@ -350,17 +350,21 @@ export default {
     },
   
     async exportData(val) {
+      // call API get secretKey
       await this.$store.dispatch('project/secretKey', '')
       const param = ['id', 'projectTypeCode']
       let data =  operater.delete(val, param)
+      //check status search if === 0 export all record
       if (this.statusSearch === 0) {
         const dataClear = []
         data = await operater.clear(data, dataClear)
       }
       data.sortBy = 'projectCode-ASC',
       data.secretKey = this.secretKey 
+      // export file
       this.$store.dispatch('project/exportFile', data)
     },
+
     async clearData() {
       const dataClear = []
       this.dataForm = await operater.clear(this.dataForm, dataClear)

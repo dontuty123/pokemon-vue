@@ -70,8 +70,6 @@ const project = {
 
     SEARCH_DATA(state, data) {
       state.errorCode = data.http_code
-      state.messCode.mess = CONTANT.message['004']
-      state.messCode.class = 'text-success'
     },
 
     SEARCH_ERROR(state, data) {
