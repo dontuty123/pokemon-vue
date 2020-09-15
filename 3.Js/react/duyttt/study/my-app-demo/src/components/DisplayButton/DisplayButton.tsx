@@ -39,8 +39,8 @@ class DisplayButton extends Component<Props, State> {
         return (
             <div className="btn-submit">
                 <DisplayText count={count}/>
-                <button onClick={this.increment}>+</button>
-                <button onClick={this.decrement}>-</button>
+                <button onClick={() => this.increment()}>+</button>
+                <button onClick={() => this.decrement()}>-</button>
             </div>
         )
     }
