@@ -4,12 +4,14 @@ import "./DemoParent.scss";
 
 interface Props {
     name: string,
-    count: number
+    count?: number
 }
 
 /**
  *
  * Example function component
+ *
+ *
  */
 const DemoParent = (Props: Props) => {
     return (

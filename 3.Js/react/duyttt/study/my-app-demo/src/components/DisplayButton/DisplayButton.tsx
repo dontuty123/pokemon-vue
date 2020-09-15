@@ -3,7 +3,7 @@ import DisplayText from "../DisplayText/DisplayText";
 import "./DisplayButton.scss";
 
 interface Props {
-    count: number,
+    count?: number,
 }
 
 interface State {

@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import './assets/styles/index.scss';
 import * as serviceWorker from './serviceWorker';
 import DemoParent from "./container/DemoParent/DemoParent";
+
 ReactDOM.render(
     <React.StrictMode>
-      <DemoParent count={1} />
+        <DemoParent />
     </React.StrictMode>,
     document.getElementById('root')
 );
