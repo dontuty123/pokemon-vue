@@ -174,7 +174,7 @@ const project = {
 
     exportFile( { commit }, param) {
       const link = CONTANT.apiURL + 'Project/projectExport?' + qs.stringify(param)
-      window.open(link, "_blank")
+      window.open(link, '_blank')
       commit('RESET_ERROR', '')
     },
    
