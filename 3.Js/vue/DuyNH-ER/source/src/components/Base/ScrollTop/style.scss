@@ -1,0 +1,74 @@
+.back-to-top {
+  small{
+    font-size: 8px;
+    white-space: nowrap;
+    color: #323232;
+  }
+  .button {
+    cursor: pointer;
+    display: inline-block;
+    min-height: 1em;
+    outline: 0;
+    border: none;
+    vertical-align: baseline;
+    background: #e0e1e2 none;
+    color: rgba(0,0,0,.6);
+    font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+    margin: 0 .25em 0 0;
+    padding: 12px;
+    text-transform: none;
+    text-shadow: none;
+    font-weight: 700;
+    line-height: 1em;
+    font-style: normal;
+    text-align: center;
+    text-decoration: none;
+    border-radius: .28571429rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,background .1s ease,-webkit-box-shadow .1s ease;
+    -webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+    transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+    will-change: "";
+    -webkit-tap-highlight-color: transparent;
+    width: 43px;
+    height: 43px;
+    margin: 0!important;
+  }
+  span {
+    width: 8px;
+    height: 18px;
+    display: inline-block;
+    position: relative;
+    background-color: #fff;
+    &:before{
+      position: absolute;
+      top: -3px;
+      left: -6px;
+      content: "";
+      width: 0;
+      height: 0;
+      border-bottom: 10px solid #fff;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+    }
+  }
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
+  -webkit-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+}
+.back-to-top.fadeIn {
+  opacity: 1;
+  z-index: 7;
+  visibility: visible;
+}
