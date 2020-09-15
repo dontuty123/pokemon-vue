@@ -59,7 +59,7 @@ class Search extends Component<Props, State> {
                             (event) => this.changeSearchText(event)
                         }
                     />
-                    <button onClick={(event) => this.doSearch()}>Search</button>
+                    <button onClick={() => this.doSearch()}>Search</button>
                     <li>Search Text {searchText}</li>
                     <li>Search Count: {searchCountAdd}</li>
                     <li>Result Count: {resultCount}</li>
