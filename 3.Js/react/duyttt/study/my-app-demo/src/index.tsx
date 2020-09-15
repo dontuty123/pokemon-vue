@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import DemoParent from "./container/DemoParent/DemoParent";
 ReactDOM.render(
     <React.StrictMode>
-        <DemoParent count={1} />
+      <DemoParent count={1} />
     </React.StrictMode>,
     document.getElementById('root')
 );

@@ -44,7 +44,6 @@ class DisplayButton extends Component<Props, State> {
             </div>
         )
     }
-
 }
 
 export default DisplayButton;

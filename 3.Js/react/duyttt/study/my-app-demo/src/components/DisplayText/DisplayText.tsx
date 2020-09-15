@@ -1,11 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './DisplayText.scss'
 
 interface Props {
-    count: number,
-}
-
-interface State {
     count: number,
 }
 
@@ -13,21 +9,7 @@ interface State {
  *
  * Example function component
  */
-class DisplayText extends Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            count: 0,
-        }
-    }
-
-    render() {
-        const {count} = this.props;
-        return (
-            <h2 className="result-txt">{count}</h2>
-        )
-    }
-
+const DisplayText = (Props: Props) => {
+    return (<h2 className="result-txt">{Props.count}</h2>);
 }
-
 export default DisplayText;
