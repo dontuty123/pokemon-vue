@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import DisplayText from "../DisplayText/DisplayText";
-import "./DisplayButton.scss";
+import DisplayText from "../DisplayText";
+import "./style.scss";
 
 interface Props {
     count?: number,

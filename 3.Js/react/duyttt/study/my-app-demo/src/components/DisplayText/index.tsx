@@ -1,5 +1,5 @@
 import React from 'react';
-import './DisplayText.scss'
+import './style.scss'
 
 interface Props {
     count: number,

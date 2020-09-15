@@ -1,6 +1,6 @@
 import React from 'react';
-import DisplayButton from "../../components/DisplayButton/DisplayButton";
-import "./DemoParent.scss";
+import DisplayButton from "../../components/DisplayButton";
+import "./style.scss";
 
 interface Props {
     name: string,
