@@ -15,5 +15,8 @@ authProject.updateProjectData = (data) => {
 },
 authProject.deleteProjectData = (data) => {
   return fnAPI.postApi('project-delete', data)
+},
+authProject.getKey = (data) => {
+  return fnAPI.getApi('Project/requestSecretKey', data)
 }
 export default authProject

@@ -84,27 +84,27 @@ export default {
       //Check new pass is not '' and vaildate format password
       const { news, confirm } = this.password 
       const { newMess, confirmMess } = this.error 
-      if ( news === '' ) {
+      if (news === '' ) {
         newMess.error = false
         newMess.message = CONTANT.message['005']
       } else {
         newMess.error = validateData.validateFormatPass(news)
-        if ( newMess.error === false) {
+        if (!newMess.error) {
           newMess.message = CONTANT.message['015']
         }
       }
       //Check confirmpass is not '' and matching newpassword 
-      if ( confirm === '' ) {
+      if (confirm === '' ) {
         confirmMess.error = false
         confirmMess.message = CONTANT.message['006']
       } else {
         confirmMess.error = validateData.validateComfirm(news, confirm)
-        if ( confirmMess.error === false) {
+        if (!confirmMess.error) {
           confirmMess.message = CONTANT.message['007']
         }
       }
       // Call api resetPass
-      if (newMess.error === true && confirmMess.error === true ) {
+      if (newMess.error && confirmMess.error) {
         const myparam = this.$route.params.paramPage
         this.data.resetPassSecretKey = myparam
         this.data.newPassword = this.password.confirm

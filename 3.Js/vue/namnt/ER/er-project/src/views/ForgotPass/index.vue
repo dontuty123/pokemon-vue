@@ -61,7 +61,7 @@ export default {
         this.mess.emailError = CONTANT.message['002']
       }else{
         const mailVali = validateData.validateEmail(this.data.email)
-        if (mailVali === false){
+        if (!mailVali){
           checkEmail = false
           this.mess.emailError = CONTANT.message['002']
         }

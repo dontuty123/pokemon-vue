@@ -101,7 +101,7 @@ export default {
       const { currentMess, newMess, confirmMess } = this.groupMess
       const { current, news, confirm } = this.groupPassword
       currentMess.error = this.validateForm('current', 'currentMess')
-      if (currentMess.error === false) {
+      if (!currentMess.error) {
         currentMess.mess = CONTANT.message['011']
       }
       // Check newPassword is not '' && validate forrmat password
@@ -110,7 +110,7 @@ export default {
         newMess.mess = CONTANT.message['005']
       } else {
         newMess.error = this.validateForm('news', 'newMess')
-        if ( newMess.error === false) {
+        if (!newMess.error) {
           newMess.mess = CONTANT.message['015']
         }
       }
@@ -120,12 +120,12 @@ export default {
         confirmMess.mess = CONTANT.message['006']
       } else {
         confirmMess.error = this.validateForm('confirm', 'confirmMess')
-        if (confirmMess.error === false) {
+        if (!confirmMess.error) {
           confirmMess.mess = CONTANT.message['007']
         }
       }
       // Call api changePassword 
-      if ( currentMess.error === true && newMess.error === true && confirmMess.error === true ) {
+      if (currentMess.error && newMess.error && confirmMess.error ) {
         const data = {
           currentPassword: current,
           newPassword: news

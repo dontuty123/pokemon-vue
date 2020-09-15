@@ -76,7 +76,7 @@ export default {
         checkPass.error = false
         checkPass.message = CONTANT.message['003']
       }
-      if ( checkEmail.error === true && checkPass.error === true) {
+      if (checkEmail.error && checkPass.error) {
         this.$store.dispatch('login/loginData', this.user)
       }
     },

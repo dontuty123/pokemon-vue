@@ -38,7 +38,7 @@
         </b-button>
       </b-overlay>
       <b-overlay :show="isLoading" rounded="sm">
-        <b-button size="md" class="mr-3 font-weight-bold" @clock="exportFile">
+        <b-button size="md" class="mr-3 font-weight-bold" @click="exportFile">
           <b-icon icon="file-earmark-medical" aria-hidden="true" class="mr-2"></b-icon>Export
         </b-button>
       </b-overlay>
@@ -67,7 +67,7 @@
       </div>
       <div class="d-flex align-items-center mb-2 flex-wrap">
         <span class="mb-0 mr-5 label-form"></span>
-        <p class="text-danger">{{dataMess.code}}</p>
+        <p class="text-danger mb-0">{{dataMess.code}}</p>
       </div>
       <div class="d-flex align-items-center mb-2">
         <label class="mb-0 mr-5 label-form">Project Name <code>*</code></label>
@@ -79,9 +79,9 @@
       </div>
       <div class="d-flex align-items-center mb-2 flex-wrap">
         <span class="mb-0 mr-5 label-form"></span>
-        <p class="text-danger">{{dataMess.name}}</p>
+        <p class="text-danger mb-0">{{dataMess.name}}</p>
       </div>
-      <div class="d-flex align-items-center mb-4">
+      <div class="d-flex align-items-center mb-3">
         <label class="mb-0 mr-5 label-form">Alias Name</label>
         <b-form-input 
           v-model="dataForm.aliasName"
@@ -101,7 +101,7 @@
       </div>
       <div class="d-flex align-items-center mb-2 flex-wrap">
         <span class="mb-0 mr-5 label-form"></span>
-        <p class="text-danger">{{dataMess.type}}</p>
+        <p class="text-danger mb-0">{{dataMess.type}}</p>
       </div>
       <div class="d-flex align-items-center mb-2">
         <label class="mb-0 mr-5 label-form">Upload File</label>
@@ -132,6 +132,7 @@
 </template>
 
 <script>
+import operater from '@/core/util/operater.action'
 export default {
   data() {
     return {
@@ -162,9 +163,8 @@ export default {
 
     searchProject() {
       this.$emit('searchProjectData', this.dataForm)
-      this.dataMess.code = ''
-      this.dataMess.name = ''
-      this.dataMess.type = ''
+      const dataClear = []
+      this.dataMess = operater.clear(this.dataMess, dataClear)
     },
 
     updateProject() {
@@ -176,7 +176,7 @@ export default {
     },
 
     exportFile() {
-      this.$emit('exportData')
+      this.$emit('exportData', this.dataForm)
     },
 
     clearAll() {

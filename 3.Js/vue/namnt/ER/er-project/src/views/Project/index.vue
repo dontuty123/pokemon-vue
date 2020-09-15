@@ -168,7 +168,8 @@ export default {
       messCode: state => state.messCode,
       errorCode: state => state.errorCode,
       searchError: state => state.searchError,
-      totalPage: state => state.totalPage
+      totalPage: state => state.totalPage,
+      secretKey: state => state.secretKey
     }),
   },
   methods: {
@@ -192,7 +193,7 @@ export default {
       if (valiType && valiCode && valiName) {
         await this.$store.dispatch('project/addProject', val)
         //if add success call api reload table
-        if ( this.errorCode === 200 ) {
+        if (this.errorCode === 200 ) {
           // convert value defaultProject ,active to booleen
           val.defaultProject = val.defaultProject === 0 ? false : true
           val.active = val.active === 0 ? false : true
@@ -292,7 +293,7 @@ export default {
         // check vaildate if success call API update
         await this.$store.dispatch('project/updateProject', val)
         // call API update and reload data table
-        if ( this.errorCode === 201) {
+        if (this.errorCode === 201) {
           this.$store.dispatch('project/loadingData', true)
           const param = ['projectTypeCode', 'projectTypeName']
           let data =  operater.delete(val, param)
@@ -304,7 +305,7 @@ export default {
             ...data
           } 
           //check update with status isSearch 
-          if ( this.statusSearch === 1 ) {
+          if (this.statusSearch === 1 ) {
             await this.$store.dispatch('project/projectList', data)
           } else {
             await this.$store.dispatch('project/projectList', this.loadData)
@@ -322,7 +323,7 @@ export default {
     async deleteProjectData(val) {
       await this.$store.dispatch('project/deleteProject', val)
       // check error code when delete
-      if ( this.errorCode === 200) {
+      if (this.errorCode === 200) {
         // delete success call API load data table
         this.$store.dispatch('project/loadingData', true)
         const param = ['projectTypeCode', 'projectTypeName']
@@ -334,7 +335,7 @@ export default {
           sortBy: this.sort.key + '-' + this.sort.type,
           ...data
         } 
-        if ( this.statusSearch === 1 ) {
+        if (this.statusSearch === 1 ) {
           await this.$store.dispatch('project/projectList', data)
         } else {
           await this.$store.dispatch('project/projectList', this.loadData)
@@ -348,8 +349,17 @@ export default {
       this.$store.dispatch('project/resetMess', '')
     },
   
-    async exportData() {
+    async exportData(val) {
       await this.$store.dispatch('project/secretKey', '')
+      const param = ['id', 'projectTypeCode']
+      let data =  operater.delete(val, param)
+      if (this.statusSearch === 0) {
+        const dataClear = []
+        data = await operater.clear(data, dataClear)
+      }
+      data.sortBy = 'projectCode-ASC',
+      data.secretKey = this.secretKey 
+      this.$store.dispatch('project/exportFile', data)
     },
     async clearData() {
       const dataClear = []

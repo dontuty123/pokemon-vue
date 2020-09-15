@@ -98,7 +98,6 @@ export default {
       currentPage:'',
       resetPage: true,
       disabled: true
-      
     }
   },
   created() {
@@ -117,7 +116,8 @@ export default {
       totalPage: state => state.totalPage,
       status: state => state.status,
       searchError: state => state.searchError,
-      errorCode: state => state.errorCode
+      errorCode: state => state.errorCode,
+      secretKey: state => state.secretKey
     }),
   },
   methods: {
@@ -151,7 +151,7 @@ export default {
       this.dataMess.code = valiCode === false ? CONTANT.message['013'] : ''
       this.dataMess.name = valiName === false ? CONTANT.message['014'] : ''
       // Call APi if vaildate success
-      if (valiCode === true && valiName === true) {
+      if (valiCode && valiName) {
         
         this.dataReload.sortBy = this.sort.key + '-' + this.sort.type
         this.dataReload.isSearch = 0
@@ -176,10 +176,10 @@ export default {
       this.dataReload.currentPage = this.currentPage
       const valiCode = this.validateInput(val.positionCode)
       const valiName = this.validateInput(val.positionName)
-      this.dataMess.code = valiCode === false ? CONTANT.message['013'] : ''
-      this.dataMess.name = valiName === false ? CONTANT.message['014'] : ''
+      this.dataMess.code = !valiCode ? CONTANT.message['013'] : ''
+      this.dataMess.name = !valiName ? CONTANT.message['014'] : ''
       // Call APi if vaildate success
-      if (valiCode === true && valiName === true) {
+      if (valiCode && valiName) {
         await this.$store.dispatch('position/updatePosition', val)
         // If call Api success to do reload page
         if ( this.errorCode === 201) {

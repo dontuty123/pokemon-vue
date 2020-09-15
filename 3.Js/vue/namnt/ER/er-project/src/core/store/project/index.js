@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import authProject from '@/core/service/auth.project'
 import CONTANT from '@/core/contant'
+import qs from 'qs'
 Vue.use(Vuex)
 const project = {
   namespaced: true,
@@ -19,7 +20,8 @@ const project = {
       mess: '',
       color: ''
     },
-    totalPage:''
+    totalPage: '',
+    secretKey: ''
   },
   mutations: {
     LOADING_DATA(state, data) {
@@ -103,6 +105,10 @@ const project = {
       state.errorCode = data.http_code
       state.messCode.mess = CONTANT.message[data.errorCode]
       state.messCode.class = 'text-danger'
+    },
+
+    SECRET_KEY(state, data) {
+      state.secretKey = data.secretKey
     }
   },
   actions: {
@@ -112,7 +118,7 @@ const project = {
 
     async projectList( { commit }, param) {
       const respon = await authProject.getProject(param)
-      if ( respon.data.error_code === '' ) {
+      if (respon.data.error_code === '' ) {
         commit('PROJECT_LIST', respon.data.result)
       } else {
         commit('PROJECT_ERROR', respon.data.result)
@@ -126,7 +132,7 @@ const project = {
 
     async addProject( { commit }, param) {
       const respon = await authProject.addProjectData(param)
-      if ( respon.data.http_code === 200 ) {
+      if (respon.data.http_code === 200 ) {
         commit('ADD_PROJECT', respon.data)
       } else {
         commit('ADD_ERROR', respon.data)
@@ -134,7 +140,7 @@ const project = {
     },
     async searchData( { commit }, param) {
       const respon = await authProject.getProject(param)
-      if ( respon.data.error_code === '' ) {
+      if (respon.data.error_code === '' ) {
         commit('SEARCH_DATA', respon.data)        
       } else {
         commit('SEARCH_ERROR', respon.data)
@@ -143,7 +149,7 @@ const project = {
 
     async updateProject( { commit }, param) {
       const respon = await authProject.updateProjectData(param)
-      if ( respon.data.http_code === 201 ) {
+      if (respon.data.http_code === 201 ) {
         commit('UPDATE_DATA', respon.data)
       } else {
         commit('UPDATE_ERROR', respon.data)
@@ -152,17 +158,28 @@ const project = {
 
     async deleteProject( { commit }, param) {
       const respon = await authProject.deleteProjectData(param)
-      if ( respon.data.http_code === 200 ) {
+      if (respon.data.http_code === 200 ) {
         commit('DELETE_DATA', respon.data)
       } else {
         commit('DELETE_ERROR', respon.data)
       }
     },    
 
-    // async secretKey( { commit }, param) {
-    //   const respon = await authProject.getKey(param)
-    // },
+    async secretKey( { commit }, param) {
+      const respon = await authProject.getKey(param)
+      if (respon.data.http_code === 200){
+        commit('SECRET_KEY', respon.data.result)
+      } else {
+        console.log('a')
+      }
+    },
 
+    exportFile( { commit }, param) {
+      const link = CONTANT.apiURL + 'Project/projectExport?' + qs.stringify(param)
+      window.open(link, "_blank")
+      commit('RESET_ERROR', '')
+    },
+   
     resetMess( { commit }, param) {
       setTimeout( () => {
         commit('RESET_ERROR', param)
