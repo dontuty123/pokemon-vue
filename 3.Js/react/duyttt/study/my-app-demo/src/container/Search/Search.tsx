@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
 import './Search.scss'
 
-interface props {
+interface Props {
     searchText: string,
-    searchCount: number,
+    searchCountAdd: number,
+    resultCount: number;
+}
+
+interface State {
+    searchText: string,
+    searchCountAdd: number,
     resultCount: number;
 }
 
@@ -11,12 +17,12 @@ interface props {
  *
  * Example demo state component
  */
-class Search extends Component<{}, props> {
-    constructor(props: props) {
+class Search extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             searchText: "",
-            searchCount: 0,
+            searchCountAdd: 0,
             resultCount: 0
         }
     }
@@ -34,26 +40,29 @@ class Search extends Component<{}, props> {
         this.setState((prevState, props) => {
             let count = this.state.searchText.length;
             return {
-                searchCount: prevState.searchCount + 1,
+                searchCountAdd: prevState.searchCountAdd + 1,
                 resultCount: count
             };
         });
-    }
+    };
 
     render() {
+        const {searchText, searchCountAdd, resultCount} = this.state;
         return (
             <div>
                 <h3 className="title-search">Demo example using state</h3>
                 <div className='search-box'>
                     <input
                         type="text"
-                        value={this.state.searchText}
-                        onChange={this.changeSearchText.bind(this)}
+                        value={searchText}
+                        onChange={
+                            (event) => this.changeSearchText(event)
+                        }
                     />
-                    <button onClick={this.doSearch.bind(this)}>Search</button>
-                    <li>Search Text {this.state.searchText}</li>
-                    <li>Search Count: {this.state.searchCount}</li>
-                    <li>Result Count: {this.state.resultCount}</li>
+                    <button onClick={(event) => this.doSearch()}>Search</button>
+                    <li>Search Text {searchText}</li>
+                    <li>Search Count: {searchCountAdd}</li>
+                    <li>Result Count: {resultCount}</li>
                 </div>
             </div>
         );

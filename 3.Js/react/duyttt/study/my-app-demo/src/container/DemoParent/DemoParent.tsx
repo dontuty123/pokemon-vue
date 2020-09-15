@@ -1,18 +1,29 @@
 import React, {Component} from 'react';
-
-interface ipprop {
-    name?: string;
+import DisplayButton from "../../components/DisplayButton/DisplayButton";
+import "./DemoParent.scss";
+interface Props {
+    name: string,
+    count: number
 }
+
+interface State {
+    name: string,
+    count: number;
+}
+
 /**
  *
  * Example function component
  */
-class DemoParent extends Component<{}, ipprop> {
-     static defaultProps: { name: string };
+class DemoParent extends Component<Props, State> {
+    static defaultProps: { name: string };
+
     render() {
+        const {name, count} = this.props;
         return (
             <div>
-                <h1>{this.props.name}</h1>
+                <h1 className="title-txt">{name}</h1>
+                <DisplayButton count={count}/>
             </div>
         )
     }
@@ -20,7 +31,7 @@ class DemoParent extends Component<{}, ipprop> {
 }
 
 DemoParent.defaultProps = {
-    name: "Example component parent to child",
+    name: "Example component parent, child",
 };
 
 export default DemoParent;

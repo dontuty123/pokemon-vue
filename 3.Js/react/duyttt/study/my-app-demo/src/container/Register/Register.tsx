@@ -1,7 +1,12 @@
 import React, {PureComponent} from 'react';
 import './Register.scss';
 
-interface props {
+interface Props {
+    text: string,
+    clickCount: number;
+}
+
+interface State {
     text: string,
     clickCount: number;
 }
@@ -10,9 +15,9 @@ interface props {
  *
  * Example demo pure component
  */
-class Register extends PureComponent<{}, props> {
+class Register extends PureComponent<Props, State> {
     //setting state component
-    constructor(props: props) {
+    constructor(props: Props) {
         //are component
         super(props);
         this.state = {
@@ -31,10 +36,11 @@ class Register extends PureComponent<{}, props> {
     }
 
     render() {
+        const {text, clickCount} = this.state;
         return (
             <div>
                 <button onClick={() => this.updateCount()}>
-                    {this.state.text} : {this.state.clickCount}
+                    {text} : {clickCount}
                 </button>
             </div>
         );
