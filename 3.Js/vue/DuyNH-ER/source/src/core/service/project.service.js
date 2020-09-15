@@ -32,13 +32,13 @@ projectService.getSecretKey = () => {
 }
 
  //Import File
-projectService.importExcel = (data) => {
+projectService.importExcel = () => {
   return funcCommon.importFile('project/projectImport')
 }
 
 //Export Project
 projectService.exportFile = (data) => {
-  return funcCommon.exportFile('Project/projectExport')
+  return funcCommon.exportFile('Project/projectExport', data)
 }
 
 //Add 1 project type
