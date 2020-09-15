@@ -17,7 +17,7 @@ const DemoParent = (Props: Props) => {
     return (
         <div>
             <h1 className="title-txt">{Props.name}</h1>
-            <DisplayButton count={Props.count}/>
+            <DisplayButton count={Props.count} />
         </div>
     );
 }
