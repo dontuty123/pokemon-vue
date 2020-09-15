@@ -20,6 +20,7 @@
       @searchProjectData="searchProjectData"
       @updateProjectData="updateProjectData"
       @deleteProjectData="deleteProjectData"
+      @exportData="exportData"
       @clearData="clearData"
      ></groupProject>
      <p :class="messCode.class">{{messCode.mess}}</p>
@@ -34,6 +35,7 @@
       </tableCommon>
       <pagination v-if="resetPage" :totalPage="totalPage" @changePage="changePage"/>
     </div>
+    <p class="text-center">Copyright © 2019 Kobelco. All rights reserved</p>
   </div>
 </template>
 
@@ -45,7 +47,6 @@ import CONTANT from '@/core/contant'
 import { mapState } from 'vuex'
 import pagination from '@/components/Pagination'
 import operater from '@/core/util/operater.action'
-// import { qs } from 'qs'
 export default {
    components: {
     headerCommon,
@@ -134,6 +135,7 @@ export default {
       },
       disabled: true,
       default: {
+        id: '',
         projectTypeCode: '',
         projectTypeName: 'All'
       },
@@ -345,7 +347,10 @@ export default {
       }
       this.$store.dispatch('project/resetMess', '')
     },
- 
+  
+    async exportData() {
+      await this.$store.dispatch('project/secretKey', '')
+    },
     async clearData() {
       const dataClear = []
       this.dataForm = await operater.clear(this.dataForm, dataClear)

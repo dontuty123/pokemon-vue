@@ -1,34 +1,45 @@
 <template>
   <div>
-    <b-button size="md" class="mr-3 font-weight-bold" variant="primary" @click="searchPosition">
-      <b-icon icon="search" aria-hidden="true" class="mr-2"></b-icon>Search
-    </b-button>
-    <b-button size="md" class="mr-3 font-weight-bold" variant="primary" @click="addPosition">
-      <b-icon icon="plus-circle-fill" aria-hidden="true" class="mr-2"></b-icon>Add
-    </b-button>
-    <b-button size="md" 
-      :disabled="disabled" 
-      class="mr-3 font-weight-bold" 
-      variant="primary"
-      @click="updatePosition"
-    >
-      <b-icon icon="journal-plus" aria-hidden="true" class="mr-2"></b-icon>Update
-    </b-button>
-    <b-button size="md" 
-      :disabled="disabled" 
-      class="mr-3 font-weight-bold" 
-      variant="primary"
-       @click="deletePosition"
-      > 
-      <b-icon icon="trash" aria-hidden="true" class="mr-2"></b-icon>Delete
-    </b-button>
-    <b-button size="md" class="mr-3 font-weight-bold">
-      <b-icon icon="file-earmark-medical" aria-hidden="true" class="mr-2"></b-icon>Export
-    </b-button>
-    <b-button size="md" class="font-weight-bold" @click="clearData">
-      <b-icon icon="arrow-clockwise" aria-hidden="true" class="mr-2"></b-icon>Clear All
-    </b-button>
-
+    <div class="d-flex">
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" class="mr-3 font-weight-bold" variant="primary" @click="searchPosition">
+          <b-icon icon="search" aria-hidden="true" class="mr-2"></b-icon>Search
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" class="mr-3 font-weight-bold" variant="primary" @click="addPosition">
+          <b-icon icon="plus-circle-fill" aria-hidden="true" class="mr-2"></b-icon>Add
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" 
+          :disabled="disabled" 
+          class="mr-3 font-weight-bold" 
+          variant="primary"
+          @click="updatePosition"
+        >
+          <b-icon icon="journal-plus" aria-hidden="true" class="mr-2"></b-icon>Update
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" 
+          :disabled="disabled" 
+          class="mr-3 font-weight-bold" 
+          variant="primary"
+          @click="deletePosition"
+          > 
+          <b-icon icon="trash" aria-hidden="true" class="mr-2"></b-icon>Delete
+        </b-button>
+      </b-overlay>
+      <b-overlay :show="isLoading" rounded="sm">
+        <b-button size="md" class="mr-3 font-weight-bold">
+          <b-icon icon="file-earmark-medical" aria-hidden="true" class="mr-2"></b-icon>Export
+        </b-button>
+      </b-overlay>
+      <b-button size="md" class="font-weight-bold" @click="clearData">
+        <b-icon icon="arrow-clockwise" aria-hidden="true" class="mr-2"></b-icon>Clear All
+      </b-button>
+    </div>
     <div class="px-5 pt-5 pb-3 border mt-5">
       <div class="d-flex align-items-center mb-2 flex-wrap">
         <label class="mb-0 mr-5 label-form">Position Code <code>*</code></label>
@@ -98,11 +109,11 @@ export default {
       this.$emit('searchData', this.dataTable)
     },
 
-    clearData(){
+    clearData() {
       this.$emit('clearAll', '')
     }
   },
-  props: ['dataTable', 'disabled', 'dataMess'],
+  props: ['dataTable', 'disabled', 'dataMess', 'isLoading'],
 }
 </script>
 

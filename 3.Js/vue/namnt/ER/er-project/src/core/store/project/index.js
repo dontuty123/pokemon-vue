@@ -141,7 +141,7 @@ const project = {
       }
     },
 
-    async updateProject( { commit }, param){
+    async updateProject( { commit }, param) {
       const respon = await authProject.updateProjectData(param)
       if ( respon.data.http_code === 201 ) {
         commit('UPDATE_DATA', respon.data)
@@ -150,7 +150,7 @@ const project = {
       }
     },
 
-    async deleteProject( { commit }, param){
+    async deleteProject( { commit }, param) {
       const respon = await authProject.deleteProjectData(param)
       if ( respon.data.http_code === 200 ) {
         commit('DELETE_DATA', respon.data)
@@ -158,6 +158,10 @@ const project = {
         commit('DELETE_ERROR', respon.data)
       }
     },    
+
+    // async secretKey( { commit }, param) {
+    //   const respon = await authProject.getKey(param)
+    // },
 
     resetMess( { commit }, param) {
       setTimeout( () => {

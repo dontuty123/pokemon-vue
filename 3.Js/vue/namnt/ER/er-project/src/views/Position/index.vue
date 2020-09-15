@@ -9,6 +9,7 @@
         @addData="addData" 
         :dataTable="dataTable"
         :dataMess="dataMess"
+        :isLoading="isLoading"
         @updateData="updateData"
         @deleteData="deleteData"
         @searchData="searchData"

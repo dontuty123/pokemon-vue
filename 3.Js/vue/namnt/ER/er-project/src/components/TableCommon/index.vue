@@ -58,7 +58,6 @@ export default {
 
   methods: {
     clickRow(val) {
-      // this.$emit('clickTable', val)
       this.$emit('clickTable', JSON.parse(JSON.stringify(val)))
     },
 
