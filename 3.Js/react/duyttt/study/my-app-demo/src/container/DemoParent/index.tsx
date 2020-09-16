@@ -50,8 +50,8 @@ class DemoParent extends Component<Props, State> {
             <div>
                 <h1 className="title-txt">{name}</h1>
                 <div className="btn-submit">
-                    <DisplayText count={count}/>
-                    <DisplayButton ClickHandler={val => this.changeValueCount(val)}/>
+                    <DisplayText count={count} />
+                    <DisplayButton ClickHandler={val => this.changeValueCount(val)} />
                 </div>
             </div>
         )

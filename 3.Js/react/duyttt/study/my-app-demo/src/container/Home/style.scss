@@ -1,14 +1,13 @@
-/*==Reset CSS==*/
 * {
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: sans-serif;
   color: #333;
 }
 
-/*==Style menu===*/
 #menu ul {
   background: #1F568B;
   list-style-type: none;
@@ -30,6 +29,20 @@ body {
 #menu a:hover {
   background: #F1F1F1;
   color: #333;
+}
+
+.sub-menu {
+  display: none;
+  position: absolute;
+}
+#menu li {
+  position: relative;
+}
+#menu li:hover .sub-menu {
+  display: block;
+}
+.sub-menu li {
+  margin-left: 0 !important;
 }
 .title {
   text-align: center;
