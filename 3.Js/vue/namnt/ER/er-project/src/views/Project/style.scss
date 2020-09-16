@@ -1,0 +1,23 @@
+.breadcrumb {
+  background: none;
+  font-weight: bold;
+  color: #323232;
+  font-size: 20px;
+  padding: 0.75rem 0;
+  a{
+    color: #323232;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+.input-form {
+  width: 300px;
+  padding: 0.25rem;
+}
+.label-form{
+  width: 130px;
+}
+.input-file{
+  background: #cccccc;
+}

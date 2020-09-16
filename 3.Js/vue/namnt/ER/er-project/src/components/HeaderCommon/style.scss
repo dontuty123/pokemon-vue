@@ -1,0 +1,27 @@
+.items_menu {
+  display: flex;
+  align-items: center;
+  
+  font-weight: bold;
+
+}
+.navbar-light .navbar-nav .nav-link {
+  color: #323232;
+  &:hover {
+    color: #0072bb;
+  }  
+}
+.dropdown-menu{
+  border: 0 ;
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+  padding: 0;
+  min-width: auto;
+}
+.dropdown-item:hover{
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #0072bb;
+}
+.navbar-light .navbar-nav .nav-link:focus{
+  outline: 0;
+}
