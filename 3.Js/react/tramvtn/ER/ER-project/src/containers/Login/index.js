@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo-company.png';
@@ -23,7 +23,11 @@ class Login extends Component {
 		};
 	}
 
-	handleChange =(e) =>{
+	/**
+	 * Function check change of input
+	 *
+	 */
+	handleChange =(e) => {
 		let target = e.target;
 		let name = target.name;
 		let value = target.value;
@@ -57,21 +61,26 @@ class Login extends Component {
 		}
 	}
 
-	validateEmail (email) {
+	/**
+	 * Function check validate of mail
+	 *
+	 */
+	validateEmail = (email) => {
 		const validate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 		return validate.test(email)
 	}
 
+	/**
+	 * Function when submit button
+	 *
+	 */
 	onFinish = (values) => {
-		console.log('abc', values)
-
 		if (this.state.email === '') {
 			this.setState({
 				errorMail: '002'
 			});
 		} else {
 			let resValidate = this.validateEmail(this.state.email)
-			console.log(resValidate)
 			if (resValidate){
 				this.setState({
 					errorMail :''
@@ -85,7 +94,6 @@ class Login extends Component {
 		}
 		
 		if (values.email !== '' && values.password !== '') {
-			console.log('Success:', values);
 			//call API login
 			const _body = "email=" + values.email + "&password=" + values.password;
 
@@ -94,7 +102,6 @@ class Login extends Component {
 				url: CONST_API.apiUrl + 'login',
 				data: _body
 			}).then((response) => {
-				console.log('Call API success');
 				if (response.data.error_code !== '') {
 					this.setState({
 						errorCode: response.data.error_code
@@ -103,17 +110,15 @@ class Login extends Component {
 					this.setState({
 						errorCode: ''
 					})
-					console.log('Dang nhap thanh cong');
 				}
-				console.log('response', response);
-			}).catch((err) => console.log('loi goi api that bai :', err))// loi goi api that bai , 403
+			}).catch((err) => console.log(err))// loi goi api that bai , 403
 		}
 	};
 
-	onFinishFailed = (errorInfo) => {
-		console.log('Failed:', errorInfo);
-	};
-
+	/**
+	 * Function return message error by code
+	 *
+	 */
 	errorMessage = (code) => {
 		const errorName = errorData.error[code];
 		return (
@@ -122,7 +127,6 @@ class Login extends Component {
 	}
 
 	render() {
-
 		return (
 			<Form
 				name="basic"
@@ -130,7 +134,6 @@ class Login extends Component {
 					remember: true,
 				}}
 				onFinish={this.onFinish}
-				onFinishFailed={this.onFinishFailed}
 				className="auth-page form-login"
 			>
 				<div className="form-header">
