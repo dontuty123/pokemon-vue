@@ -5,12 +5,12 @@ import "./style.scss";
 
 interface Props {
     count?: number,
-    name?: string;
+    name?: string,
 }
 
 interface State {
     count: number,
-    name?: string;
+    name?: string
 }
 
 /**
@@ -39,8 +39,8 @@ class DemoParent extends Component<Props, State> {
         });
     };
 
-    changeValueCount = (): void => {
-        if (<DisplayButton ClickHandler={() => 'in'} />) {
+    changeValueCount = (val: string): void => {
+        if (val === 'in') {
             this.increment();
         } else {
             this.decrement();
@@ -51,11 +51,10 @@ class DemoParent extends Component<Props, State> {
         const {count} = this.state;
         const {name} = this.props;
         return (
-
             <div className="btn-submit">
                 <h1 className="title-txt">{name}</h1>
                 <DisplayText count={count}/>
-                <DisplayButton ClickHandler={() => this.changeValueCount()} />
+                <DisplayButton ClickHandler={val => this.changeValueCount(val)}/>
             </div>
         )
     }
