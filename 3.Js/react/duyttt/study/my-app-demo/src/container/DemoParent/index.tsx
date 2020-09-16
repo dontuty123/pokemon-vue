@@ -47,10 +47,12 @@ class DemoParent extends Component<Props, State> {
         const {count} = this.state;
         const {name} = this.props;
         return (
-            <div className="btn-submit">
+            <div>
                 <h1 className="title-txt">{name}</h1>
-                <DisplayText count={count}/>
-                <DisplayButton ClickHandler={val => this.changeValueCount(val)}/>
+                <div className="btn-submit">
+                    <DisplayText count={count}/>
+                    <DisplayButton ClickHandler={val => this.changeValueCount(val)}/>
+                </div>
             </div>
         )
     }

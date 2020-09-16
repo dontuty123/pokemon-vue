@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './assets/styles/index.scss';
 import * as serviceWorker from './serviceWorker';
 import DemoParent from "./container/DemoParent";
+import Home from "./container/Home";
 
 ReactDOM.render(
     <React.StrictMode>
-        <DemoParent />
+        <Home />
     </React.StrictMode>,
     document.getElementById('root')
 );
