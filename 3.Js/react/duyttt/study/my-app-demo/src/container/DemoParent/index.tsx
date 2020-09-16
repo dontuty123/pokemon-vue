@@ -5,12 +5,12 @@ import "./style.scss";
 
 interface Props {
     count?: number,
-    name?: string,
+    name?: string;
 }
 
 interface State {
     count: number,
-    name?: string
+    name?: string;
 }
 
 /**

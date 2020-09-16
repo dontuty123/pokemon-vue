@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route, Link, RouteComponentProps} from "react-r
 import DemoParent from "../DemoParent";
 
 interface Props {
-    id?: string,
+    id?: string;
 }
 
 function Product({match}: RouteComponentProps<Props>) {
