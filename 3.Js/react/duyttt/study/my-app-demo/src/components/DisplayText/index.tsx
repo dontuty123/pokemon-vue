@@ -11,5 +11,5 @@ interface Props {
  */
 const DisplayText = (Props: Props) => {
     return (<h2 className="result-txt">{Props.count}</h2>);
-}
+};
 export default DisplayText;

@@ -2,3 +2,16 @@
   color: red;
   text-align: center;
 }
+.btn-submit {
+  width: 300px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.btn-submit button {
+  width: 100px;
+  background: red;
+  color: white;
+  margin-left: 35px;
+  cursor: pointer;
+}

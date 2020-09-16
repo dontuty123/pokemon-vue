@@ -1,27 +1,67 @@
-import React from 'react';
+import React, {Component} from 'react';
+import DisplayText from "../../components/DisplayText";
 import DisplayButton from "../../components/DisplayButton";
 import "./style.scss";
 
 interface Props {
-    name: string,
-    count?: number
+    count?: number,
+    name?: string;
+}
+
+interface State {
+    count: number,
+    name?: string;
 }
 
 /**
  *
  * Example function component
- *
- *
  */
-const DemoParent = (Props: Props) => {
-    return (
-        <div>
-            <h1 className="title-txt">{Props.name}</h1>
-            <DisplayButton count={Props.count} />
-        </div>
-    );
+class DemoParent extends Component<Props, State> {
+    static defaultProps: { name: string };
+
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            count: 0,
+        }
+    }
+
+    increment = (): void => {
+        this.setState({
+            count: (this.state.count + 1)
+        });
+    };
+
+    decrement = (): void => {
+        this.setState({
+            count: (this.state.count - 1)
+        });
+    };
+
+    changeValueCount = (): void => {
+        if (<DisplayButton ClickHandler={() => 'in'} />) {
+            this.increment();
+        } else {
+            this.decrement();
+        }
+    };
+
+    render() {
+        const {count} = this.state;
+        const {name} = this.props;
+        return (
+
+            <div className="btn-submit">
+                <h1 className="title-txt">{name}</h1>
+                <DisplayText count={count}/>
+                <DisplayButton ClickHandler={() => this.changeValueCount()} />
+            </div>
+        )
+    }
 }
+
 DemoParent.defaultProps = {
-    name: "Example component parent, child",
+    name: "Example component",
 };
 export default DemoParent;
