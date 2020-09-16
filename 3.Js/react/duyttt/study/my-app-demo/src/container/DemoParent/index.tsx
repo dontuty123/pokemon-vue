@@ -40,7 +40,7 @@ class DemoParent extends Component<Props, State> {
     };
 
     changeValueCount = (val: string): void => {
-        (val === 'in') ? this.increment() :this.decrement();
+        (val === 'in') ? this.increment() : this.decrement();
     };
 
     render() {
