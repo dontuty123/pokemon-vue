@@ -1,0 +1,46 @@
+.form-login{
+    width: 500px;
+    margin: 0 auto;
+    .form-title{
+        margin-top: 24px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 24px;
+    }
+    .form-login-forgot{
+        display: block;
+        text-align:  center;
+        font-size: 14px;
+    }
+    input{
+        font-size: 16px;
+        border-radius: 4px;
+        &:-internal-autofill-selected{
+            background-color: none !important;
+        }
+    }
+    .ant-form-item{
+        margin-bottom: 0;
+    }
+    .ant-input:focus {
+        border-color: #57a8e9;
+        outline: 0;
+        -webkit-box-shadow: 0 0 0 2px rgba(87,168,233, .2);
+        box-shadow: 0 0 0 2px rgba(87,168,233, .2);
+    }
+    button{
+        background: #0072bb;
+    }
+    .error-message {
+        padding: 0;
+        background: none;
+        border: none;
+        margin-bottom: 16px;
+        color: #9f3a38;
+        font-size: 13px;
+    }
+}
+
+
+  
