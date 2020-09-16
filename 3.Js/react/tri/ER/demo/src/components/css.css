@@ -18,6 +18,12 @@
     border-radius: 3px;
 }
 
+.icon-textbox {
+    color: gray;
+    position: absolute;
+    padding: 15px;
+}
+
 .button {
     cursor: pointer;
     border: none;
