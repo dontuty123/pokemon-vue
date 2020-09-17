@@ -4,10 +4,25 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
+  //Login
+  {
+    path: '/Login',
+    name: 'Login',
+    component: () => import('@/views/Login')
+  },
+
+  //Home
   {
     path: '/',
-    name: 'Login',
-    component: () => import('@/views/Login/index.vue')
+    name: 'Home',
+    component: () => import('@/views/DashBoard')
+  },
+
+  //OM Project Management
+  {
+    path: '/om-project-management',
+    name: 'OMProject',
+    component: () => import('@/views/OMProject')
   }
 ]
 

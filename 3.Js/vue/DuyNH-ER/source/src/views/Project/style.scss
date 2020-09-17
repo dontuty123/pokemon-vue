@@ -1,0 +1,173 @@
+
+//Project Page
+.project  {
+  .msg{
+    &.success{
+      color: green;
+    }
+    color: #9f3a38;
+  }
+  
+  &-list-button {
+    button {
+      margin-right: 1rem;
+      color: #fff;
+      text-shadow: none;
+      background-image: none;
+      font-weight: bold;
+      .b-icon {
+        margin-right: 3px;
+        font-size: 100% !important;
+        vertical-align: -0.15em !important;
+      }
+      &.btn-type {
+        &-1 {
+          background-color: #2185d0;
+        }
+        &-2 {
+          background-color: #4e7081;
+        }
+      }
+    }
+  }
+  &-form {
+    max-width: 1170px;
+    padding: 35px;
+    border: 1px solid #e1e1e1;
+    display: flex;
+    justify-content: space-between;
+    .ui.button {
+      cursor: pointer;
+      display: inline-block;
+      min-height: 1em;
+      outline: 0;
+      border: none;
+      vertical-align: baseline;
+      background: #e0e1e2 none;
+      color: rgba(0,0,0,.6);
+      font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+      margin: 0 .25em 0 0;
+      padding: .78571429em 1.5em;
+      text-transform: none;
+      text-shadow: none;
+      font-weight: 700;
+      line-height: 1em;
+      font-style: normal;
+      text-align: center;
+      text-decoration: none;
+      border-radius: .28571429rem;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,background .1s ease,-webkit-box-shadow .1s ease;
+      -webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+      transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+      will-change: "";
+      -webkit-tap-highlight-color: transparent;
+      &.btn-upload{
+        padding: .78571429em;
+        padding-right: 4.07142857em!important;
+        padding-left: 1.5em!important;
+        font-size: .92857143rem;
+        width: 100%;
+        position: relative;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        &:hover{
+          box-shadow: inset 0 0 0 1px transparent, inset 0 0 0 0 rgba(34,36,38,.15)
+        }
+        .h.icon {
+          position: absolute;
+          height: 100%;
+          line-height: 1;
+          text-align: center;
+          margin: 0;
+          width: 2.57142857em;
+          background-color: rgba(0,0,0,.05);
+          color: "";
+          box-shadow: inset -1px 0 0 0 transparent;
+          top: 0;
+          opacity: .9;
+          left: auto;
+          right: 0;
+          border-radius: 0;
+          border-top-right-radius: inherit;
+          border-bottom-right-radius: inherit;
+          box-shadow: inset 1px 0 0 0 transparent;
+          &:before{
+            content: "***";
+            color: #000;
+            height: 10px;
+            display: block;
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            text-align: center;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+    .label {
+      font-size: 13px;
+      font-weight: bold !important;
+    }
+    a, b{
+      color: #0056b3;
+    }
+    b{
+      font-weight: 500;
+    }
+    .label-checkbox{
+      color: #0056b3;
+      font-weight: 500;
+    }
+    .required-msg{
+      padding: 0;
+      background: none;
+      border: none;
+      margin-bottom: 16px;
+      color: #9f3a38;
+      margin-bottom: 0px;
+      font-size: 13px;
+    }
+    .form-edit {
+      .w-input {
+        align-items: baseline;
+      }
+    }
+    .form-required {
+      .label {
+        font-weight: bold;
+       
+        &:after {
+          content: "*";
+          color: red;
+          display: inline-block;
+          position: relative;
+          top: 4px;
+          left: 4px;
+        }
+      }
+    }
+
+  }
+  &-table {
+    max-width: 1170px;
+    .custom-checkbox  {
+        .custom-control-input:checked~
+        .custom-control-label::after  {
+          background-color: #007bff;
+        }
+      }
+      .page-item{
+        &.active{
+          pointer-events: none;
+        }
+      }
+    }
+}
