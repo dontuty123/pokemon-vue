@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-spacebetween">
       <ul class="menu">
         <li>
-          <a><img src="@/assets/images/download.png" class="logo"></a>
+          <a><img src="@/assets/images/logo_company.png" class="logo"></a>
         </li>
         <li @mouseover="listOne = true"  @mouseleave="listOne = false">
           <a href="#" :class="listOne ? 'active' : '' ">
