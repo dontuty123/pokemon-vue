@@ -22,38 +22,38 @@ export default {
       arrayProjects:[
         {
           id: 1,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode1',
+          projectName: 'projectName1',
+          employeeCode: 'employeeCode1',
+          employeeName: 'employeeName1'
         },
         {
           id: 2,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode2',
+          projectName: 'projectName2',
+          employeeCode: 'employeeCode2',
+          employeeName: 'employeeName2'
         },
         {
           id: 3,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode3',
+          projectName: 'projectName3',
+          employeeCode: 'employeeCode3',
+          employeeName: 'employeeName3'
         },
         {
           id: 4,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode4',
+          projectName: 'projectName4',
+          employeeCode: 'employeeCode4',
+          employeeName: 'employeeName4'
         },
         {
           id: 5,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode5',
+          projectName: 'projectName5',
+          employeeCode: 'employeeCode5',
+          employeeName: 'employeeName5'
         },
         
       ],

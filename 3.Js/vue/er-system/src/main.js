@@ -6,7 +6,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import '@/assets/scss/global.scss'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import 'vue-search-select/dist/VueSearchSelect.css'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);

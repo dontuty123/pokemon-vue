@@ -37,13 +37,13 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-              <b-form-select
-                size="sm"
-                value-field="id"
-                text-field="projectName"
-              >
-                <option :value="0">All</option>
-              </b-form-select>
+               <model-list-select :list="listProject"
+                  v-model="projectSelected"
+                  size="sm"
+                  option-value="projectCode"
+                  option-text="projectName"
+                  placeholder="select item">
+                </model-list-select>
             </div>
           </div>
         </b-form-group>
@@ -59,13 +59,13 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-              <b-form-select
+              <model-list-select :list="listEmployee"
+                v-model="employeeSelected"
                 size="sm"
-                value-field="id"
-                text-field="projectName"
-              >
-                <option :value="0">All</option>
-              </b-form-select>
+                option-value="employeeCode"
+                option-text="employeeName"
+                placeholder="select item">
+              </model-list-select>
             </div>
           </div>
         </b-form-group>
@@ -75,11 +75,75 @@
   </div>
 </template>
 <script>
+import { ModelListSelect } from 'vue-search-select'
+
 export default {
   name: 'OMProject',
-
+  components: {
+    ModelListSelect
+  },
   data() {
-    return {};
+    return {
+      listProject: [
+        {
+          id: 1,
+          projectCode: 'projectCode1',
+          projectName: 'projectName1',
+        },
+        {
+          id: 2,
+          projectCode: 'projectCode2',
+          projectName: 'projectName2',
+        },
+        {
+          id: 3,
+          projectCode: 'projectCode3',
+          projectName: 'projectName3',
+        },
+        {
+          id: 4,
+          projectCode: 'projectCode4',
+          projectName: 'projectName4',
+        },
+        {
+          id: 5,
+          projectCode: 'projectCode5',
+          projectName: 'projectName5',
+        },
+      ],
+      projectSelected: {},
+
+      //Employee
+      listEmployee: [
+        {
+          id: 1,
+          employeeCode: 'employeeCode1',
+          employeeName: 'employeeName1'
+        },
+        {
+          id: 2,
+          employeeCode: 'employeeCode2',
+          employeeName: 'employeeName2'
+        },
+        {
+          id: 3,
+          employeeCode: 'employeeCode3',
+          employeeName: 'employeeName3'
+        },
+        {
+          id: 4,
+          employeeCode: 'employeeCode4',
+          employeeName: 'employeeName4'
+        },
+        {
+          id: 5,
+          employeeCode: 'employeeCode5',
+          employeeName: 'employeeName5'
+        },
+      ],
+      employeeSelected: {},
+
+    };
   },
 
   methods: {},
