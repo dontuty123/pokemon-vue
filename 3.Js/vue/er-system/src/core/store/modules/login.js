@@ -13,7 +13,6 @@ const login = {
   },
 
   actions: {
-   
   },
 
   getters: {

@@ -12,7 +12,7 @@
     
     .menu li > a {
       display: block;
-      padding: 5px 20px;
+      padding: 10px;
       color: #323232;
       text-decoration: none;
       &:hover, &.active{
@@ -30,15 +30,26 @@
       list-style: none;
       position: absolute;
       left: 0;
-      top: 45px;
+      top: 35px;
       margin: 0;
       padding: 0;
       box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+      background-color: #ffffff;
       li {
         min-width: 180px;
         & a:hover {
           color: #0072bb;
+         
         }
+      }
+      &.sub-text{
+        li {
+          min-width: 250px;
+        }
+      }
+      &.last-item {
+        right: 0;
+        left: unset;
       }
     }
 
@@ -47,6 +58,11 @@
     }
     .fade-enter, .fade-leave-active {
       opacity: 0;
+    }
+    .flag-icon {
+      width: 20px;
+      margin-right: 5px;
+      margin-top: -3px;
     }
   }
 }

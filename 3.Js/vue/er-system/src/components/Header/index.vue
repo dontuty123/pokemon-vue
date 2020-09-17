@@ -1,76 +1,98 @@
 <template>
   <div class="er-header shadow-sm">
-    <div class="d-flex justify-content-spacebetween">
+    <div class="d-flex justify-content-between container-lg">
       <ul class="menu">
         <li>
-          <a><img src="@/assets/images/logo_company.png" class="logo"></a>
+          <router-link to="/"><img src="@/assets/images/logo_company.png" class="logo"></router-link>
         </li>
         <li @mouseover="listOne = true"  @mouseleave="listOne = false">
-          <a href="#" :class="listOne ? 'active' : '' ">
+          <router-link to="#" :class="listOne ? 'active' : '' ">
             MASTER <b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon>
-          </a>
+          </router-link>
           <transition name="fade">
-            <ul class="menu-item" v-if="listOne" @click="listOne = false">
-              <li><a href="#">EMPLOYEE</a></li>
-              <li><a href="#">PROJECT</a></li>
-              <li><a href="#">OM PROJECT MANAGEMENT</a></li>
+            <ul class="menu-item sub-text" v-if="listOne" @click="listOne = false">
+              <li><router-link to="/">EMPLOYEE</router-link></li>
+              <li><router-link to="/">PROJECT</router-link></li>
+              <li><router-link to="/">OM PROJECT MANAGEMENT</router-link></li>
             </ul>
           </transition>
         </li>
         <li @mouseover="listTwo = true"  @mouseleave="listTwo = false">
-          <a href="#" :class="listTwo ? 'active' : '' ">
+          <router-link to="#" :class="listTwo ? 'active' : '' ">
             ENGINEER HOUR RECORD<b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon>
-          </a>
+          </router-link>
           <transition name="fade">
             <ul class="menu-item" v-if="listTwo" @click="listTwo = false">
-              <li><a href="#">UPDATE WORKING HOUR</a></li>
-              <li><a href="#"> TOTAL RECORD</a></li>
+              <li><router-link to="/">UPDATE WORKING HOUR</router-link></li>
+              <li><router-link to="/"> TOTAL RECORD</router-link></li>
             </ul>
           </transition>
         </li>
         <li>
-          <a>APPROVE</a>
+          <router-link to="#">APPROVE</router-link>
         </li>
       </ul>
       <ul class="menu">
           <li @mouseover="listThree = true"  @mouseleave="listThree = false">
-          <a href="#" :class="listThree ? 'active' : '' ">
+          <router-link to="#" :class="listThree ? 'active' : '' ">
             <b-icon class="mr-2" icon="person-fill" aria-hidden="true"></b-icon>
-            NV.001-NAM THANH
-            <b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon></a>
+            NV.001-NAM THANH 
+            <b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon></router-link>
           <transition name="fade">
             <ul class="menu-item" v-if="listThree" @click="listThree = false">
-              <li><a href="#">EMPLOYEE</a></li>
-              <li><a href="#">PROJECT</a></li>
-              <li><a href="#">OM PROJECT MANAGEMENT</a></li>
+              <li><router-link to="/">CHANGE PASSWORD</router-link></li>
+              <li><router-link to="/">LOG OUT</router-link></li>
             </ul>
           </transition>
         </li>
         <li @mouseover="listFour = true"  @mouseleave="listFour = false">
-          <a href="#" :class="listFour ? 'active' : '' ">
-            EN
-            <b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon></a>
+          <router-link to="#" :class="listFour ? 'active' : '' ">
+            <img :src="urlImages[$i18n.locale]" class="flag-icon"> 
+            {{$i18n.locale.toUpperCase()}}
+            <b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon></router-link>
           <transition name="fade">
-            <ul class="menu-item" v-if="listFour" @click="listFour = false">
-              <li><a href="#">EN</a></li>
-              <li><a href="#">VN</a></li>
+            <ul class="menu-item last-item" v-if="listFour" @click="listFour = false">
+              <li>
+                <router-link to="#" @click="setLocale('en')">
+                  <img src="@/assets/images/flag_en.jpg" class="flag-icon">
+                  EN
+                </router-link>
+              </li>
+              <li>
+                <router-link to="#" @click="setLocale('vn')">
+                  <img src="@/assets/images/flag_vn.jpg" class="flag-icon">
+                  VN
+                </router-link>
+              </li>
             </ul>
           </transition>
         </li>
       </ul>
     </div>
+    <!-- demo multi language -->
+    <!-- {{$t('messages["001"]')}} -->
   </div>
 </template>
 
 <script>
+import FlagEn from '@/assets/images/flag_en.jpg'
+import FlagVn from '@/assets/images/flag_vn.jpg'
 export default {
   data() {
     return {
       listOne: false,
       listTwo: false,
       listThree: false,
-      listFour: false
-    
+      listFour: false,
+      urlImages: {
+        vn: FlagVn,
+        en: FlagEn,
+      }
+    }
+  },
+  methods: {
+    setLocale(locale) {
+      this.$i18n.locale = locale
     }
   }
 }
