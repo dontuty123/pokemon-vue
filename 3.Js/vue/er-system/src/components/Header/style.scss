@@ -1,0 +1,52 @@
+.er {
+  &-header {
+    .menu {  
+      font-size: 18px/1.5;
+      font-weight: 600;
+      margin: 0;
+      padding: 10px 0;
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+    
+    .menu li > a {
+      display: block;
+      padding: 5px 20px;
+      color: #323232;
+      text-decoration: none;
+      &:hover, &.active{
+        color: #0072bb;
+      }
+    }
+    
+    .menu > li {
+      display:block;
+      position: relative;
+      color: #323232;
+    }
+    
+    .menu-item {
+      list-style: none;
+      position: absolute;
+      left: 0;
+      top: 45px;
+      margin: 0;
+      padding: 0;
+      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+      li {
+        min-width: 180px;
+        & a:hover {
+          color: #0072bb;
+        }
+      }
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .2s;
+    }
+    .fade-enter, .fade-leave-active {
+      opacity: 0;
+    }
+  }
+}
