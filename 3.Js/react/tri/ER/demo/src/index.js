@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './assets/styles/index.scss';
+import './index.css';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
-import DemoParent from "./container/DemoParent";
-import Home from "./container/Home";
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Home />
-    </React.StrictMode>,
-    document.getElementById('root')
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
