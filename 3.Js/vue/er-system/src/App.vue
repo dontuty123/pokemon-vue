@@ -1,9 +1,18 @@
 <template>
   <div id="app">
     <router-view/>
+     <ScrollTop />
   </div>
 </template>
+<script>
+import ScrollTop from '@/components/GoTop'
 
+export default {
+  components: {
+    ScrollTop
+  },
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
