@@ -11,7 +11,7 @@ interface Props {
  */
 const DisplayButton = (Props: Props) => {
     return (
-        <div>
+        <div className="btn-display">
             <button onClick={() => Props.ClickHandler('in')}>+</button>
             <button onClick={() => Props.ClickHandler('de')}>-</button>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss'
 
 interface Props {
-    count: number,
+    count: number;
 }
 
 /**
