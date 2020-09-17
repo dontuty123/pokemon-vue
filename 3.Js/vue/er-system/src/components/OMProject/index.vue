@@ -37,7 +37,7 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-               <model-list-select :list="listProject"
+               <model-list-select :list="listProjects"
                   v-model="projectSelected"
                   size="sm"
                   option-value="projectCode"
@@ -82,35 +82,9 @@ export default {
   components: {
     ModelListSelect
   },
+  props: ['listProjects'],
   data() {
     return {
-      listProject: [
-        {
-          id: 1,
-          projectCode: 'projectCode1',
-          projectName: 'projectName1',
-        },
-        {
-          id: 2,
-          projectCode: 'projectCode2',
-          projectName: 'projectName2',
-        },
-        {
-          id: 3,
-          projectCode: 'projectCode3',
-          projectName: 'projectName3',
-        },
-        {
-          id: 4,
-          projectCode: 'projectCode4',
-          projectName: 'projectName4',
-        },
-        {
-          id: 5,
-          projectCode: 'projectCode5',
-          projectName: 'projectName5',
-        },
-      ],
       projectSelected: {},
 
       //Employee

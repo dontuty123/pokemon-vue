@@ -1,6 +1,6 @@
 <template>
   <div class="body-content er-omproject">
-    <OMProject />
+    <OMProject :listProjects="listProjects" />
     <tableCommon 
       :fields="fields"
       :items="arrayProjects"
@@ -11,6 +11,9 @@
 <script>
 import tableCommon from '@/components/TableCommon';
 import OMProject from '@/components/OMProject';
+import { mapState } from 'vuex';
+
+
 export default {
   name: 'OM-Project',
   components: {
@@ -19,6 +22,16 @@ export default {
   },
   data() {
     return {
+      paramsProject: {
+        isSearch: 0,
+        projectId: '',
+        employeeId: '',
+        currentPage: 1,
+        pageRecord: 20,
+        sortBy: 'projectCode-ASC',
+        employeeBy: '',
+        projectBy: '',
+      },
       arrayProjects:[
         {
           id: 1,
@@ -98,17 +111,30 @@ export default {
   },
 
   methods: {
+    getListProjects(){
+      this.$store.dispatch('project/getProject', this.paramsProject);
+    },
+    
    //Select data
     getDataProject(val){
       console.log(val);
     },
   },
 
-  mounted() {},
+  mounted() {
+   this.getListProjects()
+  },
 
-  computed: {},
+  computed: {
+    ...mapState('project', {
+      listProjects: (state) => state.listProjects,
+    })
+  },
+  watch: {
+    
+  }
 };
 </script>
 <style scoped lang='scss'>
-@import 'style.scss';
+  @import 'style.scss';
 </style>

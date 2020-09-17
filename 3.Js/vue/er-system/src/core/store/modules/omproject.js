@@ -1,24 +1,25 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-Vue.use(Vuex);
-const login = {
-  strict: true,
-  namespaced: true,
-  state: {
- 
-  },
+import omProjectService from '@/core/service/omproject.service';
 
+Vue.use(Vuex);
+const omproject = {
+  namespaced: true,
+  strict: true,
+  state: {
+   
+  },
+  
   mutations: {
-    
+   
   },
 
   actions: {
     
-   
-  },
+  }, 
 
   getters: {
-   
-  },
-};
-export default login
+
+  }
+}
+export default omproject;
