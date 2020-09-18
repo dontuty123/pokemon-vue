@@ -1,6 +1,6 @@
 <template>
   <div class="body-content er-omproject">
-    <OMProject />
+    <OMProject :listProjects="listProjects" />
     <tableCommon 
       :fields="fields"
       :items="arrayProjects"
@@ -11,6 +11,9 @@
 <script>
 import tableCommon from '@/components/TableCommon';
 import OMProject from '@/components/OMProject';
+import { mapState } from 'vuex';
+
+
 export default {
   name: 'OM-Project',
   components: {
@@ -19,41 +22,51 @@ export default {
   },
   data() {
     return {
+      paramsProject: {
+        isSearch: 0,
+        projectId: '',
+        employeeId: '',
+        currentPage: 1,
+        pageRecord: 20,
+        sortBy: 'projectCode-ASC',
+        employeeBy: '',
+        projectBy: '',
+      },
       arrayProjects:[
         {
           id: 1,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode1',
+          projectName: 'projectName1',
+          employeeCode: 'employeeCode1',
+          employeeName: 'employeeName1'
         },
         {
           id: 2,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode2',
+          projectName: 'projectName2',
+          employeeCode: 'employeeCode2',
+          employeeName: 'employeeName2'
         },
         {
           id: 3,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode3',
+          projectName: 'projectName3',
+          employeeCode: 'employeeCode3',
+          employeeName: 'employeeName3'
         },
         {
           id: 4,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode4',
+          projectName: 'projectName4',
+          employeeCode: 'employeeCode4',
+          employeeName: 'employeeName4'
         },
         {
           id: 5,
-          projectCode: 'test 1',
-          projectName: 'test 11',
-          employeeCode: 'employeeCode',
-          employeeName: 'employeeName'
+          projectCode: 'projectCode5',
+          projectName: 'projectName5',
+          employeeCode: 'employeeCode5',
+          employeeName: 'employeeName5'
         },
         
       ],
@@ -98,17 +111,30 @@ export default {
   },
 
   methods: {
+    getListProjects(){
+      this.$store.dispatch('project/getProject', this.paramsProject);
+    },
+    
    //Select data
     getDataProject(val){
       console.log(val);
     },
   },
 
-  mounted() {},
+  mounted() {
+   this.getListProjects()
+  },
 
-  computed: {},
+  computed: {
+    ...mapState('project', {
+      listProjects: (state) => state.listProjects,
+    })
+  },
+  watch: {
+    
+  }
 };
 </script>
 <style scoped lang='scss'>
-@import 'style.scss';
+  @import 'style.scss';
 </style>

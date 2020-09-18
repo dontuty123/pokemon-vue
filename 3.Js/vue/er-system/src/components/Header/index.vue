@@ -75,6 +75,7 @@
 <script>
 import FlagEn from '@/assets/images/flag_en.jpg'
 import FlagVn from '@/assets/images/flag_vn.jpg'
+import cookie from 'js-cookie'
 export default {
   data() {
     return {
@@ -87,6 +88,10 @@ export default {
         en: FlagEn,
       }
     }
+  },
+  created() {
+    const employee = cookie.get('data')
+    console.log(employee)
   },
   methods: {
     setLocale(locale) {
