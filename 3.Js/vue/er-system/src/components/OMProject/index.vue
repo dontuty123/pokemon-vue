@@ -1,13 +1,13 @@
 <template>
   <div class="er-omproject">
     <div class="list-button mb-3">
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1" @click="btnSearch()">
         <b-icon icon="search"></b-icon>Search
       </b-button>
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1" @click="btnAdd()">
         <b-icon icon="plus-circle-fill"></b-icon>Add
       </b-button>
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1" @click="btnUpdate()">
         <b-icon icon="plus-circle-fill"></b-icon>Update
       </b-button>
       <b-button class="btn-type btn-type-1">
@@ -37,13 +37,20 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-               <model-list-select :list="listProjects"
+              {{projectSelected.id}}
+               <model-list-select :list="listOmproject"
+                class="input-select"
                   v-model="projectSelected"
                   size="sm"
                   option-value="projectCode"
-                  option-text="projectName"
+                  :custom-text="customText"
                   placeholder="select item">
+                  
                 </model-list-select>
+                <p
+                  class="required-msg"
+                  v-if="!projectSelected.id && requiredMsg !== ''"
+                >Project {{ requiredMsg }}</p>
             </div>
           </div>
         </b-form-group>
@@ -59,13 +66,18 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-              <model-list-select :list="listEmployee"
+              <model-list-select :list="listOmEmployee"
+              class="input-select"
                 v-model="employeeSelected"
                 size="sm"
                 option-value="employeeCode"
                 option-text="employeeName"
                 placeholder="select item">
               </model-list-select>
+                 <p
+                  class="required-msg"
+                  v-if="!employeeSelected.id && requiredMsg !== ''"
+                >Project {{ requiredMsg }}</p>
             </div>
           </div>
         </b-form-group>
@@ -75,6 +87,7 @@
   </div>
 </template>
 <script>
+import { log } from 'util';
 import { ModelListSelect } from 'vue-search-select'
 
 export default {
@@ -82,49 +95,82 @@ export default {
   components: {
     ModelListSelect
   },
-  props: ['listProjects'],
+  props: ['listOmproject', 'listOmEmployee', 'paramsOmProject', 'dataSelected'],
   data() {
     return {
+      requiredMsg: '',
       projectSelected: {},
-
-      //Employee
-      listEmployee: [
-        {
-          id: 1,
-          employeeCode: 'employeeCode1',
-          employeeName: 'employeeName1'
-        },
-        {
-          id: 2,
-          employeeCode: 'employeeCode2',
-          employeeName: 'employeeName2'
-        },
-        {
-          id: 3,
-          employeeCode: 'employeeCode3',
-          employeeName: 'employeeName3'
-        },
-        {
-          id: 4,
-          employeeCode: 'employeeCode4',
-          employeeName: 'employeeName4'
-        },
-        {
-          id: 5,
-          employeeCode: 'employeeCode5',
-          employeeName: 'employeeName5'
-        },
-      ],
       employeeSelected: {},
+      valueSelected: {},
+      idUpdate: 0
+
 
     };
   },
 
-  methods: {},
+  methods: {
+    // Format text  at combobox
+    customText (item) {
+      return `${item.projectCode} - ${item.projectName}`
+    },
 
-  mounted() {},
+    //Search
+    btnSearch() {
+      const { isSearch, projectId, employeeId, currentPage, pageRecord, sortBy, employeeBy, projectBy } = this.paramsOmProject;
+      const dataSearch = this.paramsOmProject
+      dataSearch.isSearch = 1
+      dataSearch.projectId = this.projectSelected.id
+      dataSearch.employeeId = this.employeeSelected.id
+      this.$emit('dataSearch', dataSearch)
+    },
+
+    //Add
+    btnAdd() {
+      if (!this.projectSelected.id || !this.employeeSelected.id) {
+         this.requiredMsg = ' is required';
+      } else {
+        this.requiredMsg = '';
+        const { projectId, employeeId } = this.paramsOmProject;
+        const dataAdd = {
+          projectId: this.projectSelected.id,
+          employeeId: this.employeeSelected.id
+        }
+        console.log(dataAdd);
+        this.$emit('dataAdd', dataAdd)
+      }
+    },
+    
+    //Update
+    btnUpdate() {
+       if (!this.projectSelected.id || !this.employeeSelected.id) {
+         this.requiredMsg = ' is required';
+      } else {
+        this.requiredMsg = '';
+        const dataUpdate = {
+          id: this.idUpdate,
+          projectId: this.projectSelected.projectId,
+          employeeId: this.employeeSelected.employeeId
+        }
+        this.$emit('dataUpdate', dataUpdate)
+      }
+    }
+  },
+
+  mounted() {
+  
+  },
 
   computed: {},
+  watch: {
+    //Show data from table selected
+    dataSelected(val) {
+      if (val.id) {
+        this.projectSelected = val
+        this.employeeSelected = val
+        this.idUpdate = val.id
+      }
+    },
+  }
 };
 </script>
 <style scoped lang='scss'>

@@ -421,6 +421,7 @@ export default {
 
   watch: {
     projectDataSelect(val){
+      console.log(val);
       if (val.projectCode) {
         this.projectData = val
         if (this.projectData.projectTypeId !==  null) {

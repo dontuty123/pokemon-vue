@@ -1,16 +1,27 @@
 <template>
   <div class="body-content er-omproject">
-    <OMProject :listProjects="listProjects" />
+    <OMProject  :listOmproject="listOmproject"
+                :listOmEmployee="listOmEmployee"
+                :paramsOmProject="paramsOmProject"
+                :dataSelected="dataSelected"
+                @dataSearch="dataSearch"
+                @dataAdd="dataAdd"
+                @dataUpdate="dataUpdate"  />
     <tableCommon 
       :fields="fields"
-      :items="arrayProjects"
-      @valueRowSelect="getDataProject"
+      :items="listOmEmployeeProject"
+      @valueRowSelect="getDataSelected"
     />
+     <Pagination 
+        @currentPage="changePaging"
+       />
   </div>
 </template>
 <script>
 import tableCommon from '@/components/TableCommon';
 import OMProject from '@/components/OMProject';
+import Pagination from '@/components/Pagination';
+
 import { mapState } from 'vuex';
 
 
@@ -19,57 +30,21 @@ export default {
   components: {
     OMProject,
     tableCommon,
+    Pagination
   },
   data() {
     return {
-      paramsProject: {
+      paramsOmProject: {
         isSearch: 0,
-        projectId: '',
-        employeeId: '',
+        projectId: null,
+        employeeId: null,
         currentPage: 1,
-        pageRecord: 20,
+        pageRecord: 2000,
         sortBy: 'projectCode-ASC',
-        employeeBy: '',
-        projectBy: '',
+        employeeBy: 'firstName-ASC',
+        projectBy: 'projectCode-ASC',
       },
-      arrayProjects:[
-        {
-          id: 1,
-          projectCode: 'projectCode1',
-          projectName: 'projectName1',
-          employeeCode: 'employeeCode1',
-          employeeName: 'employeeName1'
-        },
-        {
-          id: 2,
-          projectCode: 'projectCode2',
-          projectName: 'projectName2',
-          employeeCode: 'employeeCode2',
-          employeeName: 'employeeName2'
-        },
-        {
-          id: 3,
-          projectCode: 'projectCode3',
-          projectName: 'projectName3',
-          employeeCode: 'employeeCode3',
-          employeeName: 'employeeName3'
-        },
-        {
-          id: 4,
-          projectCode: 'projectCode4',
-          projectName: 'projectName4',
-          employeeCode: 'employeeCode4',
-          employeeName: 'employeeName4'
-        },
-        {
-          id: 5,
-          projectCode: 'projectCode5',
-          projectName: 'projectName5',
-          employeeCode: 'employeeCode5',
-          employeeName: 'employeeName5'
-        },
-        
-      ],
+      
       fields: [
         {
           key: 'id',
@@ -107,31 +82,66 @@ export default {
           valueSort: 0,
         },
       ],
+      listProjects:[],
+      opsProject:[],
+      currentPage: 0,
+      dataSelected:{}
+     
     };
   },
 
   methods: {
-    getListProjects(){
-      this.$store.dispatch('project/getProject', this.paramsProject);
+    autoLogin() {
+      this.$store.dispatch('login/setUserData')
     },
-    
+
+    getListOmProjects(){
+      this.$store.dispatch('omproject/getOmProject', this.paramsOmProject);
+    },
+
+    //Get params search
+    dataSearch(val) {
+      this.$store.dispatch('omproject/searchOmProject', val);
+    },
+
+    //Get params Add
+    dataAdd(val) {
+      this.$store.dispatch('omproject/addOmProject', val);
+    },
+
+    //get params Update
+    dataUpdate(val) {
+      console.log('val ', val);
+      //  this.$store.dispatch('omproject/updateOmProject', val);
+    },
    //Select data
-    getDataProject(val){
-      console.log(val);
+    getDataSelected(val){
+      this.dataSelected = val
+    },
+    changePaging(val){
+      this.currentPage = val
     },
   },
 
   mounted() {
-   this.getListProjects()
+    this.autoLogin()
+    this.getListOmProjects()
   },
 
   computed: {
-    ...mapState('project', {
-      listProjects: (state) => state.listProjects,
+    ...mapState('omproject', {
+      listOmEmployeeProject: (state) => state.listOmEmployeeProject,
+      listOmproject: (state) => state.listOmproject,
+      listOmEmployee: (state) => state.listOmEmployee,
+      isLoading: (state) => state.isLoading
     })
   },
   watch: {
-    
+    isLoading(val1, val2) {
+      if (val2 !== val1) {
+        this.$store.dispatch('omproject/getOmProject', this.paramsOmProject);
+      }
+    }
   }
 };
 </script>
