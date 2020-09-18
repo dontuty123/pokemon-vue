@@ -1,35 +1,35 @@
 <template>
   <div class="er-header shadow-sm">
-    <div class="d-flex justify-content-between container-lg">
+    <div class="d-flex justify-content-between px-5">
       <ul class="menu">
         <li>
           <router-link to="/"><img src="@/assets/images/logo_company.png" class="logo"></router-link>
         </li>
         <li @mouseover="listOne = true"  @mouseleave="listOne = false">
           <router-link to="#" :class="listOne ? 'active' : '' ">
-            MASTER <b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon>
+            {{$t('header["master"]')}} <b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon>
           </router-link>
           <transition name="fade">
             <ul class="menu-item sub-text" v-if="listOne" @click="listOne = false">
-              <li><router-link to="/">EMPLOYEE</router-link></li>
-              <li><router-link to="/">PROJECT</router-link></li>
-              <li><router-link to="/">OM PROJECT MANAGEMENT</router-link></li>
+              <li><router-link to="/">{{$t('header["employee"]')}}</router-link></li>
+              <li><router-link to="/">{{$t('header["project"]')}}</router-link></li>
+              <li><router-link to="/">{{$t('header["omProject"]')}}</router-link></li>
             </ul>
           </transition>
         </li>
         <li @mouseover="listTwo = true"  @mouseleave="listTwo = false">
           <router-link to="#" :class="listTwo ? 'active' : '' ">
-            ENGINEER HOUR RECORD<b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon>
+            {{$t('header["engineerHour"]')}}<b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon>
           </router-link>
           <transition name="fade">
-            <ul class="menu-item" v-if="listTwo" @click="listTwo = false">
-              <li><router-link to="/">UPDATE WORKING HOUR</router-link></li>
-              <li><router-link to="/"> TOTAL RECORD</router-link></li>
+            <ul class="menu-item sub-text" v-if="listTwo" @click="listTwo = false">
+              <li><router-link to="/">{{$t('header["workingHour"]')}}</router-link></li>
+              <li><router-link to="/">{{$t('header["totalRecord"]')}}</router-link></li>
             </ul>
           </transition>
         </li>
         <li>
-          <router-link to="#">APPROVE</router-link>
+          <router-link to="#">{{$t('header["approve"]')}}</router-link>
         </li>
       </ul>
       <ul class="menu">
@@ -40,8 +40,8 @@
             <b-icon class="ml-2" icon="caret-down-fill" aria-hidden="true"></b-icon></router-link>
           <transition name="fade">
             <ul class="menu-item" v-if="listThree" @click="listThree = false">
-              <li><router-link to="/">CHANGE PASSWORD</router-link></li>
-              <li><router-link to="/">LOG OUT</router-link></li>
+              <li><router-link to="/">{{$t('header["changePass"]')}}</router-link></li>
+              <li><router-link to="/">{{$t('header["logOut"]')}}</router-link></li>
             </ul>
           </transition>
         </li>
@@ -53,24 +53,22 @@
           <transition name="fade">
             <ul class="menu-item last-item" v-if="listFour" @click="listFour = false">
               <li>
-                <router-link to="#" @click="setLocale('en')">
+                <a @click="setLocale('en')">
                   <img src="@/assets/images/flag_en.jpg" class="flag-icon">
                   EN
-                </router-link>
+                </a>
               </li>
               <li>
-                <router-link to="#" @click="setLocale('vn')">
+                <a @click="setLocale('vn')">
                   <img src="@/assets/images/flag_vn.jpg" class="flag-icon">
                   VN
-                </router-link>
+                </a>
               </li>
             </ul>
           </transition>
         </li>
       </ul>
     </div>
-    <!-- demo multi language -->
-    <!-- {{$t('messages["001"]')}} -->
   </div>
 </template>
 

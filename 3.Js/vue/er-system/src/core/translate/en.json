@@ -42,5 +42,23 @@
     "040": "Date From <= Date To",
     "041": "This timesheet is not approve",
     "042": "Please choose approver"
-  }  
+  },
+  "header": {
+    "master": "MASTER",
+    "project": "PROJECT",
+    "employee": "EMPLOYEE",
+    "omProject": "OM PROJECT MANAGEMENT", 
+    "engineerHour": "ENGINEER HOUR RECORD",
+    "workingHour": "UPDATE WORKING HOUR",
+    "totalRecord": "TOTAL RECORD",
+    "approve": "APPROVE",
+    "changePass": "CHANGE PASSWORD",
+    "logOut": "LOG OUT"
+  },
+  "login": {
+    "titleLogin": "Login",
+    "user": "E-mail address",
+    "password": "Password",
+    "forgotPass": "Forgot your password ?"
+  }
 }

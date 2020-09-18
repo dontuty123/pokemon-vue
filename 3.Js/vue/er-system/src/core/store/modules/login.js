@@ -13,6 +13,9 @@ const login = {
   },
 
   actions: {
+    userLogin( { commit }, param ) {
+      
+    }
   },
 
   getters: {

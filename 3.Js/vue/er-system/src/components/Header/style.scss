@@ -1,7 +1,7 @@
 .er {
   &-header {
     .menu {  
-      font-size: 18px/1.5;
+      font-size: 14px;
       font-weight: 600;
       margin: 0;
       padding: 10px 0;
@@ -50,6 +50,9 @@
       &.last-item {
         right: 0;
         left: unset;
+        li {
+          min-width: 100px;
+        }
       }
     }
 
@@ -63,6 +66,9 @@
       width: 20px;
       margin-right: 5px;
       margin-top: -3px;
+    }
+    .logo{
+      max-width: 115px;
     }
   }
 }

@@ -42,5 +42,23 @@
     "040": "Ngày bắt đầu <= ngày kết thúc",
     "041": "Bảng chấm công chưa được duyệt",
     "042": "Vui lòng chọn người duyệt"
+  },
+  "header": {
+    "master": "DANH MỤC",
+    "project": "DỰ ÁN",
+    "employee": "NHÂN VIÊN",
+    "omProject": "QUẢN LÝ DỰ ÁN OM", 
+    "engineerHour": "GIỜ CÔNG",
+    "workingHour": "CẬP NHẬT GIỜ CÔNG",
+    "totalRecord": "TỔNG GIỜ CÔNG",
+    "approve": "PHÊ DUYỆT",
+    "changePass": "THAY ĐỔI MẬT KHẨU",
+    "logOut": "ĐĂNG XUẤT"
+  },
+  "login": {
+    "titleLogin": "Đăng nhập",
+    "user": "Địa chỉ E-mail",
+    "password": "Mật khẩu",
+    "forgotPass": "Quên mật khẩu ?"
   }
 }
