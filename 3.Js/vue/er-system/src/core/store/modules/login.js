@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import loginService from '@/core/service/authen.service';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import loginService from '@/core/service/authen.service'
 import router from '@/core/router'
 import cookie from 'js-cookie'
-import qs from 'qs';
-Vue.use(Vuex);
+import qs from 'qs'
+Vue.use(Vuex)
 const login = {
   strict: true,
   namespaced: true,
@@ -30,7 +30,7 @@ const login = {
       const respon = await loginService.postUser(param)
       if (respon.data.http_code === 200) {
         commit('LOGIN_SUCCESS', respon.data)
-        cookie.set("data", qs.stringify(respon.data.result));
+        cookie.set('userData', qs.stringify(respon.data.result))
         router.push('/')
       } else {
         commit('LOGIN_FAIL', respon.data)
