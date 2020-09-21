@@ -91,7 +91,6 @@ export default {
   },
   created() {
     const employee = cookie.get('data')
-    console.log(employee)
   },
   methods: {
     setLocale(locale) {

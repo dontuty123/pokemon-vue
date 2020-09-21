@@ -1,25 +1,24 @@
 <template>
+<div>
+  
   <div class="er-omproject">
     <div class="list-button mb-3">
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1" @click="btnSearch()">
         <b-icon icon="search"></b-icon>Search
       </b-button>
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1" @click="btnAdd()">
         <b-icon icon="plus-circle-fill"></b-icon>Add
       </b-button>
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1" @click="btnUpdate()">
         <b-icon icon="plus-circle-fill"></b-icon>Update
       </b-button>
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1"  @click="btnDelete()">
         <b-icon icon="trash"></b-icon>Delete
       </b-button>
-      <b-button class="btn-type btn-type-2">
-        <b-icon icon="file-earmark-medical-fill"></b-icon>Import
-      </b-button>
-      <b-button class="btn-type btn-type-2">
+      <b-button class="btn-type btn-type-2" @click="exportExcel()">
         <b-icon icon="file-earmark-medical-fill"></b-icon>Export
       </b-button>
-      <b-button class="btn-type btn-type-2">
+      <b-button class="btn-type btn-type-2" @click="clearAll()">
         <b-icon icon="arrow-repeat"></b-icon>Clear All
       </b-button>
     </div>
@@ -37,13 +36,19 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-               <model-list-select :list="listProjects"
+               <model-list-select :list="listOmproject"
+                class="input-select"
                   v-model="projectSelected"
                   size="sm"
                   option-value="projectCode"
-                  option-text="projectName"
-                  placeholder="select item">
+                  :custom-text="customText"
+                  placeholder="All">
+                  
                 </model-list-select>
+                <p
+                  class="required-msg"
+                  v-if="!projectSelected.id && requiredMsg !== ''"
+                >Project {{ requiredMsg }}</p>
             </div>
           </div>
         </b-form-group>
@@ -59,13 +64,19 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-              <model-list-select :list="listEmployee"
+              <!-- option-text="employeeName" -->
+              <model-list-select :list="listOmEmployee"
+                class="input-select"
                 v-model="employeeSelected"
                 size="sm"
                 option-value="employeeCode"
-                option-text="employeeName"
-                placeholder="select item">
+                :custom-text="customText2"
+                placeholder="All">
               </model-list-select>
+                 <p
+                  class="required-msg"
+                  v-if="!employeeSelected.id && requiredMsg !== ''"
+                >Project {{ requiredMsg }}</p>
             </div>
           </div>
         </b-form-group>
@@ -73,58 +84,135 @@
       </b-form>
     </div>
   </div>
+</div>
 </template>
 <script>
 import { ModelListSelect } from 'vue-search-select'
+import { mapState } from 'vuex';
 
 export default {
   name: 'OMProject',
   components: {
-    ModelListSelect
+    ModelListSelect,
   },
-  props: ['listProjects'],
+  props: ['listOmproject', 'listOmEmployee', 'paramsOmProject', 'dataSelected'],
   data() {
     return {
+      requiredMsg: '',
       projectSelected: {},
-
-      //Employee
-      listEmployee: [
-        {
-          id: 1,
-          employeeCode: 'employeeCode1',
-          employeeName: 'employeeName1'
-        },
-        {
-          id: 2,
-          employeeCode: 'employeeCode2',
-          employeeName: 'employeeName2'
-        },
-        {
-          id: 3,
-          employeeCode: 'employeeCode3',
-          employeeName: 'employeeName3'
-        },
-        {
-          id: 4,
-          employeeCode: 'employeeCode4',
-          employeeName: 'employeeName4'
-        },
-        {
-          id: 5,
-          employeeCode: 'employeeCode5',
-          employeeName: 'employeeName5'
-        },
-      ],
       employeeSelected: {},
-
+      valueSelected: {},
+      idUpdate: 0
     };
   },
 
-  methods: {},
+  methods: {
+    // Format text  at combobox
+    customText (item) {
+      return `${item.id} - ${item.projectCode} - ${item.projectName}`
+    },
 
-  mounted() {},
+    customText2(item) {
+      return `${item.id} - ${item.employeeCode} - ${item.employeeName}`
+    },
+    //Search
+    btnSearch() {
+      const { isSearch, projectId, employeeId, currentPage, pageRecord, sortBy, employeeBy, projectBy } = this.paramsOmProject;
+      const dataSearch = this.paramsOmProject
+      dataSearch.isSearch = 1
+      dataSearch.projectId = this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id
+      dataSearch.employeeId = this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id
+      this.$emit('dataSearch', dataSearch)
+    },
 
-  computed: {},
+    //Add
+    btnAdd() {
+      if (!this.projectSelected.id || !this.employeeSelected.id) {
+         this.requiredMsg = ' is required';
+      } else {
+        this.requiredMsg = '';
+        const { projectId, employeeId } = this.paramsOmProject;
+        const dataAdd = {
+          projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
+          employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id,
+        }
+        this.$emit('dataAdd', dataAdd)
+      }
+    },
+    
+    //Update
+    btnUpdate() {
+       if (!this.projectSelected.id || !this.employeeSelected.id) {
+         this.requiredMsg = ' is required';
+      } else {
+        this.requiredMsg = '';
+        const dataUpdate = {
+          id: this.idUpdate,
+          projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
+          employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id,        }
+        this.$emit('dataUpdate', dataUpdate)
+      }
+    },
+
+    // Delete Item
+    btnDelete() {
+      const idDelete = {
+        id: this.idUpdate
+      }
+      this.$emit('dataDelete', idDelete)
+    },
+
+    //Export Excel
+    exportExcel(){
+      const { projectId, employeeId } = this.paramsOmProject;
+      const dataSecretKey = {
+        projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
+        employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id,       
+        sortBy: 'projectCode-ASC',
+        secretKey: '',
+      };
+      
+      this.$store.dispatch('omproject/getSecretKey', dataSecretKey);
+      setTimeout(() => {
+        const dataExport = {
+          projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id ? this.projectSelected.id : '',
+          employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id ? this.employeeSelected.id : '',       
+          sortBy: 'projectCode-ASC',
+          secretKey: this.secretKey,
+        };
+        this.$store.dispatch('omproject/exportExcel', dataExport);
+        window.open(this.linkExportExcel, '_blank');
+      }, 350);
+    },
+
+    //Clear All
+    clearAll() {
+      this.projectSelected = {}
+      this.employeeSelected = {}
+    }
+  },
+
+  mounted() {
+  
+  },
+
+  computed: {
+    ...mapState('omproject', {
+      linkExportExcel: (state) => state.linkExportExcel,
+      secretKey: (state) => state.secretKey,
+
+    }),
+  },
+  watch: {
+    //Show data from table selected
+    dataSelected(val) {
+      if (val.id) {
+        this.projectSelected = val
+        this.employeeSelected = val
+        this.idUpdate = val.id
+      }
+    },
+  }
 };
 </script>
 <style scoped lang='scss'>

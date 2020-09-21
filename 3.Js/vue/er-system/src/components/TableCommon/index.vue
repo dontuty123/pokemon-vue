@@ -67,7 +67,7 @@ export default {
     //Select rows to Form
     valueRowSelected(val){
       this.selectedItem = val
-      this.$emit('valueRowSelect', JSON.stringify(val))
+      this.$emit('valueRowSelect', JSON.parse(JSON.stringify(val)))
     },
     //Sort Table
     sortTable(val){

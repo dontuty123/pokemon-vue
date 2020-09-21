@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import funcMemory from '@/core/service/memory.service.js';
 
 Vue.use(VueRouter)
 
 const routes = [
   //Login
   {
-    path: '/Login',
+    path: '/login',
     name: 'Login',
     component: () => import('@/views/Login')
   },
@@ -31,5 +32,18 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
+//Check login
+router.beforeEach((to, from, next) => {
+  const loginPage = ['/login', '/login/'];
+  
+  const authRequired = !loginPage.includes(to.path);
+  const loggedIn = funcMemory.getCookie('token');
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+  if (!authRequired && loggedIn) {
+    return next('/om-project-management');
+  }
+  next();
+});
 export default router

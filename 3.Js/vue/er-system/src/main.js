@@ -18,10 +18,7 @@ new Vue({
   BootstrapVue,
   i18n,
   created() {
-    const dataCookie = cookie.get('data')
-    if (!dataCookie) {
-      router.push('/login')
-    }
+   
   },
   render: h => h(App)
 }).$mount('#app')
