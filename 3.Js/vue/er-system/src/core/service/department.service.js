@@ -1,1 +1,0 @@
-//API call in page department
