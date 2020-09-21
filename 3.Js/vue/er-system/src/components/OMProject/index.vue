@@ -10,13 +10,10 @@
       <b-button class="btn-type btn-type-1" @click="btnUpdate()">
         <b-icon icon="plus-circle-fill"></b-icon>Update
       </b-button>
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1"  @click="btnDelete()">
         <b-icon icon="trash"></b-icon>Delete
       </b-button>
-      <b-button class="btn-type btn-type-2">
-        <b-icon icon="file-earmark-medical-fill"></b-icon>Import
-      </b-button>
-      <b-button class="btn-type btn-type-2">
+      <b-button class="btn-type btn-type-2" @click="exportExcel()">
         <b-icon icon="file-earmark-medical-fill"></b-icon>Export
       </b-button>
       <b-button class="btn-type btn-type-2">
@@ -37,14 +34,13 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-              {{projectSelected.id}}
                <model-list-select :list="listOmproject"
                 class="input-select"
                   v-model="projectSelected"
                   size="sm"
                   option-value="projectCode"
                   :custom-text="customText"
-                  placeholder="select item">
+                  placeholder="All">
                   
                 </model-list-select>
                 <p
@@ -66,13 +62,14 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
+              <!-- option-text="employeeName" -->
               <model-list-select :list="listOmEmployee"
-              class="input-select"
+                class="input-select"
                 v-model="employeeSelected"
                 size="sm"
                 option-value="employeeCode"
-                option-text="employeeName"
-                placeholder="select item">
+                :custom-text="customText2"
+                placeholder="All">
               </model-list-select>
                  <p
                   class="required-msg"
@@ -103,24 +100,25 @@ export default {
       employeeSelected: {},
       valueSelected: {},
       idUpdate: 0
-
-
     };
   },
 
   methods: {
     // Format text  at combobox
     customText (item) {
-      return `${item.projectCode} - ${item.projectName}`
+      return `${item.id} - ${item.projectCode} - ${item.projectName}`
     },
 
+    customText2(item) {
+      return `${item.id} - ${item.employeeCode} - ${item.employeeName}`
+    },
     //Search
     btnSearch() {
       const { isSearch, projectId, employeeId, currentPage, pageRecord, sortBy, employeeBy, projectBy } = this.paramsOmProject;
       const dataSearch = this.paramsOmProject
       dataSearch.isSearch = 1
-      dataSearch.projectId = this.projectSelected.id
-      dataSearch.employeeId = this.employeeSelected.id
+      dataSearch.projectId = this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id
+      dataSearch.employeeId = this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id
       this.$emit('dataSearch', dataSearch)
     },
 
@@ -132,8 +130,8 @@ export default {
         this.requiredMsg = '';
         const { projectId, employeeId } = this.paramsOmProject;
         const dataAdd = {
-          projectId: this.projectSelected.id,
-          employeeId: this.employeeSelected.id
+          projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
+          employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id,
         }
         console.log(dataAdd);
         this.$emit('dataAdd', dataAdd)
@@ -148,12 +146,47 @@ export default {
         this.requiredMsg = '';
         const dataUpdate = {
           id: this.idUpdate,
-          projectId: this.projectSelected.projectId,
-          employeeId: this.employeeSelected.employeeId
-        }
+          projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
+          employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id,        }
         this.$emit('dataUpdate', dataUpdate)
       }
-    }
+    },
+
+    // Delete Item
+    btnDelete() {
+      const idDelete = {
+        id: this.idUpdate
+      }
+      this.$emit('dataDelete', idDelete)
+    },
+
+    //Export Excel
+    // projectId=&employeeId=&sortBy=projectCode-ASC&secretKey=MjQ2WTFGbVZHcFhibHB4TkhRM2R5RjZKVU1xUmkxS1lVNWtVbWRWYTFod01uTT0xNjAwNjU1NDU3WTFGbVZHcFhibHB4TkhRM2R5RjZKVU1xUmkxS1lVNWtVbWRWYTFod01uTT0%3D
+    exportExcel(){
+      const { projectId, employeeId } = this.paramsOmProject;
+      const dataSecretKey = {
+        projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
+        employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id,       
+        sortBy: 'projectCode-ASC',
+        secretKey: '',
+      };
+     
+      this.$store.dispatch('omproject/getSecretKey', dataSecretKey);
+      // setTimeout(() => {
+      //   const dataExport = {
+      //     projectCode: projectCode ? projectCode : '',
+      //     projectName: projectName ? projectName : '',
+      //     projectTypeId: this.projectTypeId === 0 ? null : this.projectTypeId,
+      //     aliasName: aliasName ? aliasName : '',
+      //     active: active === 0 ? null : active,
+      //     defaultProject: defaultProject === 0 ? null : defaultProject,
+      //     sortBy: this.sortCommon,
+      //     secretKey: this.secretKey,
+      //   };
+      //   this.$store.dispatch('project/exportExcel', dataExport);
+      //   window.open(this.linkExportExcel, '_blank');
+      // }, 350);
+    },
   },
 
   mounted() {

@@ -19,7 +19,7 @@ const omproject = {
       state.isLoading = false;
     }, 
     ACTION_SUCCESS (state) {
-      state.isLoading = true;
+      state.isLoading = !state.isLoading;
     },
 
     GET_DATA_LIST_PROJECT: (state, listOmProject) => {
@@ -85,6 +85,28 @@ const omproject = {
         }
       })
     },
+
+    //Delete Om Project
+    async deleteOmProject (vuexContext, omProjectId){
+      omProjectService.deleteOmProject(omProjectId).then(res => {
+        if (res.data.http_code === 200) {
+          vuexContext.commit('ACTION_SUCCESS');
+        } else {
+          vuexContext.commit('ACTION_ERROR');
+          return res;
+        }
+      })
+    },
+
+    // Get key
+    async getSecretKey(vuexContext){
+      omProjectService.getSecretKey().then(res => {     
+        if (res.data.http_code === 200) {
+          vuexContext.state['secretKey'] = res.data.result.secretKey    
+        }
+      });
+    },
+    
   }, 
 
   getters: {

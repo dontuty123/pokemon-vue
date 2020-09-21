@@ -6,7 +6,8 @@
                 :dataSelected="dataSelected"
                 @dataSearch="dataSearch"
                 @dataAdd="dataAdd"
-                @dataUpdate="dataUpdate"  />
+                @dataUpdate="dataUpdate"
+                @dataDelete="dataDelete"  />
     <tableCommon 
       :fields="fields"
       :items="listOmEmployeeProject"
@@ -111,9 +112,14 @@ export default {
 
     //get params Update
     dataUpdate(val) {
-      console.log('val ', val);
-      //  this.$store.dispatch('omproject/updateOmProject', val);
+      this.$store.dispatch('omproject/updateOmProject', val);
     },
+
+    //Get id Delete 
+    dataDelete(val) {
+      this.$store.dispatch('omproject/deleteOmProject', val);
+    },
+
    //Select data
     getDataSelected(val){
       this.dataSelected = val
