@@ -1,6 +1,5 @@
 <template>
   <div class="er-login">
-    <HeaderCommon></HeaderCommon>
     <div class="form-group shadow p-5">
       <img src="@/assets/images/logo_company.png">
       <h2 class="font-weight-bold text-center mt-5 mb-4">{{$t('login["titleLogin"]').toUpperCase()}}</h2>
@@ -33,10 +32,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import HeaderCommon from '@/components/Header'
 export default {
    component: {
-      HeaderCommon
+      
     },
   data() {
     return {
