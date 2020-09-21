@@ -41,7 +41,8 @@
     "039": "Bảng chấm công không được mở",
     "040": "Ngày bắt đầu <= ngày kết thúc",
     "041": "Bảng chấm công chưa được duyệt",
-    "042": "Vui lòng chọn người duyệt"
+    "042": "Vui lòng chọn người duyệt",
+    "": ""
   },
   "header": {
     "master": "DANH MỤC",
@@ -78,5 +79,9 @@
     "no": "STT",
     "code": "Mã phòng ban",
     "description": "Mô tả"
+  },
+  "omProject": {
+    "Project": "Dự án",
+    "Employee": "Nhân viên"
   }
 }

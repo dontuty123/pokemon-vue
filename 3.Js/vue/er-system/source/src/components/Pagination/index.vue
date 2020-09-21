@@ -4,6 +4,9 @@
       first-number
       last-number
       aria-controls="my-table"
+      v-model="currentPage"
+      :total-rows="lengthOfList"
+      @change="changeNumberPage()"
       align="right"
       class="pagination"
     ></b-pagination>
@@ -18,7 +21,8 @@ export default {
       perPage: 0,
       currentPage: 1,
     }
-    },
+  },
+  props: ['lengthOfList'],
   methods: {
     //Send current page for table
     changeNumberPage(){
