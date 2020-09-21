@@ -32,7 +32,7 @@ omProjectService.getSecretKey = () => {
 
 //Export Project
 omProjectService.exportFile = (data) => {
-  return funcApi.exportFile('Project/omProjectExport', data)
+  return funcApi.exportFile('OMProject/omProjectExport', data)
 }
 
  export default omProjectService

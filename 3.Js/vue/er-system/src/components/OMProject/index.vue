@@ -1,4 +1,6 @@
 <template>
+<div>
+  
   <div class="er-omproject">
     <div class="list-button mb-3">
       <b-button class="btn-type btn-type-1" @click="btnSearch()">
@@ -16,7 +18,7 @@
       <b-button class="btn-type btn-type-2" @click="exportExcel()">
         <b-icon icon="file-earmark-medical-fill"></b-icon>Export
       </b-button>
-      <b-button class="btn-type btn-type-2">
+      <b-button class="btn-type btn-type-2" @click="clearAll()">
         <b-icon icon="arrow-repeat"></b-icon>Clear All
       </b-button>
     </div>
@@ -82,16 +84,16 @@
       </b-form>
     </div>
   </div>
+</div>
 </template>
 <script>
-import { log } from 'util';
 import { ModelListSelect } from 'vue-search-select'
 import { mapState } from 'vuex';
 
 export default {
   name: 'OMProject',
   components: {
-    ModelListSelect
+    ModelListSelect,
   },
   props: ['listOmproject', 'listOmEmployee', 'paramsOmProject', 'dataSelected'],
   data() {
@@ -161,7 +163,6 @@ export default {
     },
 
     //Export Excel
-    // projectId=&employeeId=&sortBy=projectCode-ASC&secretKey=MjQ2WTFGbVZHcFhibHB4TkhRM2R5RjZKVU1xUmkxS1lVNWtVbWRWYTFod01uTT0xNjAwNjU1NDU3WTFGbVZHcFhibHB4TkhRM2R5RjZKVU1xUmkxS1lVNWtVbWRWYTFod01uTT0%3D
     exportExcel(){
       const { projectId, employeeId } = this.paramsOmProject;
       const dataSecretKey = {
@@ -179,10 +180,16 @@ export default {
           sortBy: 'projectCode-ASC',
           secretKey: this.secretKey,
         };
-        this.$store.dispatch('omproject/exportFile', dataExport);
+        this.$store.dispatch('omproject/exportExcel', dataExport);
         window.open(this.linkExportExcel, '_blank');
       }, 350);
     },
+
+    //Clear All
+    clearAll() {
+      this.projectSelected = {}
+      this.employeeSelected = {}
+    }
   },
 
   mounted() {
