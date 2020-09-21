@@ -52,12 +52,14 @@
         border-collapse: separate;
         border-spacing: 0;
         
+        
         td, th {
           border-left: 1px solid rgba(34,36,38,.1);
           border-left-width: 1px;
           border-left-style: solid;
           border-left-color: rgba(34, 36, 38, 0.1);
           padding: 5px 8px;
+          font-size: .9em;
         }
         th {
           background-color: #f2f2f2;
