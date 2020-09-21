@@ -23,6 +23,13 @@ const routes = [
     path: '/om-project-management',
     name: 'OMProject',
     component: () => import('@/views/OMProject')
+  },
+
+   //Department
+   {
+    path: '/department',
+    name: 'Department',
+    component: () => import('@/views/Department')
   }
 ]
 

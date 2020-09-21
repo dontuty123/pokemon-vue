@@ -8,7 +8,7 @@
           :class="fields[index].class"
           @click="sortTable(fields[index].valueSort)"
         >
-          <span>{{ fields[index].label }}</span>
+          <span> {{$t(fields[index].label)}}</span>
           <b-icon
             v-if="fields[index].sort && (fields[index].valueSort === 1 || fields[index].valueSort === 2)"
             icon="caret-down-fill"
@@ -60,7 +60,8 @@ export default {
     fields: {
       type: Array,
       required: false,
-    }
+    },
+    
   },
   
   methods: {

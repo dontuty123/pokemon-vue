@@ -60,5 +60,23 @@
     "user": "E-mail address",
     "password": "Password",
     "forgotPass": "Forgot your password ?"
+  },
+  "button": {
+    "search": "Search",
+    "add": "Add",
+    "update": "Update",
+    "delete": "Delete",
+    "import": "Import",
+    "export": "Export",
+    "clear": "Clear All"
+  },
+  "department": {
+    "code": "Department Code",
+    "description": "Description"
+  },
+  "table": {
+    "no": "No",
+    "code": "Department Code",
+    "description": "Description"
   }
 }

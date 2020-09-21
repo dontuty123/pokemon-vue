@@ -60,5 +60,23 @@
     "user": "Địa chỉ E-mail",
     "password": "Mật khẩu",
     "forgotPass": "Quên mật khẩu ?"
+  },
+  "button": {
+    "search": "Tìm",
+    "add": "Thêm",
+    "update": "Cập nhật",
+    "delete": "Xoá",
+    "import": "Nhập dữ liệu",
+    "export": "Kết xuất",
+    "clear": "Làm mới"
+  },
+  "department": {
+    "code": "Mã phòng ban",
+    "description": "Mô tả"
+  },
+  "table": {
+    "no": "STT",
+    "code": "Mã phòng ban",
+    "description": "Mô tả"
   }
 }

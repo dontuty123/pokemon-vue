@@ -1,16 +1,31 @@
 <template>
   <div id="app">
+    <Header 
+    />
     <router-view/>
-     <ScrollTop />
+    <Footer/>
+    <ScrollTop />
   </div>
 </template>
 <script>
 import ScrollTop from '@/components/GoTop'
-
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 export default {
   components: {
-    ScrollTop
+    ScrollTop,
+    Header,
+    Footer
   },
+  data() {
+    return {
+      isLoad: true
+    }
+  },
+  created(){
+
+  },
+
 }
 </script>
 <style lang="scss">
