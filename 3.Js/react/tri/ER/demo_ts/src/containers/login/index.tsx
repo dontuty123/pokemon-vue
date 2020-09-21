@@ -4,38 +4,36 @@ import Logo from '../../assets/img/kobelco.png';
 import TextBox from '../../components/textbox';
 import Button from '../../components/button';
 import * as Cookie from '../../core/cookie';
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 import * as Constant from '../../core/constant';
-import {validate} from '../../core/extend';
-
+import { validate } from '../../core/extend';
+import { connect } from 'react-redux';
+import { setLogin, userInfo } from '../../core/store/actions/userAction';
+import { Dispatch } from 'redux';
+import { AppActions } from '../../core/store/types/actions';
+import { user } from '../../core/store/types/user';
 
 interface LoginProps {
 
 }
 
-interface LoginState {
+interface State {
     userName: string;
     userPassword: string;
     messageLogin: string;
     loading: boolean;
     checked: boolean;
+    [label: string]: any;
 }
 
 interface CSSObject {
 
 }
 
-interface ServerResponse {
-    data: ServerData
-  }
-  
-  interface ServerData {
-    foo: string
-    bar: number
-  }
+type Props = LoginProps & StoreStateProp & StoreDispatchProp
 
-class Login extends React.Component<LoginProps, LoginState> {
-    constructor(props: LoginProps) {
+class Login extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             userName: "",
@@ -46,36 +44,40 @@ class Login extends React.Component<LoginProps, LoginState> {
         }
     }
 
-    handleChange = (e: any) => {
-        let label = e.currentTarget.name, 
-            value = e.target.value;
+    handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const label = e.currentTarget.name, 
+            value = e.currentTarget.value;
 
-        this.setState({[label]: value, messageLogin: ""} as Pick<LoginState, keyof LoginState>);
+        this.setState({[label]: value, messageLogin: ""});
     }
 
 
     handleSubmit = async () => {
-        let {userName, userPassword} = this.state;
-        let messageLogin = "", 
-            validEmail = validate.validEmail(userName),
+        const {userName, userPassword} = this.state;
+        const validEmail = validate.validEmail(userName),
             validPassword = validate.validPassword(userPassword),
             paramUser = "email=" + userName + "&password=" + userPassword;
+        let messageLogin = ""; 
 
         this.setState({checked: true, loading: true, messageLogin});
 
         if (userName.length > 0 && userPassword.length > 0) {
             if (validEmail && validPassword) {
                 await axios.post(`${Constant.SERVER_API}login`, paramUser)
-                .then(function (res) {
+                .then((res) => {
                     if (res.data.http_code === 403) {
                         messageLogin = Constant.MESSAGE_CODE["001"];
                     } else if (res.data.http_code === 200) {
+                        this.props.setLogin({
+                            user_id: res.data.result.employeeId,
+                            token: res.data.result.token
+                        });
                         Cookie.setCookie('result', JSON.stringify(res.data.result), 120 * 60)
                     } else {
                         messageLogin = Constant.MESSAGE_CODE["010"];
                     }
                 })
-                .catch(function (err) {
+                .catch(() => {
                     messageLogin = Constant.MESSAGE_CODE["010"];
                 })
             } else if (!validEmail) {
@@ -90,9 +92,9 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     validateEmail() {
-        let {userName, checked} = this.state;
+        const {userName, checked} = this.state;
 
-        let valid = {
+        const valid = {
             display: !checked || userName.length > 0 ? 'none' : null,
             mess: Constant.MESSAGE_CODE["002"]
         };
@@ -101,9 +103,9 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     validatePassword() {
-        let {userPassword, checked} = this.state;
+        const {userPassword, checked} = this.state;
 
-        let valid = {
+        const valid = {
             display: !checked || userPassword.length > 0 ? 'none' : null,
             mess: Constant.MESSAGE_CODE["003"]
         };
@@ -113,10 +115,10 @@ class Login extends React.Component<LoginProps, LoginState> {
 
 
     render() {
-        let {userName, userPassword, loading, messageLogin} = this.state;
-        let validEmail = this.validateEmail(),
-        validPassword = this.validatePassword();
-
+        const {userName, userPassword, loading, messageLogin} = this.state;
+        const validEmail = this.validateEmail(),
+            validPassword = this.validatePassword();
+            
         return (
             <div className="login">
                 <div className="form">
@@ -125,7 +127,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                     <h2>LOGIN</h2>
                         <TextBox 
                             id="email"
-                            type="email" 
+                            type="user" 
                             name="userName"
                             value={userName} 
                             placeholder="E-mail address"
@@ -149,7 +151,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                             disabled={loading}
                         />
                         <p className="validate" style={{ display: messageLogin.length > 0 ? null : 'none' } as Pick<CSSObject, keyof CSSObject>}>{messageLogin}</p>
-                        <a href="#" style={{textDecoration: "none"}}>Forgot your password ?</a>
+                        <a href="/forgot-password" style={{textDecoration: "none"}}>Forgot your password ?</a>
 
                     </div>
                 </div>
@@ -160,4 +162,22 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 }
 
-export default Login
+interface StoreStateProp {
+    userInfo: user
+}
+
+interface StoreDispatchProp {
+    setUserInfo: (data: user) => void,
+    setLogin: (data: user) => void
+}
+
+const mapStateToProps = (state: any) => ({
+    userInfo: state.userReducer
+})
+
+const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
+    setUserInfo: (data: user) => dispatch(userInfo(data)),
+    setLogin: (data: user) => dispatch(setLogin(data))
+})
+
+export default connect<StoreStateProp, StoreDispatchProp>(mapStateToProps, mapDispatchToProps)(Login)
