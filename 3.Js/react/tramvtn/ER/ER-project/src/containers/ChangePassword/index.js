@@ -10,7 +10,7 @@ import * as errorData from '../../core/data/en-error.json';
 import functionCommon from '../../core/common/function';
 
 
-class ResetPassword extends Component {
+class ChangePassword extends Component {
 
 	constructor(props) {
 		super(props)
@@ -59,12 +59,12 @@ class ResetPassword extends Component {
 		}
 		
 		if (values.password !== '') {
-			//call API reset password
+			//call API login
 			const _body ="&password=" + values.password;
 
 			axios({
 				method: 'put',
-				url: CONST_API.apiUrl + 'reset-password',
+				url: CONST_API.apiUrl + 'change-password',
 				data: _body
 			}).then((response) => {
 				if (response.data.error_code !== '') {
@@ -99,13 +99,21 @@ class ResetPassword extends Component {
 					remember: true,
 				}}
 				onFinish={this.onFinish}
-				className="auth-page form-login"
+				className="auth-page form-change-password"
 			>
 				<div className="form-header">
 					<img src={Logo} alt="KOBELCO" />
-					<p className="form-title">RESET PASSWORD</p>
+					<p className="form-title">CHANGE PASSWORD</p>
 				</div>
 				{this.errorMessage(this.state.errorCode)}
+				<Form.Item>
+					<Input
+						prefix={<LockOutlined className="site-form-item-icon ant-input-lg" />} size="large"
+						type="password"
+						placeholder="Enter your current password" name="password" onChange={this.handleChange}
+					/>
+				</Form.Item>
+				{this.errorMessage(this.state.errorPass)}
 				<Form.Item>
 					<Input
 						prefix={<LockOutlined className="site-form-item-icon ant-input-lg" />} size="large"
@@ -129,4 +137,4 @@ class ResetPassword extends Component {
 		);
 	}
 };
-export default ResetPassword;
+export default ChangePassword;

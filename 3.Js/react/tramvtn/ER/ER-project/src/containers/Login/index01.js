@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo-company.png';
 import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import "antd/dist/antd.less";
+import CONST_API from '../../core/constant/constant';
 import * as errorData from '../../core/data/en-error.json';
-
-import { loginAction } from '../../core/actions/authAction';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 
 class Login extends Component {
 
@@ -35,17 +33,15 @@ class Login extends Component {
 		this.setState ({
 			[name]: value
 		})
-        
+
 		if (name === 'email'){
 			if (value === '') {
 				this.setState({
-                    errorMail: '002',
-                    errorCode: ''
+					errorMail: '002'
 				});
 			} else{
 				this.setState({
-                    errorMail: '',
-                    errorCode: ''
+					errorMail: ''
 				});
 			}
 		}
@@ -53,13 +49,11 @@ class Login extends Component {
 		if (name === 'password'){
 			if (value === '') {
 				this.setState({
-                    errorPass: '003',
-                    errorCode: ''
+					errorPass: '003'
 				});
 			} else{
 				this.setState({
-                    errorPass: '',
-                    errorCode: ''
+					errorPass: ''
 				});
 			}
 		}
@@ -70,25 +64,9 @@ class Login extends Component {
 	 *
 	 */
     onSubmit = () => {
-  
-
-    }
-	
-	/**
-	 * Function when submit button
-	 *
-	 */
-	onFinish = (values) => {
-
-		this.props.login({
-			'email':this.state.email,
-			'password':this.state.password
-		});
-
-		if (this.state.email === '') {
+        if (this.state.email === '') {
 			this.setState({
-                errorMail: '002',
-                errorCode: ''
+				errorMail: '002'
 			});
 		} else {
             this.setState({
@@ -98,13 +76,41 @@ class Login extends Component {
         
         if (this.state.password === '') {
 			this.setState({
-                errorPass: '003',
-                errorCode: ''
+				errorPass: '003'
 			});
 		} else {
             this.setState({
                 errorPass :''
             });
+		}
+
+    }
+	
+	/**
+	 * Function when submit button
+	 *
+	 */
+	onFinish = (values) => {
+		console.log(values)
+		if (values.email !== '' && values.password !== '') {
+			//call API login
+			const _body = "email=" + values.email + "&password=" + values.password;
+
+			axios({
+				method: 'post',
+				url: CONST_API.apiUrl + 'login',
+				data: _body
+			}).then((response) => {
+				if (response.data.error_code !== '') {
+					this.setState({
+						errorCode: response.data.error_code
+					})
+				} else {
+					this.setState({
+						errorCode: ''
+					})
+				}
+			}).catch((err) => console.log(err))// loi goi api that bai , 403
 		}
 	};
 
@@ -133,13 +139,13 @@ class Login extends Component {
 					<img src={Logo} alt="KOBELCO" />
 					<p className="form-title">LOGIN</p>
 				</div>
-				{this.errorMessage(this.props.errorCode)}
-				<Form.Item name="email">
+				{this.errorMessage(this.state.errorCode)}
+				<Form.Item>
 					<Input prefix={<UserOutlined className="site-form-item-icon ant-input-lg" />} size="large"
 						placeholder="E-mail address" type="email" name="email" onChange={this.handleChange} />
 				</Form.Item>
 				{this.errorMessage(this.state.errorMail)}
-				<Form.Item name="password">
+				<Form.Item>
 					<Input
 						prefix={<LockOutlined className="site-form-item-icon ant-input-lg" />} size="large"
 						type="password"
@@ -155,20 +161,4 @@ class Login extends Component {
 		);
 	}
 };
-
-// const nhan gia tri tra ve
-const mapStateToProps = state => {
-	return {
-		errorCode : state.authReducer.errorCode
-	}
-};
-
-// const goi action bang ham dispatch
-const mapDispatchToProps = dispatch => ({
-	login: (param) => dispatch(loginAction(param))
-});
-
-
-export default compose(
-	connect (mapStateToProps,mapDispatchToProps)
-)(Login);
+export default Login;
