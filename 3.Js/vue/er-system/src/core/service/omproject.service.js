@@ -26,11 +26,13 @@ omProjectService.deleteOmProject = (data) => {
 }
 
  // Get key (import, export)
- omProjectService.getSecretKey = () => {
+omProjectService.getSecretKey = () => {
   return funcApi.get('OMProject/requestSecretKey')
+},
+
+//Export Project
+omProjectService.exportFile = (data) => {
+  return funcApi.exportFile('Project/omProjectExport', data)
 }
-
- //Export OM Project
-
 
  export default omProjectService

@@ -92,9 +92,9 @@ export default {
   },
 
   methods: {
-    autoLogin() {
-      this.$store.dispatch('login/setUserData')
-    },
+    // autoLogin() {
+    //   this.$store.dispatch('login/setUserData')
+    // },
 
     getListOmProjects(){
       this.$store.dispatch('omproject/getOmProject', this.paramsOmProject);
@@ -130,7 +130,6 @@ export default {
   },
 
   mounted() {
-    this.autoLogin()
     this.getListOmProjects()
   },
 

@@ -86,6 +86,7 @@
 <script>
 import { log } from 'util';
 import { ModelListSelect } from 'vue-search-select'
+import { mapState } from 'vuex';
 
 export default {
   name: 'OMProject',
@@ -133,7 +134,6 @@ export default {
           projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
           employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id,
         }
-        console.log(dataAdd);
         this.$emit('dataAdd', dataAdd)
       }
     },
@@ -170,22 +170,18 @@ export default {
         sortBy: 'projectCode-ASC',
         secretKey: '',
       };
-     
+      
       this.$store.dispatch('omproject/getSecretKey', dataSecretKey);
-      // setTimeout(() => {
-      //   const dataExport = {
-      //     projectCode: projectCode ? projectCode : '',
-      //     projectName: projectName ? projectName : '',
-      //     projectTypeId: this.projectTypeId === 0 ? null : this.projectTypeId,
-      //     aliasName: aliasName ? aliasName : '',
-      //     active: active === 0 ? null : active,
-      //     defaultProject: defaultProject === 0 ? null : defaultProject,
-      //     sortBy: this.sortCommon,
-      //     secretKey: this.secretKey,
-      //   };
-      //   this.$store.dispatch('project/exportExcel', dataExport);
-      //   window.open(this.linkExportExcel, '_blank');
-      // }, 350);
+      setTimeout(() => {
+        const dataExport = {
+          projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id ? this.projectSelected.id : '',
+          employeeId: this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id ? this.employeeSelected.id : '',       
+          sortBy: 'projectCode-ASC',
+          secretKey: this.secretKey,
+        };
+        this.$store.dispatch('omproject/exportFile', dataExport);
+        window.open(this.linkExportExcel, '_blank');
+      }, 350);
     },
   },
 
@@ -193,7 +189,13 @@ export default {
   
   },
 
-  computed: {},
+  computed: {
+    ...mapState('omproject', {
+      linkExportExcel: (state) => state.linkExportExcel,
+      secretKey: (state) => state.secretKey,
+
+    }),
+  },
   watch: {
     //Show data from table selected
     dataSelected(val) {

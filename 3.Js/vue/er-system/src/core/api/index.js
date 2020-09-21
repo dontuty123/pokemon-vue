@@ -37,5 +37,9 @@ const funcApi = {
       headers: headers
     });
   },
+
+  exportFile(url, data){
+    return CONTANT.url + url + '?' + qs.stringify(data)
+  },
 }
 export default funcApi

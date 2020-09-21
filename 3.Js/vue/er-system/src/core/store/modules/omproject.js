@@ -12,6 +12,9 @@ const omproject = {
     listOmEmployeeProject: [],
     listOmproject: [],
     listOmEmployee: [],
+    linkExportExcel: '',
+    secretKey: '',
+
   },
   
   mutations: {
@@ -105,6 +108,11 @@ const omproject = {
           vuexContext.state['secretKey'] = res.data.result.secretKey    
         }
       });
+    },
+
+    //Export Project
+    async exportExcel(vuexContext, dataExport){
+      vuexContext.state['linkExportExcel'] = omProjectService.exportFile(dataExport)
     },
     
   }, 
