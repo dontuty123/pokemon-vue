@@ -20,9 +20,8 @@ const department = {
       state.dataList = data.departmentList
     },
     LOAD_FAIL(state, data) {
-      console.log(data)
       state.dataList = []
-      state.resultMess.content= '018'
+      state.resultMess.content= data.error_code
     },
   },
 
@@ -32,7 +31,6 @@ const department = {
       if (respon.data.http_code === 200){
         commit('LOAD_SUCCESS', respon.data.result)
       } else {
-        console.log(respon.data)
         commit('LOAD_FAIL', respon.data)
       }
     }

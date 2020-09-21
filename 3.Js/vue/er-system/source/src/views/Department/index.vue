@@ -2,6 +2,7 @@
   <div class="er-department px-5">
     <Department
       :dataInfo="dataInfo"
+      @SearchList="SearchList"
     />
     <p v-if="resultMess.status" :class="resultMess.class">{{$t('messages["018"]')}}</p>
     <TableCommon 
@@ -15,7 +16,7 @@
 <script>
 import Department from '@/components/Department'
 import TableCommon from '@/components/TableCommon'
-import CONTANT from '@/core/contant';
+import CONTANT from '@/core/contant'
 import { mapState } from 'vuex'
 export default {
   components: {
@@ -71,9 +72,9 @@ export default {
   },
   methods: {
     valueRowSelect(val) {
-      
-      this.dataInfo = JSON.parse(val)
-    }
+      this.dataInfo = val
+    },
+
   }
 }
 </script>

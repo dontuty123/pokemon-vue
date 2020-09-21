@@ -119,7 +119,6 @@ export default {
     setLocale(locale) {
       this.$i18n.locale = locale
       cookie.set('userLang',locale)
-      // this.$emit('loadLang',true)
     }
   }
 }

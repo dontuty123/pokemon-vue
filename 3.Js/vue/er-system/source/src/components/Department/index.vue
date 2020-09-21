@@ -36,8 +36,7 @@
             <div class="col-7">
               <b-form-input 
                 type="text" 
-                class="" 
-               
+                v-model="dataInfo.departmentCode"
               ></b-form-input>
             </div>
           </div>
@@ -56,8 +55,7 @@
             <div class="col-7">
               <b-form-input 
                 type="text" 
-                class="" 
-               
+                v-model="dataInfo.departmentName"              
               ></b-form-input>
             </div>
           </div>
@@ -71,16 +69,10 @@
 <script>
 export default {
   name: 'departmentForm',
-  props: {
-    dataInfo: {
-      type: Array,
-      required: false,
-    },
-  },
+  props: ['dataInfo'],
   methods: {
     searchData(val) {
-      this.$emit('SearchList', val)
-      console.log(val)
+      this.$emit('SearchList', this.dataInfo)
     }
   }
 }
