@@ -2,8 +2,8 @@
   <div class="er-login">
     <div class="form-group shadow p-5">
       <img src="@/assets/images/logo_company.png">
-      <h2 class="font-weight-bold text-center mt-5 mb-4">{{$t('login["titleLogin"]').toUpperCase()}}</h2>
-      <p class="mb-2 text-danger">{{loginMess}}</p>
+      <h2 class="font-weight-bold text-center mt-5 mb-4">{{ $t('login["titleLogin"]').toUpperCase() }}</h2>
+      <p class="mb-2 text-danger">{{ loginMess }}</p>
       <b-input-group> 
         <div class="position-relative w-100 mb-2">
           <b-icon icon="person-fill" class="position-absolute icon__user"></b-icon>
@@ -13,7 +13,7 @@
             class="ip__login" 
             v-model="user.email"></b-form-input>
         </div>
-        <p class="mb-3 text-danger">{{error.emailError}}</p>
+        <p class="mb-3 text-danger">{{ error.emailError }}</p>
         <div class="position-relative w-100 mb-2">
           <b-icon icon="lock-fill" class="position-absolute icon__pass"></b-icon>
           <b-form-input 
@@ -22,10 +22,10 @@
             class="ip__login" 
             v-model="user.password"></b-form-input>
         </div>
-         <p class="mb-3 text-danger">{{error.passError}}</p>
-        <b-button variant="primary" class="w-100 font-weight-bold" @click="loginApi">{{$t('login["titleLogin"]')}}</b-button>
+         <p class="mb-3 text-danger">{{ error.passError }}</p>
+        <b-button variant="primary" class="w-100 font-weight-bold" @click="loginApi">{{ $t('login["titleLogin"]') }}</b-button>
       </b-input-group>
-      <router-link class="text-primary mt-3 text-center d-block" :to="'/forgotpassword'">{{$t('login["forgotPass"]')}}</router-link>
+      <router-link class="text-primary mt-3 text-center d-block" :to="'/forgotpassword'">{{ $t('login["forgotPass"]') }}</router-link>
     </div>
   </div>
 </template>

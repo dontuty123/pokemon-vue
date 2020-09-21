@@ -2,22 +2,22 @@
   <div class="er-department">
     <div class="list-button mt-5">
       <b-button class="btn-type btn-type-1" @click="searchData">
-        <b-icon icon="search"></b-icon>{{$t('button["search"]')}}
+        <b-icon icon="search"></b-icon>{{ $t('button["search"]') }}
       </b-button>
       <b-button class="btn-type btn-type-1">
-        <b-icon icon="plus-circle-fill"></b-icon>{{$t('button["add"]')}}
+        <b-icon icon="plus-circle-fill"></b-icon>{{ $t('button["add"]') }}
       </b-button>
       <b-button class="btn-type btn-type-1">
-        <b-icon icon="plus-circle-fill"></b-icon>{{$t('button["update"]')}}
+        <b-icon icon="plus-circle-fill"></b-icon>{{ $t('button["update"]') }}
       </b-button>
       <b-button class="btn-type btn-type-1">
-        <b-icon icon="trash"></b-icon>{{$t('button["delete"]')}}
+        <b-icon icon="trash"></b-icon>{{ $t('button["delete"]') }}
       </b-button>
       <b-button class="btn-type btn-type-2">
-        <b-icon icon="file-earmark-medical-fill"></b-icon>{{$t('button["export"]')}}
+        <b-icon icon="file-earmark-medical-fill"></b-icon>{{ $t('button["export"]') }}
       </b-button>
       <b-button class="btn-type btn-type-2">
-        <b-icon icon="arrow-repeat"></b-icon>{{$t('button["clear"]')}}
+        <b-icon icon="arrow-repeat"></b-icon>{{ $t('button["clear"]') }}
       </b-button>
     </div>
       <div class="form-input mt-5">
@@ -30,7 +30,7 @@
           class="form-required"
         >
           <template v-slot:label>
-            <span class="label">{{$t('department["code"]')}}</span>
+            <span class="label">{{ $t('department["code"]') }}</span>
           </template>
           <div class="row w-input">
             <div class="col-7">
@@ -49,7 +49,7 @@
           class="form-required"
         >
           <template v-slot:label>
-            <span class="label">{{$t('department["description"]')}}</span>
+            <span class="label">{{ $t('department["description"]') }}</span>
           </template>
           <div class="row w-input">
             <div class="col-7">

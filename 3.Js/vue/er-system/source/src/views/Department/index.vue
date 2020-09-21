@@ -4,7 +4,7 @@
       :dataInfo="dataInfo"
       @SearchList="SearchList"
     />
-    <p v-if="resultMess.status" :class="resultMess.class">{{$t('messages["018"]')}}</p>
+    <p v-if="resultMess.status" :class="resultMess.class">{{ $t('messages["018"]' )}}</p>
     <TableCommon 
       :fields="fields"
       :items="dataList"
