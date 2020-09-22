@@ -98,7 +98,6 @@ export default {
     if (employeeData.employeeName) {
       this.employeeName = this.unmarkCharacter(employeeData.employeeName)
     }
-    
   },
   methods: {
     unmarkCharacter(str){
