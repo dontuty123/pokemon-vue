@@ -1,11 +1,11 @@
 <template>
   <div class="er-home">
-   
+    
   </div>
 </template>
 <script>
 export default {
-  name: "Home",
+  name: 'Home',
 
   data() {
     return {};
@@ -19,5 +19,5 @@ export default {
 };
 </script>
 <style scoped lang='scss'>
-@import "style.scss";
+  @import 'style.scss';
 </style>

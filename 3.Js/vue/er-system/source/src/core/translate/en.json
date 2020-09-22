@@ -92,6 +92,13 @@
   },
   "breadcrumb": {
     "master": "Master",
-    "omProjectManagement": "OM Project Management"
+    "omProjectManagement": "OM Project Management",
+    "employee": "Employee",
+    "position": "Position",
+    "department": "Department",
+    "project": "Project",
+    "updateWorkingHour": "Update Working Hour",
+    "totalRecord": "Total Record"
+
   }
 }

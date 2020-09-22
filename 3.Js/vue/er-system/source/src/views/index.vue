@@ -1,13 +1,13 @@
 <template>
   <div id="er-system-management">
     <Header v-if="dataRole.isLogin" />
-    <router-view/>
+    <router-view class="body-content" />
     <Footer />
     <ScrollTop v-if="dataRole.isLogin" />
   </div>
 </template>
 <script>
-import ScrollTop from '@/components/GoTop'
+import ScrollTop from '@/components/GoTop' 
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { mapState } from 'vuex'

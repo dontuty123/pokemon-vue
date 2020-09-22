@@ -92,6 +92,12 @@
   },
   "breadcrumb": {
     "master": "Danh mục",
-    "omProjectManagement": "Quản lý dự án OM"
+    "omProjectManagement": "Quản lý dự án OM",
+    "employee": "Nhân viên",
+    "position": "Chức vụ",
+    "department": "Phòng ban",
+    "project": "Dự án",
+    "updateWorkingHour": "Cập nhật giờ công",
+    "totalRecord": "Tổng giờ công"
   } 
 }

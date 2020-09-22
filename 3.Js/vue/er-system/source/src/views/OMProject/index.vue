@@ -1,5 +1,5 @@
 <template>
-  <div class="body-content er-omproject">
+  <div class="er-omproject">
     <Breadcrumb :breadcrumb="breadcrumb" />
     <OMProject 
       :listOmproject="listOmproject"
@@ -218,7 +218,6 @@ export default {
   },
 
   mounted() {
-     this.$store.dispatch('userRole/getDataUser')
     this.getListOmProjects(this.paramsOmProject)
   },
 
@@ -234,11 +233,10 @@ export default {
   },
   watch: {
     //Reload list OM project if have change
-    isLoading(val1, val2) {
-      if (val2 !== val1) {
+    isLoading(oldValue, newValue) {
+      if (newValue !== oldValue) {
         if (!this.resetTable) {
           this.getListOmProjects(this.paramsOmProject)
-          
         } else {
            const paramsReset = {
             isSearch: 0,
