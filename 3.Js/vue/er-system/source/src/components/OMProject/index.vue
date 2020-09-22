@@ -44,7 +44,7 @@
                   :custom-text="customTextProject"
                 >  
                 </model-list-select>
-                <p class="required-msg" v-if="!projectSelected.id && requiredMsg !== ''">Project {{ requiredMsg }}</p>
+                <p class="required-msg text-danger mt-2 mb-0" v-if="!projectSelected.id && requiredMsg">{{$t('omProject["projectRequired"]')}}</p>
             </div>
           </div>
         </b-form-group>
@@ -69,7 +69,7 @@
                 :custom-text="customTextEmployee"
               >
               </model-list-select>
-                 <p class="required-msg" v-if="!employeeSelected.id && requiredMsg !== ''" >Project {{ requiredMsg }}</p>
+              <p class="required-msg text-danger mt-2 mb-0" v-if="!employeeSelected.id && requiredMsg" >{{$t('omProject["employeeRequired"]')}}</p>
             </div>
           </div>
         </b-form-group>
@@ -90,7 +90,7 @@ export default {
   props: ['listOmproject', 'listOmEmployee', 'paramsOmProject', 'dataSelected', 'sortTable', 'isDone'],
   data() {
     return {
-      requiredMsg: '',
+      requiredMsg: false,
       projectSelected: {
         defaultProject:false,
         id:0,
@@ -102,6 +102,18 @@ export default {
         employeeName: 'All',
         id: 0
       },
+      selectProjectDefault: {
+        defaultProject:false,
+        id:0,
+        projectCode: '',
+        projectName: 'All'
+      },
+      selectEmployeeDefault: {
+        employeeCode: '',
+        employeeName: 'All',
+        id: 0
+      },
+      
       valueSelected: {},
       idUpdate: 0,
       loadingBtn: {
@@ -135,6 +147,7 @@ export default {
     //Search
     btnSearch() {
       this.isAdd = false
+      this.requiredMsg = false;
       this.$emit('isAdd', this.isAdd)
       this.stateButton(true, true, true, true)
       const { isSearch, projectId, employeeId, currentPage, pageRecord, sortBy, employeeBy, projectBy } = this.paramsOmProject;
@@ -150,13 +163,13 @@ export default {
 
     //Add
     btnAdd() {
-      this.isAdd = true
-      this.$emit('isAdd', this.isAdd)
-      this.stateButton(true, true, false, false)
       if (!this.projectSelected.id || !this.employeeSelected.id) {
-         this.requiredMsg = ' is required';
+         this.requiredMsg = true;
       } else {
-        this.requiredMsg = '';
+        this.isAdd = true
+        this.$emit('isAdd', this.isAdd)
+        this.stateButton(true, true, false, false)
+        this.requiredMsg = false;
         const { projectId, employeeId } = this.paramsOmProject;
         const dataAdd = {
           projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
@@ -168,14 +181,14 @@ export default {
     },
     
     //Update
-    btnUpdate() {
-      this.isAdd = false
-      this.$emit('isAdd', this.isAdd)
-      this.stateButton(false, false, true, true)
+    btnUpdate() { 
        if (!this.projectSelected.id || !this.employeeSelected.id) {
-         this.requiredMsg = ' is required';
+         this.requiredMsg = true;
       } else {
-        this.requiredMsg = '';
+        this.isAdd = false
+        this.$emit('isAdd', this.isAdd)
+        this.stateButton(false, false, true, true)
+        this.requiredMsg = false;
         const dataUpdate = {
           id: this.idUpdate,
           projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
@@ -223,17 +236,9 @@ export default {
 
     //Clear All
     clearAll() {
-      this.projectSelected = {
-        defaultProject:false,
-        id:0,
-        projectCode: '',
-        projectName: 'All'
-      }
-      this.employeeSelected = {
-        employeeCode: '',
-        employeeName: 'All',
-        id: 0
-      }
+      this.requiredMsg = false;
+      this.projectSelected = this.selectProjectDefault
+      this.employeeSelected = this.selectEmployeeDefault
       this.stateButton(false, false, true, true)
     }
   },
@@ -261,17 +266,8 @@ export default {
    //Reload list OM project if have change
     isLoading(val1, val2) {
       if (val2 !== val1) {
-        this.projectSelected = {
-          defaultProject:false,
-          id:0,
-          projectCode: '',
-          projectName: 'All'
-        }
-        this.employeeSelected = {
-          employeeCode: '',
-          employeeName: 'All',
-          id: 0
-        }
+        this.projectSelected = this.selectProjectDefault
+        this.employeeSelected = this.selectEmployeeDefault
       }
     },
   }

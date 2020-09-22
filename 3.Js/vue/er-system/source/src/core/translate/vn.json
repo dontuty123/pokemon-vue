@@ -83,10 +83,12 @@
     "projectName": "Tên dự án",
     "employeeCode": "Mã nhân viên",
     "employeeName": "Tên nhân viên"
-
   },
   "omProject": {
     "Project": "Dự án",
-    "Employee": "Nhân viên"
+    "Employee": "Nhân viên",
+    "projectRequired": "Bắt buộc chọn Dự án",
+    "employeeRequired": "Bắt buộc chọn Nhân viên"
   }
+ 
 }

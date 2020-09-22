@@ -86,6 +86,8 @@
   },
   "omProject": {
     "Project": "Project",
-    "Employee": "Employee"
+    "Employee": "Employee",
+    "projectRequired": "Project is required",
+    "employeeRequired": "Employee is required"
   }
 }
