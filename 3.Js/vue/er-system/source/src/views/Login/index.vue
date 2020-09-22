@@ -23,9 +23,18 @@
             v-model="user.password"></b-form-input>
         </div>
          <p class="mb-3 text-danger">{{ error.passError }}</p>
-        <b-button variant="primary" class="w-100 font-weight-bold" @click="loginApi">{{ $t('login["titleLogin"]') }}</b-button>
+        <b-button 
+          variant="primary" 
+          class="w-100 font-weight-bold" 
+          @click="loginApi">
+          {{ $t('login["titleLogin"]') }}
+          </b-button>
       </b-input-group>
-      <router-link class="text-primary mt-3 text-center d-block" :to="'/forgotpassword'">{{ $t('login["forgotPass"]') }}</router-link>
+      <router-link 
+        class="text-primary mt-3 text-center d-block" 
+        :to="'/forgotpassword'">
+        {{ $t('login["forgotPass"]') }}
+      </router-link>
     </div>
   </div>
 </template>

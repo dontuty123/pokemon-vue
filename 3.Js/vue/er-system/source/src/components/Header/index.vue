@@ -93,7 +93,7 @@ export default {
     }
   },
   created() {
-    const employeeData = qs.parse(cookie.get('user_data'))
+    const employeeData = qs.parse(cookie.get('userData'))
     this.employeeCode = employeeData.employeeCodeSimple
     this.employeeName = this.unmarkCharacter(employeeData.employeeName)
   },
