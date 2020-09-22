@@ -8,6 +8,15 @@ const validate = {
     validPassword(password: string) {
         const re = /\w{8,}/;
         return re.test(password);
+    },
+
+    validPasswordStrong(password: string) {
+        const re = /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[#?!@$%^&*\-_]).{8,}$/;
+        return re.test(password);
+    },
+
+    validPasswordComfirm(password: string, comfirmPassword: string) {
+        return password === comfirmPassword;
     }
 }
 

@@ -4,7 +4,6 @@ import Logo from '../../assets/img/kobelco.png';
 import TextBox from '../../components/textbox';
 import Button from '../../components/button';
 import * as Cookie from '../../core/cookie';
-import axios from 'axios';
 import * as Constant from '../../core/constant';
 import { validate } from '../../core/extend';
 import { connect } from 'react-redux';
@@ -12,6 +11,7 @@ import { setLogin, userInfo } from '../../core/store/actions/userAction';
 import { Dispatch } from 'redux';
 import { AppActions } from '../../core/store/types/actions';
 import { user } from '../../core/store/types/user';
+import * as API from '../../core/api';
 
 interface LoginProps {
 
@@ -56,30 +56,33 @@ class Login extends React.Component<Props, State> {
         const {userName, userPassword} = this.state;
         const validEmail = validate.validEmail(userName),
             validPassword = validate.validPassword(userPassword),
-            paramUser = "email=" + userName + "&password=" + userPassword;
+            paramUser = {
+                email: userName,
+                password: userPassword
+            };
         let messageLogin = ""; 
 
         this.setState({checked: true, loading: true, messageLogin});
 
         if (userName.length > 0 && userPassword.length > 0) {
             if (validEmail && validPassword) {
-                await axios.post(`${Constant.SERVER_API}login`, paramUser)
-                .then((res) => {
-                    if (res.data.http_code === 403) {
+                const fnAPI = await API.postApi("login", paramUser);
+
+                if(fnAPI.status === 200){
+                    if (fnAPI.data.http_code === 403) {
                         messageLogin = Constant.MESSAGE_CODE["001"];
-                    } else if (res.data.http_code === 200) {
+                    } else if (fnAPI.data.http_code === 200) {
                         this.props.setLogin({
-                            user_id: res.data.result.employeeId,
-                            token: res.data.result.token
+                            user_id: fnAPI.data.result.employeeId,
+                            token: fnAPI.data.result.token
                         });
-                        Cookie.setCookie('result', JSON.stringify(res.data.result), 120 * 60)
+                        Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
                     } else {
                         messageLogin = Constant.MESSAGE_CODE["010"];
                     }
-                })
-                .catch(() => {
+                } else {
                     messageLogin = Constant.MESSAGE_CODE["010"];
-                })
+                }
             } else if (!validEmail) {
                 messageLogin = "Email định dạng sai";
             } else if (!validPassword) {

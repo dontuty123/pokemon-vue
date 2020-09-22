@@ -32,5 +32,9 @@
 	color: #fff;
 	&:focus {
 		outline: none;
+	};
+	&:disabled {
+		cursor: default;
+        opacity: 0.8;
 	}
 }

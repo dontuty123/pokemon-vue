@@ -3,10 +3,9 @@ import '../login/login.scss';
 import Logo from '../../assets/img/kobelco.png';
 import TextBox from '../../components/textbox';
 import Button from '../../components/button';
-import axios from 'axios';
 import * as Constant from '../../core/constant';
 import {validate} from '../../core/extend';
-
+import * as API from '../../core/api';
 
 interface Props {
 
@@ -25,7 +24,7 @@ interface CSSObject {
 
 }
 
-class Login extends React.Component<Props, State> {
+class ForgotPassword extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -48,7 +47,9 @@ class Login extends React.Component<Props, State> {
     handleSubmit = async () => {
         const {userName} = this.state;
         const validEmail = validate.validEmail(userName),
-            paramUser = "email=" + userName;
+            paramUser = {
+                email: userName
+            };
         let messageLogin = "",
             statusLogin = false;
 
@@ -56,22 +57,20 @@ class Login extends React.Component<Props, State> {
 
         if (userName.length > 0) {
             if (validEmail) {
-                await axios.post(`${Constant.SERVER_API}forgot-password`, paramUser)
-                .then(function (res) {
-                    console.log(res)
+                const forgot = await API.postApi("forgot-password", paramUser);
 
-                    let code_error = res.data.error_code;
+                if (forgot.status === 200) {
+                    const code_error = forgot.data.error_code;
 
-                    if (res.data.http_code === 200) {
+                    if (forgot.data.http_code === 200) {
                         messageLogin = Constant.MESSAGE_CODE["004"];
                         statusLogin = true;
                     } else {
                         messageLogin = Constant.MESSAGE_CODE[code_error];
                     }
-                })
-                .catch(function (err) {
+                } else {
                     messageLogin = Constant.MESSAGE_CODE["010"];
-                })
+                }
             } else if (!validEmail) {
                 messageLogin = "Email định dạng sai";
             }
@@ -130,4 +129,4 @@ class Login extends React.Component<Props, State> {
     }
 }
 
-export default Login
+export default ForgotPassword
