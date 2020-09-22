@@ -78,7 +78,12 @@
   "table": {
     "no": "STT",
     "code": "Mã phòng ban",
-    "description": "Mô tả"
+    "description": "Mô tả",
+    "projectCode": "Mã dự án",
+    "projectName": "Tên dự án",
+    "employeeCode": "Mã nhân viên",
+    "employeeName": "Tên nhân viên"
+
   },
   "omProject": {
     "Project": "Dự án",

@@ -78,7 +78,11 @@
   "table": {
     "no": "No",
     "code": "Department Code",
-    "description": "Description"
+    "description": "Description",
+    "projectCode": "Project Code",
+    "projectName": "Project Name",
+    "employeeCode": "Employee Code",
+    "employeeName": "Employee Name"
   },
   "omProject": {
     "Project": "Project",

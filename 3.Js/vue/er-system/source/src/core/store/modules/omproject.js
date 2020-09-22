@@ -35,10 +35,27 @@ const omproject = {
 
     GET_DATA_LIST_PROJECT: (state, listOmProject) => {
       state.listOmproject = listOmProject;
+      state.listOmproject.push(
+        {
+          defaultProject:false,
+          id:0,
+          projectCode: '',
+          projectName: 'All'
+        },
+      )
+     
     },
 
     GET_DATA_LIST_EMPLOYEE: (state, listOmEmployee) => {
       state.listOmEmployee = listOmEmployee;
+      state.listOmEmployee.push(
+        {
+          employeeCode: '',
+          employeeName: 'All',
+          id: 0
+        },
+      )
+
     },
 
     GET_DATA_LIST_EMPLOYEE_PROJECT: (state, listOmEmployeeProject) => {

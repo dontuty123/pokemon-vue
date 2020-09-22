@@ -34,15 +34,14 @@
             <span class="label">{{$t('omProject["Project"]')}}</span>
           </template>
           <div class="row w-input">
-            <div class="col-6">
+            <div class="col-8">
                <model-list-select 
                   :list="listOmproject"
                   class="input-select"
                   v-model="projectSelected"
                   size="sm"
                   option-value="projectCode"
-                  :custom-text="customText"
-                  placeholder="All"
+                  :custom-text="customTextProject"
                 >  
                 </model-list-select>
                 <p class="required-msg" v-if="!projectSelected.id && requiredMsg !== ''">Project {{ requiredMsg }}</p>
@@ -60,15 +59,15 @@
             <span class="label">{{$t('omProject["Employee"]')}}</span>
           </template>
           <div class="row w-input">
-            <div class="col-6">
+            <div class="col-8">
               <model-list-select 
                 :list="listOmEmployee"
                 class="input-select"
                 v-model="employeeSelected"
                 size="sm"
                 option-value="employeeCode"
-                option-text="employeeName"
-                placeholder="All">
+                :custom-text="customTextEmployee"
+              >
               </model-list-select>
                  <p class="required-msg" v-if="!employeeSelected.id && requiredMsg !== ''" >Project {{ requiredMsg }}</p>
             </div>
@@ -92,8 +91,17 @@ export default {
   data() {
     return {
       requiredMsg: '',
-      projectSelected: {},
-      employeeSelected: {},
+      projectSelected: {
+        defaultProject:false,
+        id:0,
+        projectCode: '',
+        projectName: 'All'
+      },
+      employeeSelected: {
+        employeeCode: '',
+        employeeName: 'All',
+        id: 0
+      },
       valueSelected: {},
       idUpdate: 0,
       loadingBtn: {
@@ -108,8 +116,12 @@ export default {
 
   methods: {
     // Format text  at combobox
-    customText (item) {
-      return `${item.id} - ${item.projectCode} - ${item.projectName}`
+    customTextProject (item) {
+      return item.projectCode !== '' ? `${item.projectCode} - ${item.projectName}` : `${item.projectName}`
+    },
+
+    customTextEmployee(item) {
+      return item.employeeCode !== '' ? `${item.employeeCode} - ${item.employeeName}` : `${item.employeeName}`
     },
 
     //Disable/ Enable button
@@ -211,8 +223,17 @@ export default {
 
     //Clear All
     clearAll() {
-      this.projectSelected = {}
-      this.employeeSelected = {}
+      this.projectSelected = {
+        defaultProject:false,
+        id:0,
+        projectCode: '',
+        projectName: 'All'
+      }
+      this.employeeSelected = {
+        employeeCode: '',
+        employeeName: 'All',
+        id: 0
+      }
       this.stateButton(false, false, true, true)
     }
   },
@@ -240,8 +261,17 @@ export default {
    //Reload list OM project if have change
     isLoading(val1, val2) {
       if (val2 !== val1) {
-        this.projectSelected = {}
-        this.employeeSelected = {}
+        this.projectSelected = {
+          defaultProject:false,
+          id:0,
+          projectCode: '',
+          projectName: 'All'
+        }
+        this.employeeSelected = {
+          employeeCode: '',
+          employeeName: 'All',
+          id: 0
+        }
       }
     },
   }
