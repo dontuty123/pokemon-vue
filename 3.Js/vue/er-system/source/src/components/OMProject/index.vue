@@ -73,7 +73,6 @@
             </div>
           </div>
         </b-form-group>
-        
       </b-form>
     </div>
   </div>
@@ -198,7 +197,7 @@ export default {
       }
     },
 
-    // Delete Item
+    //Delete Item
     btnDelete() {
       this.isAdd = false
       this.$emit('isAdd', this.isAdd)
@@ -210,7 +209,7 @@ export default {
     },
 
     //Export Excel
-    exportExcel(){
+    exportExcel() {
       this.isAdd = false
       this.$emit('isAdd', this.isAdd)
       const { projectId, employeeId } = this.paramsOmProject;
@@ -221,7 +220,7 @@ export default {
         secretKey: '',
       };
       
-      this.$store.dispatch('omproject/getSecretKey', dataSecretKey);
+      this.$store.dispatch('omProject/getSecretKey', dataSecretKey);
       setTimeout(() => {
         const dataExport = {
           projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id ? this.projectSelected.id : null,
@@ -229,7 +228,7 @@ export default {
           sortBy: this.sortTable,
           secretKey: this.secretKey,
         };
-        this.$store.dispatch('omproject/exportExcel', dataExport);
+        this.$store.dispatch('omProject/exportExcel', dataExport);
         window.open(this.linkExportExcel, '_blank');
       }, 350);
     },
@@ -244,7 +243,7 @@ export default {
   },
 
   computed: {
-    ...mapState('omproject', {
+    ...mapState('omProject', {
       linkExportExcel: (state) => state.linkExportExcel,
       secretKey: (state) => state.secretKey,
       isLoading: (state) => state.isLoading,

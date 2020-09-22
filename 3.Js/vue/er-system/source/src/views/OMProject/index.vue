@@ -104,8 +104,6 @@ export default {
           valueSort: 0,
         },
       ],
-      listProjects:[],
-      opsProject:[],
       currentPage: 0,
       lengthOfList:0, 
       dataSelected:{},
@@ -122,7 +120,7 @@ export default {
   methods: {
 
     async getListOmProjects(val){
-      await this.$store.dispatch('omproject/getOmProject', val);
+      await this.$store.dispatch('omProject/getOmProject', val);
         if (this.status.error_code === '018') {
           this.noDataMess = this.$t('messages[' + this.status.error_code + ']')
         } 
@@ -136,12 +134,12 @@ export default {
       sort ? this.sortTable = 'projectCode-ASC' : this.sortTable = 'projectCode-DESC'
       const dataAfterSort = this.paramsOmProject
       dataAfterSort.sortBy = this.sortTable
-      this.$store.dispatch('omproject/getOmProject', dataAfterSort);
+      this.$store.dispatch('omProject/getOmProject', dataAfterSort);
     },
 
     //Get params search
     async dataSearch(val) {
-      await this.$store.dispatch('omproject/searchOmProject', val);
+      await this.$store.dispatch('omProject/searchOmProject', val);
        if (this.status.error_code === '018') {
         this.noDataMess = this.$t('messages[' + this.status.error_code + ']')
       } 
@@ -152,7 +150,7 @@ export default {
 
     //Get params Add
     async dataAdd(val) {
-      await this.$store.dispatch('omproject/addOmProject', val);
+      await this.$store.dispatch('omProject/addOmProject', val);
       if (this.status.http_code !== 200) {
         this.resultMess.content = this.$t('messages[' + this.status.error_code + ']')
         this.resultMess.class = 'text-danger'
@@ -168,7 +166,7 @@ export default {
 
     //Get params Update
     async dataUpdate(val) {
-      await this.$store.dispatch('omproject/updateOmProject', val);
+      await this.$store.dispatch('omProject/updateOmProject', val);
       if (this.status.http_code !== 201) {
         this.resultMess.content = this.$t('messages[' + this.status.error_code + ']')
         this.resultMess.class = 'text-danger'
@@ -185,7 +183,7 @@ export default {
 
     //Get id Delete 
     async dataDelete(val) {
-      await this.$store.dispatch('omproject/deleteOmProject', val);
+      await this.$store.dispatch('omProject/deleteOmProject', val);
       if (this.status.http_code !== 200) {
         this.resultMess.content = this.$t('messages[' + this.status.error_code + ']')
         this.resultMess.class = 'text-danger'
@@ -213,16 +211,17 @@ export default {
       this.currentPage = val
       const dataAfterTurningPage = this.paramsOmProject
       dataAfterTurningPage.currentPage = this.currentPage
-      this.$store.dispatch('omproject/getOmProject', dataAfterTurningPage);
+      this.$store.dispatch('omProject/getOmProject', dataAfterTurningPage);
     },
   },
 
   mounted() {
+    //Get list OM project when load page
     this.getListOmProjects(this.paramsOmProject)
   },
 
   computed: {
-    ...mapState('omproject', {
+    ...mapState('omProject', {
       listOmEmployeeProject: (state) => state.listOmEmployeeProject,
       listOmproject: (state) => state.listOmproject,
       listOmEmployee: (state) => state.listOmEmployee,
@@ -238,16 +237,16 @@ export default {
         if (!this.resetTable) {
           this.getListOmProjects(this.paramsOmProject)
         } else {
-           const paramsReset = {
-            isSearch: 0,
-            projectId: null,
-            employeeId: null,
-            currentPage: 1,
-            pageRecord: 20,
-            sortBy: 'projectCode-ASC',
-            employeeBy: 'firstName-ASC',
-            projectBy: 'projectCode-ASC',
-          }
+            const paramsReset = {
+              isSearch: 0,
+              projectId: null,
+              employeeId: null,
+              currentPage: 1,
+              pageRecord: 20,
+              sortBy: 'projectCode-ASC',
+              employeeBy: 'firstName-ASC',
+              projectBy: 'projectCode-ASC',
+          } 
           this.getListOmProjects(paramsReset)
         }    
       }

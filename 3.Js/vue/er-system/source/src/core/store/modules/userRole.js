@@ -8,10 +8,58 @@ const userRole = {
   namespaced: true,
   state: {
     dataRole: {
-      level: '',
       role: '',
+      level: '',
       isLogin: false
-    }
+    },
+    listRole: [
+      {
+        name:'Staff&TeamLeader',
+        role: 'staff',
+        level: 'teamLeader',
+      },
+      {
+        name:'Staff&Manager',
+        role: 'staff',
+        level: 'manager',
+      },
+      {
+        name:'Staff&Director',
+        role: 'staff',
+        level: 'director',
+      },
+      {
+        name:'Staff&Supervisor',
+        role: 'staff',
+        level: 'supervisor',
+      },
+      {
+        name:'Staff&Staff',
+        role: 'staff',
+        level: 'staff',
+      },
+      {
+        name:'Staff&TeamLeader',
+        role: 'staff',
+        level: 'teamLeader',
+      },
+      {
+        name:'Director&Admin',
+        role: 'director',
+        level: 'admin',
+      },
+      {
+        name:'Admin&Admin',
+        role: 'admin',
+        level: 'admin',
+      },
+      {
+        name:'HR&Admin',
+        role: 'hr',
+        level: 'admin',
+      },
+
+    ]
   },
 
   mutations: {
