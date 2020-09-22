@@ -10,6 +10,7 @@ const headers = {
   employeeCode: funcMemory.getCookie('employeeCode'),
   Pragma: 'no-cache'
 }
+console.log('headers: ', headers);
 const headerImport = headers
 headerImport['Content-Type'] = 'multipart/form-data'
 const funcApi = {

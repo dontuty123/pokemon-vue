@@ -203,6 +203,7 @@ export default {
   },
 
   mounted() {
+     this.$store.dispatch('userRole/getDataUser')
     this.getListOmProjects(this.paramsOmProject)
   },
 

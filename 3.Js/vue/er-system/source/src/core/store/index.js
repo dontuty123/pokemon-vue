@@ -4,6 +4,7 @@ import project from './modules/project'
 import omproject from './modules/omproject'
 import login from './modules/login'
 import department from './modules/department'
+import userRole from './modules/userRole'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     omproject,
     project,
     login,
-    department
+    department,
+    userRole
   }
 })

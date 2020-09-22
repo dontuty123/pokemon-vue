@@ -13,7 +13,7 @@
             <ul class="menu-item sub-text" v-if="listOne" @click="listOne = false">
               <li><router-link to="/">{{ $t('header["employee"]') }}</router-link></li>
               <li><router-link to="/">{{ $t('header["project"]') }}</router-link></li>
-              <li><router-link to="/">{{ $t('header["omProject"]') }}</router-link></li>
+              <li><router-link to="/om-project-management">{{ $t('header["omProject"]') }}</router-link></li>
             </ul>
           </transition>
         </li>
@@ -95,7 +95,10 @@ export default {
   created() {
     const employeeData = qs.parse(cookie.get('userData'))
     this.employeeCode = employeeData.employeeCodeSimple
-    this.employeeName = this.unmarkCharacter(employeeData.employeeName)
+    if (employeeData.employeeName) {
+      this.employeeName = this.unmarkCharacter(employeeData.employeeName)
+    }
+    
   },
   methods: {
     unmarkCharacter(str){
