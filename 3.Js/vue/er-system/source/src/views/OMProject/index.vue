@@ -1,5 +1,6 @@
 <template>
   <div class="body-content er-omproject">
+    <Breadcrumb :breadcrumb="breadcrumb" />
     <OMProject 
       :listOmproject="listOmproject"
       :listOmEmployee="listOmEmployee"
@@ -27,6 +28,7 @@
   </div>
 </template>
 <script>
+import Breadcrumb from '@/components/Breadcrumb';
 import TableCommon from '@/components/TableCommon';
 import OMProject from '@/components/OMProject';
 import Pagination from '@/components/Pagination';
@@ -37,10 +39,23 @@ export default {
   components: {
     OMProject,
     TableCommon,
-    Pagination
+    Pagination,
+    Breadcrumb
   },
   data() {
     return {
+      breadcrumb: [
+        {
+          id:1,
+          label: 'breadcrumb["master"]',
+          url: '/',
+        },
+        {
+          id:2,
+          label: 'breadcrumb["omProjectManagement"]',
+          url: '/om-project-management',
+        },
+      ],
       paramsOmProject: {
         isSearch: 0,
         projectId: null,

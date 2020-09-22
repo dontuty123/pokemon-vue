@@ -8,7 +8,7 @@
       :total-rows="lengthOfList"
       @change="changeNumberPage()"
       align="right"
-      class="pagination"
+      class="pagination mb-5"
     ></b-pagination>
   </div>
 </template>

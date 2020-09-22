@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import cookie from 'js-cookie'
-import qs from 'qs'
 import funcMemory from '@/core/service/memory.service.js'
+
 Vue.use(Vuex)
 const userRole = {
   strict: true,
@@ -11,6 +10,7 @@ const userRole = {
     dataRole: {
       level: '',
       role: '',
+      isLogin: false
     }
   },
 
@@ -22,9 +22,19 @@ const userRole = {
 
   actions: {
     getDataUser(vuexContext) {
-      let data = {
-        level: funcMemory.getCookie('level'),
-        role: funcMemory.getCookie('role'),
+      let data = {}
+      if (funcMemory.getCookie('token')) {
+        data = {
+          level: funcMemory.getCookie('level'),
+          role: funcMemory.getCookie('role'),
+          isLogin: true
+        }
+      } else {
+        data = {
+          level: '',
+          role: '',
+          isLogin: false
+        }
       }
       vuexContext.commit('SET_DATA_ROLE', data)
     }

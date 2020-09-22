@@ -1,15 +1,16 @@
 <template>
   <div id="er-system-management">
-    <Header />
+    <Header v-if="dataRole.isLogin" />
     <router-view/>
     <Footer />
-    <ScrollTop />
+    <ScrollTop v-if="dataRole.isLogin" />
   </div>
 </template>
 <script>
 import ScrollTop from '@/components/GoTop'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { mapState } from 'vuex'
 export default {
   components: {
     ScrollTop,
@@ -18,21 +19,26 @@ export default {
   },
   data() {
     return {
-      isLoad: true
+     
     }
   },
-  created(){
-
+  computed: {
+    ...mapState('userRole', {
+      dataRole: (state) => state.dataRole,
+    })
   },
+  methods: {
+    //Call Data User Role
+    getDataUserRole() {
+      this.$store.dispatch('userRole/getDataUser')
+    }
+  },
+  mounted() {
+    this.getDataUserRole()
+  }
 
 }
 </script>
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  height: 100vh;
-}
+<style lang='scss'>
+  @import 'style.scss';
 </style>

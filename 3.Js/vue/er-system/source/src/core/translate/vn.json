@@ -89,6 +89,9 @@
     "Employee": "Nhân viên",
     "projectRequired": "Bắt buộc chọn Dự án",
     "employeeRequired": "Bắt buộc chọn Nhân viên"
-  }
- 
+  },
+  "breadcrumb": {
+    "master": "Danh mục",
+    "omProjectManagement": "Quản lý dự án OM"
+  } 
 }

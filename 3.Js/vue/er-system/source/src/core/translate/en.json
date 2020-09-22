@@ -89,5 +89,9 @@
     "Employee": "Employee",
     "projectRequired": "Project is required",
     "employeeRequired": "Employee is required"
+  },
+  "breadcrumb": {
+    "master": "Master",
+    "omProjectManagement": "OM Project Management"
   }
 }
