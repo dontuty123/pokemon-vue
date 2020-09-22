@@ -41,7 +41,8 @@
     "039": "User timesheet is not open",
     "040": "Date From <= Date To",
     "041": "This timesheet is not approve",
-    "042": "Please choose approver"
+    "042": "Please choose approver",
+    "": ""
   },
   "header": {
     "master": "MASTER",
@@ -78,5 +79,9 @@
     "no": "No",
     "code": "Department Code",
     "description": "Description"
+  },
+  "omProject": {
+    "Project": "Project",
+    "Employee": "Employee"
   }
 }
