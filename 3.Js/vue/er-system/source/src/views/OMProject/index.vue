@@ -94,7 +94,7 @@ export default {
       currentPage: 0,
       lengthOfList:0, 
       dataSelected:{},
-      sortTable: '',
+      sortTable: 'projectCode-ASC',
       resultMess: {
         content: '',
         class: 'text-danger'

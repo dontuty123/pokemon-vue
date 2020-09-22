@@ -35,19 +35,17 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-               <model-list-select :list="listOmproject"
-                class="input-select"
+               <model-list-select 
+                  :list="listOmproject"
+                  class="input-select"
                   v-model="projectSelected"
                   size="sm"
                   option-value="projectCode"
                   :custom-text="customText"
-                  placeholder="All">
-                  
+                  placeholder="All"
+                >  
                 </model-list-select>
-                <p
-                  class="required-msg"
-                  v-if="!projectSelected.id && requiredMsg !== ''"
-                >Project {{ requiredMsg }}</p>
+                <p class="required-msg" v-if="!projectSelected.id && requiredMsg !== ''">Project {{ requiredMsg }}</p>
             </div>
           </div>
         </b-form-group>
@@ -63,7 +61,8 @@
           </template>
           <div class="row w-input">
             <div class="col-6">
-              <model-list-select :list="listOmEmployee"
+              <model-list-select 
+                :list="listOmEmployee"
                 class="input-select"
                 v-model="employeeSelected"
                 size="sm"
@@ -71,10 +70,7 @@
                 option-text="employeeName"
                 placeholder="All">
               </model-list-select>
-                 <p
-                  class="required-msg"
-                  v-if="!employeeSelected.id && requiredMsg !== ''"
-                >Project {{ requiredMsg }}</p>
+                 <p class="required-msg" v-if="!employeeSelected.id && requiredMsg !== ''" >Project {{ requiredMsg }}</p>
             </div>
           </div>
         </b-form-group>
@@ -132,12 +128,12 @@ export default {
       const { isSearch, projectId, employeeId, currentPage, pageRecord, sortBy, employeeBy, projectBy } = this.paramsOmProject;
       const dataSearch = this.paramsOmProject
       dataSearch.isSearch = 1
+      dataSearch.currentPage = 1
       dataSearch.projectId = this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id ? this.projectSelected.id : null
       dataSearch.employeeId = this.employeeSelected.employeeId ? this.employeeSelected.employeeId : this.employeeSelected.id ? this.employeeSelected.id : null
       dataSearch.sortBy = this.sortTable
       this.$emit('dataSearch', dataSearch)
       this.stateButton(false, false, true, true)
-      
     },
 
     //Add
