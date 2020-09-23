@@ -10,7 +10,7 @@ omProjectService.addOmProject = (data) => {
   return funcApi.post('omproject-create', data)
 }
 
-// search Project 
+//Search Project 
 omProjectService.searchOmProject = (data) => {
   return funcApi.get('omproject-list', data)
 }
@@ -25,7 +25,7 @@ omProjectService.deleteOmProject = (data) => {
   return funcApi.post('omproject-delete', data)
 }
 
- // Get key (import, export)
+ //Get key (import, export)
 omProjectService.getSecretKey = () => {
   return funcApi.get('OMProject/requestSecretKey')
 },

@@ -1,10 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import omProjectService from '@/core/service/omproject.service';
-import qs from 'qs';
+import omProjectService from '@/core/service/omProject.service';
 
 Vue.use(Vuex);
-const omproject = {
+const omProject = {
   namespaced: true,
   strict: true,
   state: {
@@ -35,10 +34,27 @@ const omproject = {
 
     GET_DATA_LIST_PROJECT: (state, listOmProject) => {
       state.listOmproject = listOmProject;
+      //Add 1 option is All
+      state.listOmproject.push(
+        {
+          defaultProject:false,
+          id:0,
+          projectCode: '',
+          projectName: 'All'
+        },
+      )
     },
 
     GET_DATA_LIST_EMPLOYEE: (state, listOmEmployee) => {
       state.listOmEmployee = listOmEmployee;
+      //Add 1 option is All
+      state.listOmEmployee.push(
+        {
+          employeeCode: '',
+          employeeName: 'All',
+          id: 0
+        },
+      )
     },
 
     GET_DATA_LIST_EMPLOYEE_PROJECT: (state, listOmEmployeeProject) => {
@@ -52,7 +68,7 @@ const omproject = {
 
   actions: {
     //List OM Project
-    async getOmProject (vuexContext, paramsOmProject){
+    async getOmProject (vuexContext, paramsOmProject) {
       const res = await omProjectService.getOmProject(paramsOmProject)
         if (res.data.http_code === 200) {
           vuexContext.commit('GET_DATA_LIST_PROJECT', res.data.result.omProject);
@@ -67,7 +83,7 @@ const omproject = {
     },
 
     //Search OM Project
-    async searchOmProject (vuexContext, paramsOmProject){
+    async searchOmProject (vuexContext, paramsOmProject) {
       const res = await omProjectService.searchOmProject(paramsOmProject)
       if (res.data.http_code === 200) {
         vuexContext.commit('GET_DATA_LIST_EMPLOYEE_PROJECT', res.data.result.employeeProject);
@@ -76,11 +92,10 @@ const omproject = {
       } else {
         vuexContext.commit('ACTION_DONT_RELOAD', res.data);
       }
-
     },
 
     //Add OM Project
-    async addOmProject (vuexContext, newProject){
+    async addOmProject (vuexContext, newProject) {
       const res = await omProjectService.addOmProject(newProject)
       if (res.data.http_code === 200) {
         vuexContext.commit('ACTION_SUCCESS', res.data);
@@ -90,7 +105,7 @@ const omproject = {
     },
 
     //Update Om Project
-    async updateOmProject (vuexContext, projectUpdate){
+    async updateOmProject (vuexContext, projectUpdate) {
       const res = await omProjectService.updateOmProject(projectUpdate)
       if (res.data.http_code === 201) {
         vuexContext.commit('ACTION_DONT_RELOAD', res.data);
@@ -100,7 +115,7 @@ const omproject = {
     },
 
     //Delete Om Project
-    async deleteOmProject (vuexContext, omProjectId){
+    async deleteOmProject (vuexContext, omProjectId) {
       await omProjectService.deleteOmProject(omProjectId).then(res => {
         if (res.data.http_code === 200) {
           vuexContext.commit('ACTION_SUCCESS', res.data);
@@ -111,8 +126,8 @@ const omproject = {
       })
     },
 
-    // Get key
-    async getSecretKey(vuexContext){
+    //Get key
+    async getSecretKey(vuexContext) {
       omProjectService.getSecretKey().then(res => {     
         if (res.data.http_code === 200) {
           vuexContext.state['secretKey'] = res.data.result.secretKey    
@@ -121,7 +136,7 @@ const omproject = {
     },
 
     //Export Project
-    async exportExcel(vuexContext, dataExport){
+    async exportExcel(vuexContext, dataExport) {
       vuexContext.state['linkExportExcel'] = omProjectService.exportFile(dataExport)
     },
     
@@ -131,4 +146,4 @@ const omproject = {
 
   }
 }
-export default omproject;
+export default omProject;

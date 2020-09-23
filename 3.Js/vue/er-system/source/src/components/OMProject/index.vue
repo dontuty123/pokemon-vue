@@ -34,18 +34,17 @@
             <span class="label">{{$t('omProject["Project"]')}}</span>
           </template>
           <div class="row w-input">
-            <div class="col-6">
+            <div class="col-8">
                <model-list-select 
                   :list="listOmproject"
                   class="input-select"
                   v-model="projectSelected"
                   size="sm"
                   option-value="projectCode"
-                  :custom-text="customText"
-                  placeholder="All"
+                  :custom-text="customTextProject"
                 >  
                 </model-list-select>
-                <p class="required-msg" v-if="!projectSelected.id && requiredMsg !== ''">Project {{ requiredMsg }}</p>
+                <p class="required-msg text-danger mt-2 mb-0" v-if="!projectSelected.id && requiredMsg">{{$t('omProject["projectRequired"]')}}</p>
             </div>
           </div>
         </b-form-group>
@@ -60,21 +59,20 @@
             <span class="label">{{$t('omProject["Employee"]')}}</span>
           </template>
           <div class="row w-input">
-            <div class="col-6">
+            <div class="col-8">
               <model-list-select 
                 :list="listOmEmployee"
                 class="input-select"
                 v-model="employeeSelected"
                 size="sm"
                 option-value="employeeCode"
-                option-text="employeeName"
-                placeholder="All">
+                :custom-text="customTextEmployee"
+              >
               </model-list-select>
-                 <p class="required-msg" v-if="!employeeSelected.id && requiredMsg !== ''" >Project {{ requiredMsg }}</p>
+              <p class="required-msg text-danger mt-2 mb-0" v-if="!employeeSelected.id && requiredMsg" >{{$t('omProject["employeeRequired"]')}}</p>
             </div>
           </div>
         </b-form-group>
-        
       </b-form>
     </div>
   </div>
@@ -91,9 +89,30 @@ export default {
   props: ['listOmproject', 'listOmEmployee', 'paramsOmProject', 'dataSelected', 'sortTable', 'isDone'],
   data() {
     return {
-      requiredMsg: '',
-      projectSelected: {},
-      employeeSelected: {},
+      requiredMsg: false,
+      projectSelected: {
+        defaultProject:false,
+        id:0,
+        projectCode: '',
+        projectName: 'All'
+      },
+      employeeSelected: {
+        employeeCode: '',
+        employeeName: 'All',
+        id: 0
+      },
+      selectProjectDefault: {
+        defaultProject:false,
+        id:0,
+        projectCode: '',
+        projectName: 'All'
+      },
+      selectEmployeeDefault: {
+        employeeCode: '',
+        employeeName: 'All',
+        id: 0
+      },
+      
       valueSelected: {},
       idUpdate: 0,
       loadingBtn: {
@@ -108,8 +127,12 @@ export default {
 
   methods: {
     // Format text  at combobox
-    customText (item) {
-      return `${item.id} - ${item.projectCode} - ${item.projectName}`
+    customTextProject (item) {
+      return item.projectCode !== '' ? `${item.projectCode} - ${item.projectName}` : `${item.projectName}`
+    },
+
+    customTextEmployee(item) {
+      return item.employeeCode !== '' ? `${item.employeeCode} - ${item.employeeName}` : `${item.employeeName}`
     },
 
     //Disable/ Enable button
@@ -123,6 +146,7 @@ export default {
     //Search
     btnSearch() {
       this.isAdd = false
+      this.requiredMsg = false;
       this.$emit('isAdd', this.isAdd)
       this.stateButton(true, true, true, true)
       const { isSearch, projectId, employeeId, currentPage, pageRecord, sortBy, employeeBy, projectBy } = this.paramsOmProject;
@@ -138,13 +162,13 @@ export default {
 
     //Add
     btnAdd() {
-      this.isAdd = true
-      this.$emit('isAdd', this.isAdd)
-      this.stateButton(true, true, false, false)
       if (!this.projectSelected.id || !this.employeeSelected.id) {
-         this.requiredMsg = ' is required';
+         this.requiredMsg = true;
       } else {
-        this.requiredMsg = '';
+        this.isAdd = true
+        this.$emit('isAdd', this.isAdd)
+        this.stateButton(true, true, false, false)
+        this.requiredMsg = false;
         const { projectId, employeeId } = this.paramsOmProject;
         const dataAdd = {
           projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
@@ -156,14 +180,14 @@ export default {
     },
     
     //Update
-    btnUpdate() {
-      this.isAdd = false
-      this.$emit('isAdd', this.isAdd)
-      this.stateButton(false, false, true, true)
+    btnUpdate() { 
        if (!this.projectSelected.id || !this.employeeSelected.id) {
-         this.requiredMsg = ' is required';
+         this.requiredMsg = true;
       } else {
-        this.requiredMsg = '';
+        this.isAdd = false
+        this.$emit('isAdd', this.isAdd)
+        this.stateButton(false, false, true, true)
+        this.requiredMsg = false;
         const dataUpdate = {
           id: this.idUpdate,
           projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id,
@@ -173,7 +197,7 @@ export default {
       }
     },
 
-    // Delete Item
+    //Delete Item
     btnDelete() {
       this.isAdd = false
       this.$emit('isAdd', this.isAdd)
@@ -185,7 +209,7 @@ export default {
     },
 
     //Export Excel
-    exportExcel(){
+    exportExcel() {
       this.isAdd = false
       this.$emit('isAdd', this.isAdd)
       const { projectId, employeeId } = this.paramsOmProject;
@@ -196,7 +220,7 @@ export default {
         secretKey: '',
       };
       
-      this.$store.dispatch('omproject/getSecretKey', dataSecretKey);
+      this.$store.dispatch('omProject/getSecretKey', dataSecretKey);
       setTimeout(() => {
         const dataExport = {
           projectId: this.projectSelected.projectId ? this.projectSelected.projectId : this.projectSelected.id ? this.projectSelected.id : null,
@@ -204,21 +228,22 @@ export default {
           sortBy: this.sortTable,
           secretKey: this.secretKey,
         };
-        this.$store.dispatch('omproject/exportExcel', dataExport);
+        this.$store.dispatch('omProject/exportExcel', dataExport);
         window.open(this.linkExportExcel, '_blank');
       }, 350);
     },
 
     //Clear All
     clearAll() {
-      this.projectSelected = {}
-      this.employeeSelected = {}
+      this.requiredMsg = false;
+      this.projectSelected = this.selectProjectDefault
+      this.employeeSelected = this.selectEmployeeDefault
       this.stateButton(false, false, true, true)
     }
   },
 
   computed: {
-    ...mapState('omproject', {
+    ...mapState('omProject', {
       linkExportExcel: (state) => state.linkExportExcel,
       secretKey: (state) => state.secretKey,
       isLoading: (state) => state.isLoading,
@@ -240,8 +265,8 @@ export default {
    //Reload list OM project if have change
     isLoading(val1, val2) {
       if (val2 !== val1) {
-        this.projectSelected = {}
-        this.employeeSelected = {}
+        this.projectSelected = this.selectProjectDefault
+        this.employeeSelected = this.selectEmployeeDefault
       }
     },
   }

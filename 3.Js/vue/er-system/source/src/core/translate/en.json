@@ -78,10 +78,26 @@
   "table": {
     "no": "No",
     "code": "Department Code",
-    "description": "Description"
+    "description": "Description",
+    "projectCode": "Project Code",
+    "projectName": "Project Name",
+    "employeeCode": "Employee Code",
+    "employeeName": "Employee Name"
   },
   "omProject": {
     "Project": "Project",
-    "Employee": "Employee"
+    "Employee": "Employee",
+    "projectRequired": "Project is required",
+    "employeeRequired": "Employee is required"
+  },
+  "breadcrumb": {
+    "master": "Master",
+    "omProjectManagement": "OM Project Management",
+    "employee": "Employee",
+    "position": "Position",
+    "department": "Department",
+    "project": "Project",
+    "updateWorkingHour": "Update Working Hour",
+    "totalRecord": "Total Record"
   }
 }

@@ -31,7 +31,7 @@ const login = {
       if (respon.data.http_code === 200) {
         commit('LOGIN_SUCCESS', respon.data)
         cookie.set('userData', qs.stringify(respon.data.result))
-        router.push('/om-project-management')
+        // router.push('/om-project-management')
       } else {
         commit('LOGIN_FAIL', respon.data)
       }

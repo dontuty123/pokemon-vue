@@ -11,7 +11,7 @@ projectService.addProject = (data) => {
   return funcApi.post('project-create', data)
 }
 
-// search Project 
+//Search Project 
 projectService.searchProject = (data) => {
   return funcApi.get('project-list', data)
 }
@@ -26,7 +26,7 @@ projectService.deleteProject = (data) => {
   return funcApi.post('project-delete', data)
 }
 
- // Get key (import, export)
+ //Get key (import, export)
 projectService.getSecretKey = () => {
   return funcApi.get('Project/requestSecretKey')
 }
@@ -66,7 +66,7 @@ projectService.updateProjectType = (data) => {
   return funcApi.post('projecttype-update', data)
 }
 
- // Get key (import, export)
+ //Get key (import, export)
 projectService.getSecretKeyPjType = () => {
   return funcApi.get('ProjectType/requestSecretKey')
 }
