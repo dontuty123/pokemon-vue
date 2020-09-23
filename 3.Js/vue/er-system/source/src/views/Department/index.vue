@@ -9,7 +9,12 @@
       :fields="fields"
       :items="dataList"
       @valueRowSelect="valueRowSelect"
+      @sortData="sortData"
       class="mt-5" />
+      <Pagination 
+      :lengthOfList="lengthOfList"
+      @currentPage="changePaging"
+    />
   </div>
 </template>
 
@@ -18,10 +23,12 @@ import Department from '@/components/Department'
 import TableCommon from '@/components/TableCommon'
 import CONTANT from '@/core/contant'
 import { mapState } from 'vuex'
+import Pagination from '@/components/Pagination';
 export default {
   components: {
     Department,
     TableCommon,
+    Pagination
   },
   data() {
     return {
@@ -56,9 +63,12 @@ export default {
         sortBy: 'departmentCode-ASC'
       },
       dataInfo: {
+        id: '',
         departmentCode: '',
         departmentName: '',
-      } 
+      },
+      lengthOfList: this.totalPage,
+      currentPage: 0
     }
   },
   created() {
@@ -67,7 +77,8 @@ export default {
   computed: {
     ...mapState('department', {
       dataList : state => state.dataList,
-      resultMess: state => state.resultMess
+      resultMess: state => state.resultMess,
+      totalPage: state => state.totalPage
     })
   },
   methods: {
@@ -75,6 +86,29 @@ export default {
       this.dataInfo = val
     },
 
+    SearchList(val) {
+      console.log(val)
+    },
+
+    sortData(sort, val, key) {
+      console.log(sort, val, key)
+      const status = sort ? 'ASC' : 'DESC' 
+      const data = {
+        isSearch: 0,
+        departmentCode: '',
+        departmentName: '',
+        currentPage: this.currentPage,
+        pageRecord: CONTANT.pageRecord,
+        sortBy: key + '-' +  status
+      }
+      this.$store.dispatch('department/loadList', data)
+    },
+
+    changePaging(val){
+      this.currentPage = val
+    },
+
+    //Total Record in Table
   }
 }
 </script>

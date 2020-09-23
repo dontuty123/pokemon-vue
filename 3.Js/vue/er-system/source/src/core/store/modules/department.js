@@ -12,12 +12,14 @@ const department = {
       class: 'text-danger',
       status: false
     },
-    dataList: []
+    dataList: [],
+    totalPage: 0,
   },
 
   mutations: {
     LOAD_SUCCESS(state, data) {
       state.dataList = data.departmentList
+      state.totalPage = data.totalPage
     },
     LOAD_FAIL(state, data) {
       state.dataList = []
@@ -33,7 +35,7 @@ const department = {
       } else {
         commit('LOAD_FAIL', respon.data)
       }
-    }
+    },
   },
 
   getters: {
