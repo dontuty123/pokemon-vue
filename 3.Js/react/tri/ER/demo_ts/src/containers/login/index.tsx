@@ -18,8 +18,7 @@ interface LoginProps {
 }
 
 interface State {
-    userName: string;
-    userPassword: string;
+    userInfo: any;
     messageLogin: string;
     loading: boolean;
     checked: boolean;
@@ -33,56 +32,37 @@ interface CSSObject {
 type Props = LoginProps & StoreStateProp & StoreDispatchProp
 
 class Login extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            userName: "",
-            userPassword: "",
-            messageLogin: "",
-            loading: false,
-            checked: false,
-        }
+
+    state: State = {
+        userInfo: {
+            email: "",
+            password: ""
+        },
+        messageLogin: "",
+        loading: false,
+        checked: false,
     }
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         const label = e.currentTarget.name, 
-            value = e.currentTarget.value;
+            value = e.currentTarget.value,
+            userInfo = {
+                ...this.state.userInfo,
+                [label]: value
+            }
 
-        this.setState({[label]: value, messageLogin: ""});
+        this.setState({userInfo, messageLogin: ""});
     }
 
-
-    handleSubmit = async () => {
-        const {userName, userPassword} = this.state;
-        const validEmail = validate.validEmail(userName),
-            validPassword = validate.validPassword(userPassword),
-            paramUser = {
-                email: userName,
-                password: userPassword
-            };
+    checkValidate = async () => {
+        const {userInfo} = this.state;
+        const validEmail = validate.validEmail(userInfo.email),
+            validPassword = validate.validPassword(userInfo.password)
         let messageLogin = ""; 
-
-        this.setState({checked: true, loading: true, messageLogin});
-
-        if (userName.length > 0 && userPassword.length > 0) {
+        
+        if (userInfo.email.length > 0 && userInfo.password.length > 0){
             if (validEmail && validPassword) {
-                const fnAPI = await API.postApi("login", paramUser);
-
-                if(fnAPI.status === 200){
-                    if (fnAPI.data.http_code === 403) {
-                        messageLogin = Constant.MESSAGE_CODE["001"];
-                    } else if (fnAPI.data.http_code === 200) {
-                        this.props.setLogin({
-                            user_id: fnAPI.data.result.employeeId,
-                            token: fnAPI.data.result.token
-                        });
-                        Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
-                    } else {
-                        messageLogin = Constant.MESSAGE_CODE["010"];
-                    }
-                } else {
-                    messageLogin = Constant.MESSAGE_CODE["010"];
-                }
+                return true
             } else if (!validEmail) {
                 messageLogin = "Email định dạng sai";
             } else if (!validPassword) {
@@ -90,15 +70,45 @@ class Login extends React.Component<Props, State> {
             }
         }
         
-        this.setState({loading: false, messageLogin});
+        this.setState({messageLogin})
+        return false
+    }
 
+
+    handleSubmit = async () => {
+        const {userInfo} = this.state;
+        const paramUser = userInfo,
+            checkValidate = await this.checkValidate();
+        let messageLogin = "";
+
+        this.setState({checked: true, loading: true});
+
+        if (checkValidate) {
+            const fnAPI = await API.postApi("login", paramUser);
+
+            if (fnAPI.data.http_code === 403) {
+                messageLogin = Constant.MESSAGE_CODE["001"];
+            } else if (fnAPI.data.http_code === 200) {
+                this.props.setLogin({
+                    user_id: fnAPI.data.result.employeeId,
+                    token: fnAPI.data.result.token
+                });
+                Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
+            } else {
+                messageLogin = Constant.MESSAGE_CODE["010"];
+            }
+        } else {
+            messageLogin = this.state.messageLogin
+        }
+
+        this.setState({loading: false, messageLogin});
     }
 
     validateEmail() {
-        const {userName, checked} = this.state;
+        const {userInfo, checked} = this.state;
 
         const valid = {
-            display: !checked || userName.length > 0 ? 'none' : null,
+            display: !checked || userInfo.email.length > 0 ? 'none' : null,
             mess: Constant.MESSAGE_CODE["002"]
         };
 
@@ -106,10 +116,10 @@ class Login extends React.Component<Props, State> {
     }
 
     validatePassword() {
-        const {userPassword, checked} = this.state;
+        const {userInfo, checked} = this.state;
 
         const valid = {
-            display: !checked || userPassword.length > 0 ? 'none' : null,
+            display: !checked || userInfo.password.length > 0 ? 'none' : null,
             mess: Constant.MESSAGE_CODE["003"]
         };
 
@@ -118,7 +128,7 @@ class Login extends React.Component<Props, State> {
 
 
     render() {
-        const {userName, userPassword, loading, messageLogin} = this.state;
+        const {userInfo, loading, messageLogin} = this.state;
         const validEmail = this.validateEmail(),
             validPassword = this.validatePassword();
             
@@ -131,8 +141,8 @@ class Login extends React.Component<Props, State> {
                         <TextBox 
                             id="email"
                             type="user" 
-                            name="userName"
-                            value={userName} 
+                            name="email"
+                            value={userInfo.email} 
                             placeholder="E-mail address"
                             disabled={loading}
                             onChange={(e) => this.handleChange(e)} 
@@ -141,8 +151,8 @@ class Login extends React.Component<Props, State> {
                         <TextBox 
                             id="password"
                             type="password" 
-                            name="userPassword"
-                            value={userPassword} 
+                            name="password"
+                            value={userInfo.password} 
                             placeholder="Password"
                             disabled={loading}
                             onChange={(e) => this.handleChange(e)} 
