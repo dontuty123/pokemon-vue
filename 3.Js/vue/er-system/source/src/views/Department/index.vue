@@ -91,7 +91,6 @@ export default {
     },
 
     sortData(sort, val, key) {
-      console.log(sort, val, key)
       const status = sort ? 'ASC' : 'DESC' 
       const data = {
         isSearch: 0,
