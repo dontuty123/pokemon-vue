@@ -15,8 +15,8 @@ const validate = {
         return re.test(password);
     },
 
-    validPasswordComfirm(password: string, comfirmPassword: string) {
-        return password === comfirmPassword;
+    validPasswordConfirm(password: string, confirmPassword: string) {
+        return password === confirmPassword;
     }
 }
 
