@@ -78,10 +78,26 @@
   "table": {
     "no": "STT",
     "code": "Mã phòng ban",
-    "description": "Mô tả"
+    "description": "Mô tả",
+    "projectCode": "Mã dự án",
+    "projectName": "Tên dự án",
+    "employeeCode": "Mã nhân viên",
+    "employeeName": "Tên nhân viên"
   },
   "omProject": {
     "Project": "Dự án",
-    "Employee": "Nhân viên"
-  }
+    "Employee": "Nhân viên",
+    "projectRequired": "Bắt buộc chọn Dự án",
+    "employeeRequired": "Bắt buộc chọn Nhân viên"
+  },
+  "breadcrumb": {
+    "master": "Danh mục",
+    "omProjectManagement": "Quản lý dự án OM",
+    "employee": "Nhân viên",
+    "position": "Chức vụ",
+    "department": "Phòng ban",
+    "project": "Dự án",
+    "updateWorkingHour": "Cập nhật giờ công",
+    "totalRecord": "Tổng giờ công"
+  } 
 }

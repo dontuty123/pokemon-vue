@@ -37,7 +37,7 @@ export default {
       })
     },
 
-    // Check hiden, show button
+    //Check hiden, show button
     onScroll(){
       if (window.pageYOffset < 0) {
         return;

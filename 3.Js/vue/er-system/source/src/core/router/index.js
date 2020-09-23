@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
     return next('/login');
   }
   if (!authRequired && loggedIn) {
-    return next('/om-project-management');
+    return next('/');
   }
   next();
 });

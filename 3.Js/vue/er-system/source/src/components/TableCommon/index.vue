@@ -42,7 +42,6 @@
 <script>
 export default {
   name: 'Tablecommon',
-
   data() {
     return {
       sortData: true,
@@ -51,7 +50,7 @@ export default {
       selectedItem: null
     };
   },
-
+  
   props:{
     items: {
       type: Array,
@@ -63,7 +62,7 @@ export default {
     },
     
   },
-  
+
   methods: {
     //Select rows to Form
     valueRowSelected(val){
@@ -81,14 +80,6 @@ export default {
       this.sortData = !this.sortData 
       this.$emit('sortData', this.sortData, val, key)
     }
-  },
-
-  mounted() {
-    
-  },
-
-  computed: {
-    
   },
 };
 </script>

@@ -8,7 +8,7 @@
       :total-rows="lengthOfList"
       @change="changeNumberPage()"
       align="right"
-      class="pagination"
+      class="pagination mb-5"
     ></b-pagination>
   </div>
 </template>
@@ -25,14 +25,14 @@ export default {
   props: ['lengthOfList'],
   methods: {
     //Send current page for table
-    changeNumberPage(){
+    changeNumberPage() {
       this.$nextTick(() => {
         this.$emit('currentPage', this.currentPage)
       });
     }
   },
   watch: {
-    numberPage(val){
+    numberPage(val) {
       this.currentPage = val
     }
   },

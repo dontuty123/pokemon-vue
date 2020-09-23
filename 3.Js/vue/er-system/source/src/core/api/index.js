@@ -13,7 +13,7 @@ const headers = {
 const headerImport = headers
 headerImport['Content-Type'] = 'multipart/form-data'
 const funcApi = {
-  post(url, data){
+  post(url, data) {
     return axios({
       method: 'post',
       url: CONTANT.url + url + '?' + qs.stringify(data),
@@ -21,7 +21,7 @@ const funcApi = {
     });
   },
 
-  put(url, data){
+  put(url, data) {
     return axios({
       method: 'put',
       url: CONTANT.url + url,

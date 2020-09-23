@@ -96,6 +96,8 @@ export default {
         await this.$store.dispatch('login/userLogin', this.user)
         if (this.status.http_code !== 200) {
           this.loginMess = this.$t('messages[' + this.status.error_code + ']')
+        } else {
+          window.location.reload('/om-project-management');
         }
       }
     }
