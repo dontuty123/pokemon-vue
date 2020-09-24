@@ -5,4 +5,7 @@ const departmentService = {}
 departmentService.getList = (data) => {
   return funcApi.get('department-list', data)
 }
+departmentService.searchList = (data) => {
+  return funcApi.get('department-list', data)
+}
 export default departmentService

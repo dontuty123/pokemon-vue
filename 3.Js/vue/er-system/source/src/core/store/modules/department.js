@@ -12,8 +12,14 @@ const department = {
       class: 'text-danger',
       status: false
     },
+    dataMess: {
+      content: '',
+      class: 'text-danger',
+      status: false
+    },
     dataList: [],
     totalPage: 0,
+    http_code:''
   },
 
   mutations: {
@@ -25,6 +31,16 @@ const department = {
       state.dataList = []
       state.resultMess.content= data.error_code
     },
+    SEARCH_SUCCESS(state, data) {
+      state.http_code = data.http_code
+      state.dataMess.content = '004'
+      state.dataMess.class = 'text-success'
+      state.dataMess.status = true 
+    },
+    RESET(state){
+      state.dataMess.class = 'text-success'
+      state.dataMess.status = false
+    }
   },
 
   actions: {
@@ -36,6 +52,19 @@ const department = {
         commit('LOAD_FAIL', respon.data)
       }
     },
+
+    async searchData( {commit}, param) {
+      const respon = await departmentService.searchList(param)
+      if (respon.data.http_code === 200) {
+        commit('SEARCH_SUCCESS', respon.data)
+      }
+    },
+
+    resetMess( {commit} ) {
+      setTimeout(() => {
+        commit('RESET')
+      }, 3000)      
+    }
   },
 
   getters: {

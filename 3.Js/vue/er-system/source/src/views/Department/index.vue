@@ -4,6 +4,7 @@
       :dataInfo="dataInfo"
       @SearchList="SearchList"
     />
+    <p v-if="dataMess.status" :class="dataMess.class">{{ successMess }}</p>
     <p v-if="resultMess.status" :class="resultMess.class">{{ $t('messages["018"]' )}}</p>
     <TableCommon 
       :fields="fields"
@@ -68,7 +69,10 @@ export default {
         departmentName: '',
       },
       lengthOfList: this.totalPage,
-      currentPage: 0
+      currentPage: 0,
+      keySort: '',
+      searchStaus: 0,
+      successMess: ''      
     }
   },
   created() {
@@ -78,7 +82,9 @@ export default {
     ...mapState('department', {
       dataList : state => state.dataList,
       resultMess: state => state.resultMess,
-      totalPage: state => state.totalPage
+      totalPage: state => state.totalPage,
+      http_code: state => state.http_code,
+      dataMess: state => state.dataMess
     })
   },
   methods: {
@@ -86,28 +92,41 @@ export default {
       this.dataInfo = val
     },
 
-    SearchList(val) {
-      console.log(val)
-    },
-
     sortData(sort, val, key) {
       const status = sort ? 'ASC' : 'DESC' 
+      this.keySort = key + '-' +  status
       const data = {
-        isSearch: 0,
-        departmentCode: '',
-        departmentName: '',
+        isSearch: this.searchStaus,
+        departmentCode: this.dataInfo.departmentCode,
+        departmentName: this.dataInfo.departmentName,
         currentPage: this.currentPage,
         pageRecord: CONTANT.pageRecord,
-        sortBy: key + '-' +  status
+        sortBy: this.keySort
       }
       this.$store.dispatch('department/loadList', data)
     },
 
-    changePaging(val){
+    changePaging(val) {
       this.currentPage = val
     },
 
-    //Total Record in Table
+    async SearchList(val) {
+      const data = {
+        isSearch: val.departmentCode === '' && val.departmentName === '' ? 0 : 1,
+        departmentCode: val.departmentCode,
+        departmentName: val.departmentName,
+        currentPage: 1,
+        pageRecord: CONTANT.pageRecord,
+        sortBy: this.keySort === '' ? 'departmentCode-ASC' : this.keySort
+      }
+      await this.$store.dispatch('department/searchData', data)
+      if (this.http_code === 200) {
+        this.$store.dispatch('department/loadList', data)
+        this.successMess = this.$t('messages[' + this.dataMess.content + ']')
+      }
+      this.searchStaus = data.isSearch
+      this.$store.dispatch('department/resetMess')
+    }
   }
 }
 </script>
