@@ -18,46 +18,128 @@ const department = {
       status: false
     },
     dataList: [],
-    totalPage: 0,
-    http_code:''
+    totalRecord: 0,
+    http_code: '',
+    secretKey: '',
+    linkExport: ''
   },
 
   mutations: {
     LOAD_SUCCESS(state, data) {
       state.dataList = data.departmentList
-      state.totalPage = data.totalPage
+      state.totalRecord = data.totalRecord
     },
     LOAD_FAIL(state, data) {
       state.dataList = []
       state.resultMess.content= data.error_code
     },
-    SEARCH_SUCCESS(state, data) {
+    DATA_NULL(state, data) {
+      state.dataList = data.result.departmentList
+      state.resultMess.content = data.error_code
+      state.resultMess.class = 'text-danger'
+      state.resultMess.status = true
+    },
+    API_SUCCESS(state, data) {
       state.http_code = data.http_code
       state.dataMess.content = '004'
       state.dataMess.class = 'text-success'
       state.dataMess.status = true 
     },
-    RESET(state){
+    NO_DATA(state, data) {
+      state.http_code = data.http_code
+      state.dataMess.content = '004'
       state.dataMess.class = 'text-success'
+      state.dataMess.status = true 
+      state.resultMess.content = data.error_code
+      state.resultMess.class = 'text-danger'
+      state.resultMess.status = true
+    },
+    API_FAIL(state, data) {
+      state.http_code = data.http_code
+      state.resultMess.content = data.error_code
+      state.resultMess.class = 'text-danger'
+      state.resultMess.status = true 
+    },
+    RESET(state){
       state.dataMess.status = false
-    }
+      state.resultMess.status = false
+    },
+    SECRET_KEY(state, data) {
+      state.http_code = data.http_code
+      state.secretKey = data.result.secretKey
+    },
+    LINK_EXPORT(state, data) {
+      state.linkExport = data
+    },
   },
 
   actions: {
-    async loadList( { commit }, param) {
+    // Call Api load data,get department list 
+    async loadList( { commit } , param) {
       const respon = await departmentService.getList(param)
-      if (respon.data.http_code === 200){
-        commit('LOAD_SUCCESS', respon.data.result)
+      if (respon.data.http_code === 200) {
+        if (respon.data.error_code === '') {
+          commit('LOAD_SUCCESS', respon.data.result)
+        } else {
+          commit('DATA_NULL', respon.data)
+        }
+        
       } else {
         commit('LOAD_FAIL', respon.data)
       }
     },
 
-    async searchData( {commit}, param) {
+    // Search data in department list
+    async searchData( {commit} , param) {
       const respon = await departmentService.searchList(param)
       if (respon.data.http_code === 200) {
-        commit('SEARCH_SUCCESS', respon.data)
+        if (respon.data.error_code === ''){
+          commit('API_SUCCESS', respon.data)
+        } else {
+          commit('NO_DATA', respon.data)
+        }   
       }
+    },
+
+    // Add data in department list
+    async addData( {commit} , param) {
+      const respon = await departmentService.addList(param)
+      if (respon.data.http_code === 200) {
+        commit('API_SUCCESS', respon.data)     
+      } else {
+        commit('API_FAIL', respon.data)  
+      }
+    },
+
+    // Update data in department list
+    async updateData( {commit} , param ) {
+      const respon = await departmentService.updateList(param)
+      if (respon.data.http_code === 201) {
+        commit('API_SUCCESS', respon.data)
+      } else {
+        commit('API_FAIL', respon.data)
+      }
+    },
+
+    // delete data in department list
+    async deleteData( {commit} , param ) {
+      const respon = await departmentService.deleteList(param)
+      if (respon.data.http_code === 200) {
+        commit('API_SUCCESS', respon.data)     
+      } else {
+        commit('API_FAIL', respon.data)  
+      }
+    },
+
+    async secretKey( {commit} , param) {
+      const respon = await departmentService.getKey(param)
+      if (respon.data.http_code === 200) {
+        commit('SECRET_KEY',respon.data)
+      }
+    },
+    exportFile( {commit} , param) {
+      const link = departmentService.exportFile(param)
+      commit('LINK_EXPORT', link)
     },
 
     resetMess( {commit} ) {
