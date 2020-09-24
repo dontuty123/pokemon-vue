@@ -14,7 +14,7 @@
       @isAdd="isAdd" 
     />
       <p class="mt-2 mb-2" :class="resultMess.class">{{ resultMess.content }}</p>
-      <p class="mt-2 mb-2 text-danger">{{ noDataMess }}</p>
+      <p class="mt-2 mb-2 text-danger p-5" v-if="noDataMess !== ''">{{ noDataMess }}</p>
     <TableCommon 
       :fields="fields"
       :items="listOmEmployeeProject"
@@ -48,7 +48,7 @@ export default {
         {
           id:1,
           label: 'breadcrumb["master"]',
-          url: '/',
+          url: '/employee',
         },
         {
           id:2,
@@ -124,9 +124,6 @@ export default {
         if (this.status.error_code === '018') {
           this.noDataMess = this.$t('messages[' + this.status.error_code + ']')
         } 
-      setTimeout(() => {
-        this.noDataMess = ''
-      }, 3000); 
     },
 
     //Sort Table
@@ -177,7 +174,6 @@ export default {
       }
       setTimeout(() => {
         this.resultMess.content = ''
-        this.resultMess.class = 'text-danger'
       }, 3000);      
     },
 
@@ -193,7 +189,6 @@ export default {
       }
       setTimeout(() => {
         this.resultMess.content = ''
-        this.resultMess.class = 'text-danger'
       }, 3000);     
     },
 

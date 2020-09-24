@@ -31,9 +31,16 @@ const login = {
       if (respon.data.http_code === 200) {
         commit('LOGIN_SUCCESS', respon.data)
         cookie.set('userData', qs.stringify(respon.data.result))
-        // router.push('/om-project-management')
+        window.location.reload('/update-working-hour');
       } else {
         commit('LOGIN_FAIL', respon.data)
+      }
+    },
+
+    logout( { commit }, param) {
+      cookie.remove('userData')
+      if (!cookie.get('userData')) {
+        window.location.reload('/login');
       }
     }
   },
