@@ -96,21 +96,23 @@ export default {
     },
   },
   methods: {
+    validateInput(code, name) {
+      this.messCode = code === '' ? false : true
+      this.messName = name === '' ? false : true
+      const validate = this.messCode && this.messName ? true : false
+      return validate
+    },
     searchData() {
       this.messName = true
       this.messCode = true
       this.$emit('searchList', this.dataInfo)
     },
     addData() {
-      this.messCode = this.dataInfo.departmentCode === '' ? false : true
-      this.messName = this.dataInfo.departmentName === '' ? false : true
-      const validate = this.messCode && this.messName ? true : false
+      const validate = this.validateInput(this.dataInfo.departmentCode, this.dataInfo.departmentName)
       this.$emit('addList', this.dataInfo,validate)
     },
     updateData() {
-      this.messCode = this.dataInfo.departmentCode === '' ? false : true
-      this.messName = this.dataInfo.departmentName === '' ? false : true
-      const validate = this.messCode && this.messName ? true : false
+      const validate = this.validateInput(this.dataInfo.departmentCode, this.dataInfo.departmentName)
       this.$emit('updateList', this.dataInfo, validate)
     },
     deleteData() {
