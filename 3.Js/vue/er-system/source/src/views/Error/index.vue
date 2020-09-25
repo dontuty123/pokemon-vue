@@ -18,6 +18,9 @@ import cookie from 'js-cookie'
 import qs from 'qs'
 import auth from '@/core/service/checkAuth';
 export default {
+  mounted() {
+    this.$emit('initErrorPage', true)
+  },
   methods: {
     linkHome() {
       const userData = qs.parse(cookie.get('userData'))
