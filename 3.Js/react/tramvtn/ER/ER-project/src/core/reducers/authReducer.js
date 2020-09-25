@@ -9,6 +9,14 @@ const authReducer = (state = initialState, action) => {
             return {
                 errorCode: action.error
             }
+        case 'FORGOT':
+            return {
+                errorCode: action.error
+            }
+        case 'CLEAR':
+            return {
+                errorCode: ''
+            }
         default:
             return state;
     }

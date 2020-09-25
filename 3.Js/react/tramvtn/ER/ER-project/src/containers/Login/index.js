@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import "antd/dist/antd.less";
 import * as errorData from '../../core/data/en-error.json';
 
-import { loginAction } from '../../core/actions/authAction';
+import { loginAction, clearError } from '../../core/actions/authAction';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -19,9 +19,11 @@ class Login extends Component {
 			errorMail: '',
 			errorPass: '',
 			email: '',
-			password: ''
+			password: '',
+			
 		};
 	}
+		
 
 	/**
 	 * Function check change of input
@@ -35,17 +37,17 @@ class Login extends Component {
 		this.setState ({
 			[name]: value
 		})
-        
+		
+		this.props.clear();
+		
 		if (name === 'email'){
 			if (value === '') {
 				this.setState({
-                    errorMail: '002',
-                    errorCode: ''
+					errorMail: '002'
 				});
-			} else{
+			}else{
 				this.setState({
-                    errorMail: '',
-                    errorCode: ''
+					errorMail: ''
 				});
 			}
 		}
@@ -53,44 +55,32 @@ class Login extends Component {
 		if (name === 'password'){
 			if (value === '') {
 				this.setState({
-                    errorPass: '003',
-                    errorCode: ''
+					errorPass: '003'
 				});
-			} else{
+			}else{
 				this.setState({
-                    errorPass: '',
-                    errorCode: ''
+					errorPass: ''
 				});
 			}
 		}
-    }
-
-    /**
-	 * Check validate when submit button
-	 *
-	 */
-    onSubmit = () => {
-  
-
-    }
-	
+	}
+		
 	/**
 	 * Function when submit button
 	 *
 	 */
 	onFinish = (values) => {
-
 		this.props.login({
 			'email':this.state.email,
 			'password':this.state.password
 		});
-
+		
 		if (this.state.email === '') {
 			this.setState({
-                errorMail: '002',
-                errorCode: ''
+                errorMail: '002'
 			});
-		} else {
+			console.log('errorCode: ', this.state.errorCode)
+		}else {
             this.setState({
                 errorMail :''
             });
@@ -98,10 +88,9 @@ class Login extends Component {
         
         if (this.state.password === '') {
 			this.setState({
-                errorPass: '003',
-                errorCode: ''
+                errorPass: '003'
 			});
-		} else {
+		}else {
             this.setState({
                 errorPass :''
             });
@@ -114,10 +103,16 @@ class Login extends Component {
 	 */
 	errorMessage = (code) => {
 		const errorName = errorData.error[code];
-		return (
-			<p className="error-message">{errorName}</p>
-		);
-	}
+		if (code === '004'){
+			return (
+				<p className="success-message">{errorName}</p>
+			);
+		}else {
+			return (
+				<p className="error-message">{errorName}</p>
+			);
+		}
+	}	
 
 	render() {
 		return (
@@ -148,7 +143,7 @@ class Login extends Component {
 				</Form.Item>
 				{this.errorMessage(this.state.errorPass)}
 				<Form.Item>
-					<Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary ant-btn-block ant-btn-lg login-button" onClick={() => this.onSubmit()}>Login</Button>
+					<Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary ant-btn-block ant-btn-lg login-button" >Login</Button>
 				</Form.Item>
 				<Form.Item><Link to="/forgot-password" className="form-login-forgot">Forgot your password ?</Link></Form.Item>
 			</Form>
@@ -165,7 +160,8 @@ const mapStateToProps = state => {
 
 // const goi action bang ham dispatch
 const mapDispatchToProps = dispatch => ({
-	login: (param) => dispatch(loginAction(param))
+	login: (param) => dispatch(loginAction(param)),
+	clear: () => dispatch(clearError())
 });
 
 

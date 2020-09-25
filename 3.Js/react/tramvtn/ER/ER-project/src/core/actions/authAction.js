@@ -21,42 +21,67 @@ export const loginAction =(data) => {
     }
 }
 
-export const auth={};
+export const auth = {};
+
 auth.login= async(param)=>{
     const _body = "email=" + param.email + "&password=" + param.password;
-
-    return axios({
+    if (param.email !== '' && param.password !== ''){
+        return axios({
             method: 'post',
             url: CONST_API.apiUrl + 'login',
             data: _body
         }).then((response) => {
-            return response.data;
-            // if (response.data.error_code !== '') {
-            //     this.setState({
-            //         errorCode: response.data.error_code
-            //     })
-            // } else {
-            //     this.setState({
-            //         errorCode: ''
-            //     })
-            // }
+            if (response.data.error_code !== ''){
+                return response.data;
+            }else{
+                response.data.error_code = '004'
+                return response.data;
+            }
         }).catch((err) => console.log(err))
+
+    }
+   
 }
 
 export const forgotAction =(data) => {
-    return {
-        type: 'abc'
+    return dispatch => {
+       
+       auth.forgot(data)
+       .then(
+           res=>{
+               if(!res) return;
+                dispatch(rerponresult(res['error_code']));
+           }
+       )
     };
+    function rerponresult(error) {
+        return {
+            type: 'FORGOT',
+            error
+        }
+    }
 }
 
-export const success =() => {
-    return {
-        type: 'SUCCESS'
-    };
+auth.forgot = async(param) => {
+    const _body = "email=" + param.email;
+    if (param.email !== ''){
+        return axios({
+            method: 'post',
+            url: CONST_API.apiUrl + 'forgot-password',
+            data: _body
+        }).then((response) => {
+            if (response.data.error_code !== '') {
+                return response.data;
+            }else{
+                response.data.error_code = '004'
+                return response.data;
+            }
+        }).catch((err) => console.log('err: ',err))// loi goi api that bai 
+    }
 }
 
-export const fail =() =>{
+export const clearError  =() => {
     return {
-        type: 'FAIL'
-    };
+        type: 'CLEAR'
+    }
 }
