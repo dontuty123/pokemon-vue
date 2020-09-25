@@ -99,5 +99,10 @@
     "project": "Project",
     "updateWorkingHour": "Update Working Hour",
     "totalRecord": "Total Record"
+  },
+  "error": {
+    "notice": "ARTICLE NOT FOUND",
+    "noteLink": "Please try one of the following pages",
+    "button": "Home Page"
   }
 }

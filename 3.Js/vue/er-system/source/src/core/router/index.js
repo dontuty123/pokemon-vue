@@ -31,6 +31,13 @@ const routes = [
     path: '/department',
     name: 'Department',
     component: () => import('@/views/Department')
+  },
+
+  //Error
+  {
+    path: '/error/404',
+    name: 'error',
+    component: () => import('@/views/Error')
   }
 ]
 
@@ -42,7 +49,6 @@ const router = new VueRouter({
 //Check login
 router.beforeEach((to, from, next) => {
   const loginPage = ['/login', '/login/'];
-  
   const authRequired = !loginPage.includes(to.path);
   const loggedIn = funcMemory.getCookie('token');
   if (authRequired && !loggedIn) {
