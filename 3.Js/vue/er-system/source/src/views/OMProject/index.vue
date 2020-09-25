@@ -142,7 +142,7 @@ export default {
       } 
       setTimeout(() => {
         this.noDataMess = ''
-      }, 300); 
+      }, 3000); 
     },
 
     //Get params Add
