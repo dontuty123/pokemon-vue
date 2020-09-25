@@ -1,10 +1,10 @@
 <template>
   <div class="er-error">
     <div class="error-form">
-      <p class="page-title text-primary">
-      404
+      <p class="page-title text-primary mb-0">
+        404
       </p>
-      <p class="noticate">{{ $t('error["notice"]') }}</p>
+      <p class="noticate mb-0">{{ $t('error["notice"]') }}</p>
       <p class="error-content">{{ $t('error["noteLink"]') }}</p>
       <b-button class="btn-home" variant="primary" @click="linkHome">
         {{ $t('error["button"]') }}
@@ -14,15 +14,14 @@
 </template>
 
 <script>
-import cookie from 'js-cookie'
-import qs from 'qs'
-import auth from '@/core/service/checkAuth';
+import funcMemory from '@/core/service/memory.service.js';
 export default {
+  mounted() {
+    this.$emit('initErrorPage', true)
+  },
   methods: {
     linkHome() {
-      const userData = qs.parse(cookie.get('userData'))
-      console.log(userData)
-      userData.token !== '' ? window.location.reload('/') :  window.location.reload('/login')
+        this.$router.push('/update-working-hour').catch(error =>{})   
     }
   }
 }
