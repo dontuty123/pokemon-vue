@@ -24,6 +24,7 @@
     <Pagination 
       :lengthOfList="lengthOfList"
       @currentPage="changePaging"
+      :resetPage="resetPage"
     />
   </div>
 </template>
@@ -61,6 +62,7 @@ export default {
         projectId: null,
         employeeId: null,
         currentPage: 1,
+        resetPage: 1,
         pageRecord: 20,
         sortBy: 'projectCode-ASC',
         employeeBy: 'firstName-ASC',
@@ -136,6 +138,7 @@ export default {
 
     //Get params search
     async dataSearch(val) {
+      this.currentPage = 1
       await this.$store.dispatch('omProject/searchOmProject', val);
        if (this.status.error_code === '018') {
         this.noDataMess = this.$t('messages[' + this.status.error_code + ']')
@@ -232,7 +235,7 @@ export default {
         if (!this.resetTable) {
           this.getListOmProjects(this.paramsOmProject)
         } else {
-            const paramsReset = {
+            this.paramsOmProject = {
               isSearch: 0,
               projectId: null,
               employeeId: null,
@@ -242,7 +245,7 @@ export default {
               employeeBy: 'firstName-ASC',
               projectBy: 'projectCode-ASC',
           } 
-          this.getListOmProjects(paramsReset)
+          this.getListOmProjects(this.paramsOmProject)
         }    
       }
     },
