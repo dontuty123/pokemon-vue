@@ -16,6 +16,7 @@
 <script>
 import cookie from 'js-cookie'
 import qs from 'qs'
+import auth from '@/core/service/checkAuth';
 export default {
   methods: {
     linkHome() {

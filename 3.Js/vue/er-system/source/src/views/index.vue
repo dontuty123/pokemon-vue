@@ -1,16 +1,17 @@
 <template>
   <div id="er-system-management">
-    <Header v-if="dataRole.isLogin" />
+    <Header v-if="checkLogged || checkError" />
     <router-view class="body-content" />
     <Footer />
-    <ScrollTop v-if="dataRole.isLogin" />
+    <ScrollTop v-if="checkLogged" />
   </div>
 </template>
 <script>
 import ScrollTop from '@/components/GoTop' 
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { mapState } from 'vuex'
+import auth from '@/core/service/checkAuth';
+
 export default {
   components: {
     ScrollTop,
@@ -19,22 +20,19 @@ export default {
   },
   data() {
     return {
-     
+     checkLogged: false,
+     checkError: false
     }
   },
-  computed: {
-    ...mapState('userRole', {
-      dataRole: (state) => state.dataRole,
-    })
-  },
   methods: {
-    //Call Data User Role
-    getDataUserRole() {
-      this.$store.dispatch('userRole/getDataUser')
+    errorPage(val) {
+      this.isError = val
+      this.checkLogged = false
     }
   },
   mounted() {
-    this.getDataUserRole()
+    this.checLogged = auth.checkAuth('Logged');
+    this.checkError = auth.checkAuth('Error');
   }
 
 }
