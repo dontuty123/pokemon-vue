@@ -14,7 +14,7 @@
       @isAdd="isAdd" 
     />
       <p class="mt-2 mb-2" :class="resultMess.class">{{ resultMess.content }}</p>
-      <p class="mt-2 mb-2 text-danger p-5" v-if="noDataMess !== ''">{{ noDataMess }}</p>
+      <p class="mt-2 mb-2 text-danger" v-if="noDataMess !== ''">{{ noDataMess }}</p>
     <TableCommon 
       :fields="fields"
       :items="listOmEmployeeProject"
@@ -142,7 +142,7 @@ export default {
       } 
       setTimeout(() => {
         this.noDataMess = ''
-      }, 3000); 
+      }, 300); 
     },
 
     //Get params Add
@@ -254,6 +254,7 @@ export default {
   }
 };
 </script>
+
 <style scoped lang='scss'>
   @import 'style.scss';
 </style>
