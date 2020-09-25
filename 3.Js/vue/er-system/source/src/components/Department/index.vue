@@ -88,10 +88,10 @@ export default {
   },
   props: ['dataInfo', 'disabled'],
   watch: {
-    'dataInfo.departmentName'(val){
+    'dataInfo.departmentName'(val) {
       this.messName = true
     },
-    'dataInfo.departmentCode'(val){
+    'dataInfo.departmentCode'(val) {
       this.messCode = true
     },
   },

@@ -180,7 +180,7 @@ export default {
       if (this.http_code === 200) {
         this.$store.dispatch('department/loadList', data)
         this.successMess = this.$t('messages[' + this.dataMess.content + ']')
-        this.errorMess = this.$t('messages[' + this.resultMess.content + ']')
+        this.errorMess = this.resultMess.content !== '' ? this.$t('messages[' + this.resultMess.content + ']') : ''
         this.disabled = true
       }
       this.searchStaus = data.isSearch
@@ -197,9 +197,9 @@ export default {
         //If add success reload table else don't reload table and show messages
         if (this.http_code === 200) {
           this.reset = false
-          this.successMess = this.$t('messages[' + this.dataMess.content + ']')
           this.loadPage.isSearch = 0
-          this.$store.dispatch('department/loadList', this.loadPage)
+          await this.$store.dispatch('department/loadList', this.loadPage)
+          this.successMess = this.$t('messages[' + this.dataMess.content + ']')
           const dataClear = []
           this.dataInfo = resetValueObj.clear(this.dataInfo, dataClear)
           this.reset = true
@@ -276,6 +276,7 @@ export default {
         window.open(this.linkExport, '_blank')
       }
     },
+
     clearList(val) {
       const dataClear = []
       this.dataInfo = resetValueObj.clear(val, dataClear)

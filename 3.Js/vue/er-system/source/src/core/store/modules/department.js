@@ -35,30 +35,40 @@ const department = {
     },
     DATA_NULL(state, data) {
       state.dataList = data.result.departmentList
-      state.resultMess.content = data.error_code
-      state.resultMess.class = 'text-danger'
-      state.resultMess.status = true
+      state.resultMess = {
+        content: data.error_code,
+        class: 'text-danger',
+        status: true
+      }
     },
     API_SUCCESS(state, data) {
       state.http_code = data.http_code
-      state.dataMess.content = '004'
-      state.dataMess.class = 'text-success'
-      state.dataMess.status = true 
+      state.dataMess = {
+        content: '004',
+        class: 'text-success',
+        status: true
+      }
     },
     NO_DATA(state, data) {
       state.http_code = data.http_code
-      state.dataMess.content = '004'
-      state.dataMess.class = 'text-success'
-      state.dataMess.status = true 
-      state.resultMess.content = data.error_code
-      state.resultMess.class = 'text-danger'
-      state.resultMess.status = true
+      state.dataMess = {
+        content: '004',
+        class: 'text-success',
+        status: true
+      }
+      state.resultMess = {
+        content: data.error_code,
+        class: 'text-danger',
+        status: true
+      }
     },
     API_FAIL(state, data) {
       state.http_code = data.http_code
-      state.resultMess.content = data.error_code
-      state.resultMess.class = 'text-danger'
-      state.resultMess.status = true 
+      state.resultMess = {
+        content: data.error_code,
+        class: 'text-danger',
+        status: true
+      }
     },
     RESET(state){
       state.dataMess.status = false
