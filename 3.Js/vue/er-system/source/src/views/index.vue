@@ -1,9 +1,7 @@
 <template>
   <div id="er-system-management">
-    <div v-if="!isError">
-      <Header v-if="checkLogged" />
-    </div>
-    <router-view class="body-content" @initErrorPage="initErrorPage" />
+    <Header v-if="checkLogged || checkError" />
+    <router-view class="body-content" />
     <Footer />
     <ScrollTop v-if="checkLogged" />
   </div>
@@ -23,19 +21,20 @@ export default {
   data() {
     return {
      checkLogged: false,
-     isError: false,
+     checkError: false
     }
   },
   methods: {
-    initErrorPage(val) {
-      console.log(val);
-      val ? this.isError = val : this.isError = false
-      console.log(this.isError);
-    },
+    errorPage(val) {
+      this.isError = val
+      this.checkLogged = false
+    }
   },
   mounted() {
-    this.checkLogged = auth.checkAuth('Logged');
+    this.checLogged = auth.checkAuth('Logged');
+    this.checkError = auth.checkAuth('Error');
   }
+
 }
 </script>
 <style lang='scss'>
