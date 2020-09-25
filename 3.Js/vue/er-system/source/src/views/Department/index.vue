@@ -111,7 +111,11 @@ export default {
       successMess: '',
       errorMess: '',
       reset: true,
-      disabled: true,       
+      disabled: true, 
+      dataSearch: {
+        departmentCode: '',
+        departmentName: ''
+      }      
     }
   },
   created() {
@@ -175,6 +179,7 @@ export default {
         pageRecord: CONTANT.pageRecord,
         sortBy: this.keySort === '' ? 'departmentCode-ASC' : this.keySort
       }
+      this.dataSearch = val
       await this.$store.dispatch('department/searchData', data)
       // If search data success reload table department
       if (this.http_code === 200) {
@@ -243,8 +248,8 @@ export default {
       if (this.http_code === 200) {
         const data = this.loadPage
         data.isSearch = this.searchStaus
-        data.departmentCode = val.departmentCode
-        data.departmentName = val.departmentName,
+        data.departmentCode = this.dataSearch.departmentCode
+        data.departmentName = this.dataSearch.departmentName,
         data.currentPage = this.currentPage,
         data.sortBy = this.keySort === '' ? 'departmentCode-ASC' : this.keySort
         await this.$store.dispatch('department/loadList', data)
