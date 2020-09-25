@@ -58,7 +58,14 @@ const routes = [
   {
     path: '/department',
     name: 'Department',
-    component: () => import('@/views/Department'),
+    component: () => import('@/views/Department')
+  },
+
+  //Error
+  {
+    path: '/error/404',
+    name: 'Error',
+    component: () => import('@/views/Error')
   },
   //Position
   {
@@ -80,6 +87,7 @@ const checkInitScreen = (page, check, auth) => {
     if (!auth) result = 'UpdateWkHour'
     else result = 'Next'
   }
+  if (page === 'Error') result = 'Next'
   return result
 }
 

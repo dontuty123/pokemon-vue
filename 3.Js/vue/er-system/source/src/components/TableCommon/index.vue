@@ -6,7 +6,7 @@
           v-for="(item, index) in fields"
           :key="index"
           :class="fields[index].class"
-          @click="sortTable(fields[index].valueSort)"
+          @click="sortTable(fields[index].valueSort,fields[index].key)"
         >
           <span> {{ $t(fields[index].label) }}</span>
           <b-icon
@@ -70,7 +70,7 @@ export default {
       this.$emit('valueRowSelect', JSON.parse(JSON.stringify(val)))
     },
     //Sort Table
-    sortTable(val){
+    sortTable(val, key){
       if (val === 1) {
          this.rotate1 = !this.rotate1
       }
@@ -78,7 +78,7 @@ export default {
          this.rotate2 = !this.rotate2
       }
       this.sortData = !this.sortData 
-      this.$emit('sortData', this.sortData, val)
+      this.$emit('sortData', this.sortData, val, key)
     }
   },
 };

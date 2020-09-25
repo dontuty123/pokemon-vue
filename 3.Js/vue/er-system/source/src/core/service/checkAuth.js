@@ -34,6 +34,9 @@ const auth = {
       Approve:[
         [ 'teamLeader' , 'manager', 'director', 'supervisor' ], 'director', 'admin', 'hr'
       ], 
+      Error:[
+        [ 'teamLeader' , 'manager', 'director', 'supervisor', 'staff' ], 'director', 'admin', 'hr'
+      ],
     }
     //if user is staff
     if (urlCheck[url]) {

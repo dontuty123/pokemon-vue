@@ -1,0 +1,32 @@
+.er {
+  &-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 90px);
+    .error-form {
+      width: 400px;
+    }
+    .page-title {
+      font-size: 180px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .noticate {
+      font-size: 35px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    .error-content {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 16px;
+    }
+    .btn-home{
+      width: 100%;
+      font-weight: bold;
+    }
+  }
+}

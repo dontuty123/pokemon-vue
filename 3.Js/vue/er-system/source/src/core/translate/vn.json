@@ -99,5 +99,10 @@
     "project": "Dự án",
     "updateWorkingHour": "Cập nhật giờ công",
     "totalRecord": "Tổng giờ công"
+  },
+  "error": {
+    "notice": "ARTICLE NOT FOUND",
+    "noteLink": "Vui lòng thử một trong các trang sau",
+    "button": "Trang Chủ"
   } 
 }
