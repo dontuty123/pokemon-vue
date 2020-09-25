@@ -222,8 +222,8 @@ export default {
       if (validate) {
         const data = this.loadPage
         data.isSearch = this.searchStaus
-        data.departmentCode = val.departmentCode
-        data.departmentName = val.departmentName,
+        data.departmentCode =this.dataSearch.departmentCode
+        data.departmentName = this.dataSearch.departmentName,
         data.currentPage = this.currentPage,
         data.sortBy = this.keySort === '' ? 'departmentCode-ASC' : this.keySort
         //If update success reload table else don't reload table and show messages
