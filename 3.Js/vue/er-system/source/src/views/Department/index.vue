@@ -222,9 +222,9 @@ export default {
       if (validate) {
         const data = this.loadPage
         data.isSearch = this.searchStaus
-        data.departmentCode =this.dataSearch.departmentCode
-        data.departmentName = this.dataSearch.departmentName,
-        data.currentPage = this.currentPage,
+        data.departmentCode = this.searchStaus === 1 ? this.dataSearch.departmentCode : val.departmentCode
+        data.departmentName = this.searchStaus === 1 ? this.dataSearch.departmentName : val.departmentName
+        data.currentPage = this.currentPage
         data.sortBy = this.keySort === '' ? 'departmentCode-ASC' : this.keySort
         //If update success reload table else don't reload table and show messages
         await this.$store.dispatch('department/updateData', val)
@@ -248,9 +248,9 @@ export default {
       if (this.http_code === 200) {
         const data = this.loadPage
         data.isSearch = this.searchStaus
-        data.departmentCode = this.dataSearch.departmentCode
-        data.departmentName = this.dataSearch.departmentName,
-        data.currentPage = this.currentPage,
+        data.departmentCode = this.searchStaus === 1 ? this.dataSearch.departmentCode : val.departmentCode
+        data.departmentName = this.searchStaus === 1 ? this.dataSearch.departmentName : val.departmentName
+        data.currentPage = this.currentPage
         data.sortBy = this.keySort === '' ? 'departmentCode-ASC' : this.keySort
         await this.$store.dispatch('department/loadList', data)
         this.successMess = this.$t('messages[' + this.dataMess.content + ']')
