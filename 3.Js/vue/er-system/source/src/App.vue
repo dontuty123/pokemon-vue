@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Index />
+    <Index :key="$route.fullPath" />
   </div>
 </template>
 <script>

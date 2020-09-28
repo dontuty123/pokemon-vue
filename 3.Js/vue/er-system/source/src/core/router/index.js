@@ -94,7 +94,7 @@ const checkInitScreen = (page, check, auth) => {
     if (!auth) result = 'UpdateWkHour'
     else result = 'Next'
   }
-  if (page === 'Error') result = 'Next'
+  if (page === 'Error' && (!check || check)) result = 'Next'
   return result
 }
 

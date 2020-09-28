@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo-company.png';
 import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import "antd/dist/antd.css";
-import './styles.scss';
-import CONST_API from '../../core/constant/constant';
+import "antd/dist/antd.less";
 import * as errorData from '../../core/data/en-error.json';
 
+import { loginAction, clearError } from '../../core/actions/authAction';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 
 class Login extends Component {
 
@@ -19,29 +19,33 @@ class Login extends Component {
 			errorMail: '',
 			errorPass: '',
 			email: '',
-			password: ''
+			password: '',
+			
 		};
 	}
+		
 
 	/**
 	 * Function check change of input
 	 *
 	 */
 	handleChange =(e) => {
-		let target = e.target;
-		let name = target.name;
-		let value = target.value;
+		const target = e.target;
+		const name = target.name;
+		const value = target.value;
 		
 		this.setState ({
 			[name]: value
 		})
-
+		
+		this.props.clear();
+		
 		if (name === 'email'){
 			if (value === '') {
 				this.setState({
 					errorMail: '002'
 				});
-			} else{
+			}else{
 				this.setState({
 					errorMail: ''
 				});
@@ -53,65 +57,43 @@ class Login extends Component {
 				this.setState({
 					errorPass: '003'
 				});
-			} else{
+			}else{
 				this.setState({
 					errorPass: ''
 				});
 			}
 		}
 	}
-
-	/**
-	 * Function check validate of mail
-	 *
-	 */
-	validateEmail = (email) => {
-		const validate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-		return validate.test(email)
-	}
-
+		
 	/**
 	 * Function when submit button
 	 *
 	 */
 	onFinish = (values) => {
+		this.props.login({
+			'email':this.state.email,
+			'password':this.state.password
+		});
+		
 		if (this.state.email === '') {
 			this.setState({
-				errorMail: '002'
+                errorMail: '002'
 			});
-		} else {
-			let resValidate = this.validateEmail(this.state.email)
-			if (resValidate){
-				this.setState({
-					errorMail :''
-				});
-			}
-		}
-		if (this.state.password === '') {
+			console.log('errorCode: ', this.state.errorCode)
+		}else {
+            this.setState({
+                errorMail :''
+            });
+        }
+        
+        if (this.state.password === '') {
 			this.setState({
-				errorPass: '003'
+                errorPass: '003'
 			});
-		}
-		
-		if (values.email !== '' && values.password !== '') {
-			//call API login
-			const _body = "email=" + values.email + "&password=" + values.password;
-
-			axios({
-				method: 'post',
-				url: CONST_API.apiUrl + 'login',
-				data: _body
-			}).then((response) => {
-				if (response.data.error_code !== '') {
-					this.setState({
-						errorCode: response.data.error_code
-					})
-				} else {
-					this.setState({
-						errorCode: ''
-					})
-				}
-			}).catch((err) => console.log(err))// loi goi api that bai , 403
+		}else {
+            this.setState({
+                errorPass :''
+            });
 		}
 	};
 
@@ -121,10 +103,16 @@ class Login extends Component {
 	 */
 	errorMessage = (code) => {
 		const errorName = errorData.error[code];
-		return (
-			<p className="error-message">{errorName}</p>
-		);
-	}
+		if (code === '004'){
+			return (
+				<p className="success-message">{errorName}</p>
+			);
+		}else {
+			return (
+				<p className="error-message">{errorName}</p>
+			);
+		}
+	}	
 
 	render() {
 		return (
@@ -140,13 +128,13 @@ class Login extends Component {
 					<img src={Logo} alt="KOBELCO" />
 					<p className="form-title">LOGIN</p>
 				</div>
-				{this.errorMessage(this.state.errorCode)}
-				<Form.Item>
+				{this.errorMessage(this.props.errorCode)}
+				<Form.Item name="email">
 					<Input prefix={<UserOutlined className="site-form-item-icon ant-input-lg" />} size="large"
 						placeholder="E-mail address" type="email" name="email" onChange={this.handleChange} />
 				</Form.Item>
 				{this.errorMessage(this.state.errorMail)}
-				<Form.Item>
+				<Form.Item name="password">
 					<Input
 						prefix={<LockOutlined className="site-form-item-icon ant-input-lg" />} size="large"
 						type="password"
@@ -155,11 +143,28 @@ class Login extends Component {
 				</Form.Item>
 				{this.errorMessage(this.state.errorPass)}
 				<Form.Item>
-					<Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary ant-btn-block ant-btn-lg login-button">Login</Button>
+					<Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary ant-btn-block ant-btn-lg login-button" >Login</Button>
 				</Form.Item>
-				<Form.Item><Link to="/forgotpassword" className="form-login-forgot">Forgot your password ?</Link></Form.Item>
+				<Form.Item><Link to="/forgot-password" className="form-login-forgot">Forgot your password ?</Link></Form.Item>
 			</Form>
 		);
 	}
 };
-export default Login;
+
+// const nhan gia tri tra ve
+const mapStateToProps = state => {
+	return {
+		errorCode : state.authReducer.errorCode
+	}
+};
+
+// const goi action bang ham dispatch
+const mapDispatchToProps = dispatch => ({
+	login: (param) => dispatch(loginAction(param)),
+	clear: () => dispatch(clearError())
+});
+
+
+export default compose(
+	connect (mapStateToProps,mapDispatchToProps)
+)(Login);
