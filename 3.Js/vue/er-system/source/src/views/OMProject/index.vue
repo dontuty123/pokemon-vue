@@ -12,6 +12,7 @@
       @dataUpdate="dataUpdate"
       @dataDelete="dataDelete" 
       @isAdd="isAdd" 
+      @resetCurrentPage="resetCurrentPage"
     />
       <p class="mt-2 mb-2" :class="resultMess.class">{{ resultMess.content }}</p>
       <p class="mt-2 mb-2 text-danger" v-if="noDataMess !== ''">{{ noDataMess }}</p>
@@ -24,7 +25,7 @@
     <Pagination 
       :lengthOfList="lengthOfList"
       @currentPage="changePaging"
-      :resetPage="resetPage"
+      :resetCurrentPage="numberReset" 
     />
   </div>
 </template>
@@ -62,7 +63,6 @@ export default {
         projectId: null,
         employeeId: null,
         currentPage: 1,
-        resetPage: 1,
         pageRecord: 20,
         sortBy: 'projectCode-ASC',
         employeeBy: 'firstName-ASC',
@@ -115,12 +115,12 @@ export default {
         class: 'text-danger'
       },
       noDataMess:'',
-      resetTable: false
+      resetTable: false,
+      numberReset:0
     };
   },
 
   methods: {
-
     async getListOmProjects(val){
       await this.$store.dispatch('omProject/getOmProject', val);
         if (this.status.error_code === '018') {
@@ -138,7 +138,7 @@ export default {
 
     //Get params search
     async dataSearch(val) {
-      this.currentPage = 1
+     
       await this.$store.dispatch('omProject/searchOmProject', val);
        if (this.status.error_code === '018') {
         this.noDataMess = this.$t('messages[' + this.status.error_code + ']')
@@ -148,6 +148,9 @@ export default {
       }, 3000); 
     },
 
+    resetCurrentPage(val) {
+      this.numberReset += 1
+    },
     //Get params Add
     async dataAdd(val) {
       await this.$store.dispatch('omProject/addOmProject', val);
