@@ -1,4 +1,0 @@
-/**
- *
- * Call api backend
- */
