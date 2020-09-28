@@ -11,7 +11,7 @@ import {Dispatch} from 'redux';
 import {AppActions} from "../../core/actions/type";
 import {user} from "../../core/reducers/userReducer";
 import Footer from "../../components/Footer";
-import {useTranslation} from "react-i18next";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 interface State {
     email: string,
@@ -26,17 +26,20 @@ interface CSSObject {
 
 }
 
-interface StoreStateProp {
-    userInfo: user
-}
+const mapStateToProps = (state: any) => ({
+    userInfo: state.userReducer
+})
 
-interface StoreDispatchProp {
-    setLogin: (data: user) => void;
-}
+const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
+    setLogin: (data: user) => dispatch(setLogin(data))
+})
 
-type Props = StoreStateProp & StoreDispatchProp
+interface Props extends ReturnType<typeof mapDispatchToProps>, ReturnType<typeof mapStateToProps>, WithTranslation {
+
+}
 
 class Login extends Component<Props, State> {
+    
     state: State = {
         email: "",
         pwd: "",
@@ -108,6 +111,8 @@ class Login extends Component<Props, State> {
     }
 
     render() {
+        const { t } = this.props;
+        console.log(this.props)
         const {email, pwd, loading, messageLogin} = this.state;
         const validEmail = this.validateEmail(),
             validPassword = this.validatePassword();
@@ -119,6 +124,8 @@ class Login extends Component<Props, State> {
                         if (e.keyCode === 13 && !loading) this.handleSubmit()
                     }}>
                         <h2>Login</h2>
+                        <h1>{t("login")}</h1>
+                        <h1>{t("title")}</h1>
                         <FromInput.TextBox
                             id="email"
                             type="user"
@@ -160,12 +167,4 @@ class Login extends Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: any) => ({
-    userInfo: state.userReducer
-})
-
-const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
-    setLogin: (data: user) => dispatch(setLogin(data))
-})
-
-export default connect<StoreStateProp, StoreDispatchProp>(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation(["loginLang"])(Login));

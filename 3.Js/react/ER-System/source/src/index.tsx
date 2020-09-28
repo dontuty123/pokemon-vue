@@ -12,22 +12,26 @@ import common_en from "./translations/en/common.json";
 import HeaderComponent from "./App";
 import Store from "./core/store";
 
-i18next.init({
-    interpolation: {escapeValue: false},
-    lng: 'en',
-    resources: {
-        en: {
-            common: common_en
-        },
-        vi: {
-            common: common_vi
-        },
-    },
-});
+
+import i18n from "./core/i18n";
+
+
+// i18next.init({
+//     interpolation: {escapeValue: false},
+//     lng: 'en-US',
+//     resources: {
+//         en: {
+//             common: common_en
+//         },
+//         vi: {
+//             common: common_vi
+//         },
+//     },
+// });
 
 ReactDOM.render(
     <React.StrictMode>
-        <I18nextProvider i18n={i18next}>
+        <I18nextProvider i18n={i18n}>
             <HeaderComponent/>
             <Store />
         </I18nextProvider>

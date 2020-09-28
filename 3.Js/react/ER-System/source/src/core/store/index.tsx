@@ -12,7 +12,7 @@ const Store = () => {
     return (
         <Provider store={store}>
             <Router>
-                <Route path="/" exact component={Login} />
+                <Route path="/" component={Login} />
                 <Route path="/demo" component={HeaderComponent} />
             </Router>
         </Provider>

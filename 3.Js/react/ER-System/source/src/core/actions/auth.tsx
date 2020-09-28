@@ -1,5 +1,5 @@
 import { AppActions, USER_INFO, SET_LOGIN } from '../actions/type';
-import { user } from '../reducer/userReducer';
+import { user } from '../reducers/userReducer';
 
 const userInfo = (data: user): AppActions => {
     return {
