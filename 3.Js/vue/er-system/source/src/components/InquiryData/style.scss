@@ -1,0 +1,25 @@
+.er{
+  &-inquirydata{
+    .form-edit{
+      width: 100%;
+      a, p {
+        color: #0072bb;
+        font-weight: 600;
+        font-size: .92857143em;
+        text-decoration: none;
+        &.disabled{
+          opacity: 0.8;
+          pointer-events: none;
+        }
+      }
+    }
+   .label{
+     font-weight: 600;
+    }
+    .input-datepicker{
+      input{
+        border-color: 1px solid #cccccc !important;
+      }
+    }
+  } 
+}
