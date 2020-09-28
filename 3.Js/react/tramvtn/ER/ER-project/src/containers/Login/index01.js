@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo-company.png';
 import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import "antd/dist/antd.css";
+import "antd/dist/antd.less";
 import CONST_API from '../../core/constant/constant';
 import * as errorData from '../../core/data/en-error.json';
-import functionCommon from '../../core/common/function';
 
-
-class ResetPassword extends Component {
+class Login extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
 			errorCode: '',
+			errorMail: '',
 			errorPass: '',
+			email: '',
 			password: ''
 		};
 	}
@@ -34,6 +34,18 @@ class ResetPassword extends Component {
 			[name]: value
 		})
 
+		if (name === 'email'){
+			if (value === '') {
+				this.setState({
+					errorMail: '002'
+				});
+			} else{
+				this.setState({
+					errorMail: ''
+				});
+			}
+		}
+
 		if (name === 'password'){
 			if (value === '') {
 				this.setState({
@@ -45,26 +57,48 @@ class ResetPassword extends Component {
 				});
 			}
 		}
-	}
+    }
 
+    /**
+	 * Check validate when submit button
+	 *
+	 */
+    onSubmit = () => {
+        if (this.state.email === '') {
+			this.setState({
+				errorMail: '002'
+			});
+		} else {
+            this.setState({
+                errorMail :''
+            });
+        }
+        
+        if (this.state.password === '') {
+			this.setState({
+				errorPass: '003'
+			});
+		} else {
+            this.setState({
+                errorPass :''
+            });
+		}
+
+    }
+	
 	/**
 	 * Function when submit button
 	 *
 	 */
 	onFinish = (values) => {
-		if (this.state.password === '') {
-			this.setState({
-				errorPass: '003'
-			});
-		}
-		
-		if (values.password !== '') {
-			//call API reset password
-			const _body ="&password=" + values.password;
+		console.log(values)
+		if (values.email !== '' && values.password !== '') {
+			//call API login
+			const _body = "email=" + values.email + "&password=" + values.password;
 
 			axios({
-				method: 'put',
-				url: CONST_API.apiUrl + 'reset-password',
+				method: 'post',
+				url: CONST_API.apiUrl + 'login',
 				data: _body
 			}).then((response) => {
 				if (response.data.error_code !== '') {
@@ -103,30 +137,28 @@ class ResetPassword extends Component {
 			>
 				<div className="form-header">
 					<img src={Logo} alt="KOBELCO" />
-					<p className="form-title">RESET PASSWORD</p>
+					<p className="form-title">LOGIN</p>
 				</div>
 				{this.errorMessage(this.state.errorCode)}
 				<Form.Item>
-					<Input
-						prefix={<LockOutlined className="site-form-item-icon ant-input-lg" />} size="large"
-						type="password"
-						placeholder="Enter your new password" name="password" onChange={this.handleChange}
-					/>
+					<Input prefix={<UserOutlined className="site-form-item-icon ant-input-lg" />} size="large"
+						placeholder="E-mail address" type="email" name="email" onChange={this.handleChange} />
 				</Form.Item>
-				{this.errorMessage(this.state.errorPass)}
+				{this.errorMessage(this.state.errorMail)}
 				<Form.Item>
 					<Input
 						prefix={<LockOutlined className="site-form-item-icon ant-input-lg" />} size="large"
 						type="password"
-						placeholder="Confirm your new password" name="password" onChange={this.handleChange}
+						placeholder="Password" name="password" onChange={this.handleChange}
 					/>
 				</Form.Item>
 				{this.errorMessage(this.state.errorPass)}
 				<Form.Item>
-					<Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary ant-btn-block ant-btn-lg login-button">Save new Password</Button>
+					<Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary ant-btn-block ant-btn-lg login-button" onClick={() => this.onSubmit()}>Login</Button>
 				</Form.Item>
+				<Form.Item><Link to="/forgot-password" className="form-login-forgot">Forgot your password ?</Link></Form.Item>
 			</Form>
 		);
 	}
 };
-export default ResetPassword;
+export default Login;
