@@ -35,7 +35,7 @@ const omProject = {
     GET_DATA_LIST_PROJECT: (state, listOmProject) => {
       state.listOmproject = listOmProject;
       //Add 1 option is All
-      state.listOmproject.push(
+      state.listOmproject.unshift(
         {
           defaultProject:false,
           id:0,
@@ -48,7 +48,7 @@ const omProject = {
     GET_DATA_LIST_EMPLOYEE: (state, listOmEmployee) => {
       state.listOmEmployee = listOmEmployee;
       //Add 1 option is All
-      state.listOmEmployee.push(
+      state.listOmEmployee.unshift(
         {
           employeeCode: '',
           employeeName: 'All',

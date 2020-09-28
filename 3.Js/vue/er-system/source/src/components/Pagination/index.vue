@@ -22,7 +22,16 @@ export default {
       currentPage: 1,
     }
   },
-  props: ['lengthOfList'],
+  props:{
+    lengthOfList: {
+      type: Number,
+      required: false,
+    },
+    resetCurrentPage: {
+      type: Number,
+      required: false,
+    }
+  },
   methods: {
     //Send current page for table
     changeNumberPage() {
@@ -32,9 +41,9 @@ export default {
     }
   },
   watch: {
-    numberPage(val) {
-      this.currentPage = val
-    }
+    resetCurrentPage(val) {
+      this.currentPage = 1  
+    },
   },
 }
 </script>
