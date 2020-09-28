@@ -31,7 +31,7 @@ const login = {
       if (respon.data.http_code === 200) {
         commit('LOGIN_SUCCESS', respon.data)
         cookie.set('userData', qs.stringify(respon.data.result))
-        window.location.reload('/update-working-hour');
+        router.push('/update-working-hour');
       } else {
         commit('LOGIN_FAIL', respon.data)
       }
@@ -40,7 +40,7 @@ const login = {
     logout( { commit }, param) {
       cookie.remove('userData')
       if (!cookie.get('userData')) {
-        window.location.reload('/login');
+        router.push('/login');
       }
     }
   },
