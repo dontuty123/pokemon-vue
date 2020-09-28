@@ -125,7 +125,6 @@ class Login extends Component<Props, State> {
                     }}>
                         <h2>Login</h2>
                         <h1>{t("login")}</h1>
-                        <h1>{t("title")}</h1>
                         <FromInput.TextBox
                             id="email"
                             type="user"
