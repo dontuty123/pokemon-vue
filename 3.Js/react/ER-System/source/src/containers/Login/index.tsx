@@ -39,7 +39,7 @@ interface Props extends ReturnType<typeof mapDispatchToProps>, ReturnType<typeof
 }
 
 class Login extends Component<Props, State> {
-    
+
     state: State = {
         email: "",
         pwd: "",
@@ -123,14 +123,13 @@ class Login extends Component<Props, State> {
                     <div style={{textAlign: 'center'}} onKeyDown={(e) => {
                         if (e.keyCode === 13 && !loading) this.handleSubmit()
                     }}>
-                        <h2>Login</h2>
                         <h1>{t("login")}</h1>
                         <FromInput.TextBox
                             id="email"
                             type="user"
                             name="email"
                             value={email}
-                            placeholder="E-mail address"
+                            placeholder={t("placeholder_email")}
                             disabled={loading}
                             onChange={(e) => this.handleChange(e)}
                         />
@@ -141,14 +140,14 @@ class Login extends Component<Props, State> {
                             type="password"
                             name="pwd"
                             value={pwd}
-                            placeholder="Password"
+                            placeholder={t("placeholder_pwd")}
                             disabled={loading}
                             onChange={(e) => this.handleChange(e)}
                         />
                         <p className="validate"
                            style={{display: validPassword.display} as Pick<CSSObject, keyof CSSObject>}>{validPassword.mess}</p>
                         <FromInput.Button
-                            value="Login"
+                            value={t("btn_login")}
                             onClick={() => this.handleSubmit()}
                             disabled={loading}
                         />
@@ -156,8 +155,7 @@ class Login extends Component<Props, State> {
                            style={{display: messageLogin.length > 0 ? null : 'none'} as Pick<CSSObject, keyof CSSObject>}>
                             {messageLogin}
                         </p>
-                        <a href="/forgot-password" style={{textDecoration: 'none', color: '#0088D3'}}>Forgot your
-                            password ?</a>
+                        <a href="/forgot-password" style={{textDecoration: 'none', color: '#0088D3'}}>{t("link_forgot")}</a>
                     </div>
                 </div>
                 <Footer />

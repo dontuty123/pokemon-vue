@@ -1,7 +1,4 @@
 {
-	"welcome": {
-		"title": "chào mừng {{framework}}"
-	},
 	"loginLang": {
 		"login": "LOGIN",
 		"placeholder_email": "E-mail address",

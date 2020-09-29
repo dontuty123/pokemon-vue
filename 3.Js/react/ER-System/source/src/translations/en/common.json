@@ -1,7 +1,4 @@
 {
-	"welcome": {
-		"title": "Welcome to {{framework}}"
-	},
 	"loginLang": {
 		"login": "ĐĂNG NHẬP",
 		"placeholder_email": "Địa chỉ E-mail",
