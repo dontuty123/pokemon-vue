@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './menu-style.scss';
 
-class Menu extends React.Component {
+
+class Menu extends Component {
     render() {
         return (
             <div className="menu">

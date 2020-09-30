@@ -1,5 +1,5 @@
 import { AppActions, USER_INFO, SET_LOGIN, SET_LOGOUT } from '../types/actions';
-import * as Cookie from '../../cookie';
+import * as Cookie from '../cookie';
 import { user } from '../types/user';
 
 const userInfo = (data: user): AppActions => {

@@ -3,11 +3,11 @@ import './header-style.scss';
 import Logo from '../../assets/img/kobelco.png';
 import VnImg from '../../assets/img/img_vn.png';
 import EnImg from '../../assets/img/img_en.png';
-import {AppActions} from '../../core/store/types/actions';
-import {user} from '../../core/store/types/user';
+import {AppActions} from "../../core/types/actions";
+import {user} from "../../core/types/user";
 import {Dispatch} from 'redux';
 import {connect} from 'react-redux';
-import {setLogout} from '../../core/store/actions/userAction';
+import {setLogout} from "../../core/actions/userAction";
 import i18n from "../../core/util/i18n";
 import {withTranslation} from "react-i18next";
 

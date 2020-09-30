@@ -16,9 +16,19 @@
 		"total": "Total Record",
 		"approve": "Approve",
 		"change_pwd": "Change Password",
-		"logout": "Logout"
+		"logout": "Logout",
+		"search": "Search",
+		"add": "Add",
+		"update": "Update",
+		"delete": "Delete"
 	},
 	"om-project": {
-		"title": "Master/ OM Project Management"
+		"title": "Master/ OM Project Management",
+		"project_om": "Project",
+		"employee": "Employee",
+		"project_code": "Project Code",
+		"project_name": "Project Name",
+		"employee_code": "Employee Code",
+		"employee_name": "Employee Name"
 	}
 }

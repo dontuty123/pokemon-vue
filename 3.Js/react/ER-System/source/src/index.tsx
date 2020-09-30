@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { rootReducer } from './core/store/reducers';
+import { rootReducer } from './core/reducers';
 import i18n from "./core/util/i18n";
 import {I18nextProvider} from "react-i18next";
 

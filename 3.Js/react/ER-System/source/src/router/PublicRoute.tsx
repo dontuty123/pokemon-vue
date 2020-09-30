@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import { user } from '../core/store/types/user';
+import { user } from '../core/types/user';
 
 
 const PublicRoute = ({component: Component, restricted, ...rest}: any) => {

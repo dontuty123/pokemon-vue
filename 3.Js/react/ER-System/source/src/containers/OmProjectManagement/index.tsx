@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Header from '../../components/Header';
-import { getApi } from '../../core/api';
+import {getApi} from '../../core/api';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
 import Menu from '../../components/Menu';
@@ -38,20 +38,25 @@ class OmProjectManagement extends Component<Props, State> {
         const data = await getApi('omproject-list', {
             "isSearch": 0,
             "projectId": "",
-            "employeeId":"",
+            "employeeId": "",
             "employeeBy": "firstName-ASC",
             "projectBy": "projectCode-ASC",
             "currentPage": projects.currentPage || "",
             "pageRecord": 20,
             "sortBy": "projectCode-ASC",
         })
-        const result = {
-            ...data.data.result,
-            result: data.data.result.employeeProject
+        if (data.data.http_code === 200) {
+            const result = {
+                ...data.data.result,
+                result: data.data.result.employeeProject
+            }
+            this.setState({
+                projects: result,
+                projectType: data.data.result.omProject,
+                projectTypeName: data.data.result.employeeWorking
+            })
         }
-        this.setState({projects: result,projectType: data.data.result.omProject,projectTypeName: data.data.result.employeeWorking})
     }
-
     getTableColumns = () => {
         const columns = [
             {
@@ -76,9 +81,21 @@ class OmProjectManagement extends Component<Props, State> {
     }
 
     getFormColumns = () => {
-        const {projectType,projectTypeName} = this.state;
-        const optionsCode = [{title: "All", value: 0}].concat(projectType.map(item => ({title: item.projectCode + '-' + item.projectName, value: item.projectCode})));
-        const options = [{title: "All", value: 0}].concat(projectTypeName.map(item => ({title: item.employeeName, value: item.employeeName})));
+        const {t} = this.props;
+        const {projectType, projectTypeName} = this.state;
+        console.log(projectType);
+        const optionsCode = [{
+            title: "All",
+            value: 0
+        }].concat(projectType.map(item => ({
+            title: item.projectCode + '-' + item.projectName,
+            value: item.projectCode
+        })));
+
+        const options = [{title: "All", value: 0}].concat(projectTypeName.map(item => ({
+            title: item.employeeName,
+            value: item.employeeName
+        })));
         const columns = [
             {
                 title: "Dự án",
@@ -106,9 +123,9 @@ class OmProjectManagement extends Component<Props, State> {
         const {t} = this.props;
         return (
             <div>
-                <Header />
+                <Header/>
                 <h1>{t('title')}</h1>
-                <Menu />
+                <Menu/>
                 <div className="form">
                     <Form
                         idForm={"project"}
@@ -135,4 +152,5 @@ class OmProjectManagement extends Component<Props, State> {
         )
     }
 }
+
 export default (withTranslation(["om-project"])(OmProjectManagement));

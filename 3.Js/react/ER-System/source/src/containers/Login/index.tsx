@@ -1,14 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './login.scss';
 import Logo from '../../assets/img/kobelco.png';
 import TextBox from '../../components/textbox';
 import Button from '../../components/button';
+import * as Cookie from '../../core/cookie';
 import * as Constant from '../../core/constant';
+import { validate } from '../../core/extend';
 import { connect } from 'react-redux';
-import { setLogin, userInfo } from '../../core/store/actions/userAction';
+import { setLogin, userInfo } from '../../core/actions/userAction';
 import { Dispatch } from 'redux';
-import { AppActions } from '../../core/store/types/actions';
-import { user } from '../../core/store/types/user';
+import { AppActions } from '../../core/types/actions';
+
+import { user } from '../../core/types/user';
 import * as API from '../../core/api';
 
 
@@ -31,10 +34,9 @@ interface StoreDispatchProp {
     setUserInfo: (data: user) => void,
     setLogin: (data: user) => void
 }
+type Props =  StoreStateProp & StoreDispatchProp
 
-type Props = StoreStateProp & StoreDispatchProp
-
-class Login extends Component<Props, State> {
+class Login extends React.Component<Props, State> {
 
     state: State = {
         userInfo: {
@@ -46,26 +48,62 @@ class Login extends Component<Props, State> {
         checked: false,
     }
 
-    handleChange = (e:any) => {
-        const { label, value } = e.target;
-        this.setState({ [label]: value , messageLogin: ""});
+    handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const label = e.currentTarget.name,
+            value = e.currentTarget.value,
+            userInfo = {
+                ...this.state.userInfo,
+                [label]: value
+            }
+
+        this.setState({userInfo, messageLogin: ""});
     }
+
+    checkValidate = async () => {
+        const {userInfo} = this.state;
+        const validEmail = validate.validEmail(userInfo.email),
+            validPassword = validate.validPassword(userInfo.password)
+        let messageLogin = "";
+
+        if (userInfo.email.length > 0 && userInfo.password.length > 0){
+            if (validEmail && validPassword) {
+                return true
+            } else if (!validEmail) {
+                messageLogin = "Email định dạng sai";
+            } else if (!validPassword) {
+                messageLogin = "Password phải từ 8 ký tự";
+            }
+        }
+
+        this.setState({messageLogin})
+        return false
+    }
+
 
     handleSubmit = async () => {
         const {userInfo} = this.state;
+        const paramUser = userInfo,
+            checkValidate = await this.checkValidate();
         let messageLogin = "";
 
         this.setState({checked: true, loading: true});
 
-        if (userInfo.email && userInfo.password) {
-            const fnAPI = await API.postApi("login", userInfo);
+        if (checkValidate) {
+            const fnAPI = await API.postApi("login", paramUser);
+
             if (fnAPI.data.http_code === 403) {
                 messageLogin = Constant.MESSAGE_CODE["001"];
-            }
-            if (fnAPI.data.http_code !== 200) {
+            } else if (fnAPI.data.http_code === 200) {
+                this.props.setLogin({
+                    user_id: fnAPI.data.result.employeeId,
+                    token: fnAPI.data.result.token
+                });
+                Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
+            } else {
                 messageLogin = Constant.MESSAGE_CODE["010"];
             }
-            this.props.setLogin(fnAPI.data.result);
+        } else {
+            messageLogin = this.state.messageLogin
         }
 
         this.setState({loading: false, messageLogin});
@@ -79,7 +117,7 @@ class Login extends Component<Props, State> {
             mess: Constant.MESSAGE_CODE["002"]
         };
 
-        return valid;
+        return valid
     }
 
     validatePassword() {
@@ -90,7 +128,7 @@ class Login extends Component<Props, State> {
             mess: Constant.MESSAGE_CODE["003"]
         };
 
-        return valid;
+        return valid
     }
 
 
@@ -104,7 +142,7 @@ class Login extends Component<Props, State> {
                 <div className="form">
                     <img className="logo" src={Logo} alt="Logo" />
                     <div style={{ textAlign: "center" }} onKeyDown={(e) => { if (e.keyCode === 13 && !loading) this.handleSubmit() }}>
-                    <h1>LOGIN</h1>
+                        <h2>LOGIN</h2>
                         <TextBox
                             id="email"
                             type="user"
@@ -139,7 +177,6 @@ class Login extends Component<Props, State> {
         )
     }
 }
-
 
 
 const mapStateToProps = (state: any) => ({

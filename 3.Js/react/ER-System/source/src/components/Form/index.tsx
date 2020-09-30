@@ -89,6 +89,7 @@ class Form extends Component<Props, State> {
     renderForm = () => {
         const {columns} = this.props;
         let renderType: any;
+
         return columns.map(item => {
             switch (item.type) {
                 case 'select':

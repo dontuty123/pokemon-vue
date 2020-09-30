@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 import { Redirect, Router } from 'react-router-dom';
 import history from './history';
 import { getCookie } from './core/cookie';
-import { user } from './core/store/types/user';
-import { AppActions } from './core/store/types/actions';
-import { setLogin } from './core/store/actions/userAction';
+import { user } from './core/types/user';
+import { AppActions } from './core/types/actions';
+import { setLogin } from './core/actions/userAction';
 
 import './App.css';
 import Header from './components/Header';
