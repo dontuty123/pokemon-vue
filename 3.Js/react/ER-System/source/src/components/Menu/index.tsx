@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './menu-style.scss';
 
-
 class Menu extends Component {
     render() {
         return (

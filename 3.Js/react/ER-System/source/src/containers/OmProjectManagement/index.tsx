@@ -57,6 +57,7 @@ class OmProjectManagement extends Component<Props, State> {
             })
         }
     }
+
     getTableColumns = () => {
         const columns = [
             {

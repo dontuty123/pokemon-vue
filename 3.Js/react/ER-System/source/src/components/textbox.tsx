@@ -8,7 +8,7 @@ interface Props {
     type?: string;
     value: string;
     placeholder?: string;
-    disabled?: boolean; 
+    disabled?: boolean;
     style?: any;
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
 }
@@ -28,7 +28,7 @@ const TextBox: React.FC<Props> = (props) => {
             case "user":
                 icon = <BsFillPersonFill size="1.5em" />;
                 break;
-            default: 
+            default:
                 icon = null;
         }
 
@@ -40,7 +40,6 @@ const TextBox: React.FC<Props> = (props) => {
             {getIcon() ? <span className="icon-textbox">{getIcon()}</span> : null}
             <input className="textbox" style={getIcon() ? ({paddingLeft: '40px', width: '84%'}) : null} type="text" {...props} />
         </div>
-
     )
 }
 

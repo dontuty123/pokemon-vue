@@ -12,7 +12,6 @@ import {AppActions} from '../../core/types/actions';
 import {user} from '../../core/types/user';
 import * as API from '../../core/api';
 
-
 interface State {
     userInfo: any;
     messageLogin: string;
@@ -81,7 +80,7 @@ class Login extends React.Component<Props, State> {
                 user_id: fnAPI.data.result.employeeId,
                 token: fnAPI.data.result.token
             });
-            Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
+             Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
         } else {
             messageLogin = this.state.messageLogin
         }
@@ -110,7 +109,6 @@ class Login extends React.Component<Props, State> {
 
         return valid
     }
-
 
     render() {
         const {userInfo, loading, messageLogin} = this.state;
@@ -155,7 +153,6 @@ class Login extends React.Component<Props, State> {
                         <p className="validate"
                            style={{display: messageLogin.length > 0 ? null : 'none'} as Pick<CSSObject, keyof CSSObject>}>{messageLogin}</p>
                         <a href="/forgot-password" style={{textDecoration: "none"}}>Forgot your password ?</a>
-
                     </div>
                 </div>
             </div>
