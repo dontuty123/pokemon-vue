@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from './containers/login';
+import Login from './containers/Login';
 import ForgotPassword from './containers/ForgotPassword';
 import ResetPassword from './containers/ResetPassword';
 import OmProjectManagement from './containers/OmProjectManagement';
