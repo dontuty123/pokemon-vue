@@ -5,12 +5,10 @@ import TextBox from '../../components/textbox';
 import Button from '../../components/button';
 import * as Cookie from '../../core/cookie';
 import * as Constant from '../../core/constant';
-import {validate} from '../../core/extend';
 import {connect} from 'react-redux';
 import {setLogin, userInfo} from '../../core/actions/userAction';
 import {Dispatch} from 'redux';
 import {AppActions} from '../../core/types/actions';
-
 import {user} from '../../core/types/user';
 import * as API from '../../core/api';
 

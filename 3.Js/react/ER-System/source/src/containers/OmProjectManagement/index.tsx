@@ -83,7 +83,6 @@ class OmProjectManagement extends Component<Props, State> {
     getFormColumns = () => {
         const {t} = this.props;
         const {projectType, projectTypeName} = this.state;
-        console.log(projectType);
         const optionsCode = [{
             title: "All",
             value: 0
