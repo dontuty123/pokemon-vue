@@ -89,6 +89,7 @@
     },
 
     methods: {
+      //Convert date_month in table
       getDayinMonth() {
         const currentDate = new Date();
         const currentMonth = currentDate.getMonth()
@@ -108,7 +109,6 @@
           let formatDate = date + '_' + i
           tmp.label = formatDate
           tmp.key = 'workLogDate'
-         
           this.fields.push(tmp)
           this.Item.push(tmp)
         }

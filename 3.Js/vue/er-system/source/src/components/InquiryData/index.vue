@@ -78,7 +78,7 @@
             </b-form-group>
           </div>
           <div class="col-1 pt-1">
-             <b-link disabled>Add</b-link>
+             <b-link :disabled="disableAdd">Add</b-link>
           </div>
         </div>
         <div class="row">
@@ -124,7 +124,7 @@ export default {
         projectName: 'All'
       },
       requiredMsg: false,
-
+      disableAdd: true,
     };
   },
 
@@ -172,7 +172,13 @@ export default {
   },
 
   watch: {
-    
+    projectSelected(val) {
+      if (val.id !== 0) {
+        this.disableAdd = false
+      } else {
+        this.disableAdd = true
+      }
+    }
   }
 };
 </script>
