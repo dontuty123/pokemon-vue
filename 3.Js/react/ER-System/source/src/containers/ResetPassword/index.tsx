@@ -1,5 +1,5 @@
 import React from 'react';
-import '../login/login.scss';
+import '../Login/login.scss';
 import Logo from '../../assets/img/kobelco.png';
 import TextBox from '../../components/textbox';
 import Button from '../../components/button';

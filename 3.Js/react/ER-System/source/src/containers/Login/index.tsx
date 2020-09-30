@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './login.scss';
 import Logo from '../../assets/img/kobelco.png';
 import TextBox from '../../components/textbox';
 import Button from '../../components/button';
 import * as Constant from '../../core/constant';
-import { validate } from '../../core/extend';
 import { connect } from 'react-redux';
 import { setLogin, userInfo } from '../../core/store/actions/userAction';
 import { Dispatch } from 'redux';
@@ -12,9 +11,6 @@ import { AppActions } from '../../core/store/types/actions';
 import { user } from '../../core/store/types/user';
 import * as API from '../../core/api';
 
-interface LoginProps {
-
-}
 
 interface State {
     userInfo: any;
@@ -27,10 +23,18 @@ interface State {
 interface CSSObject {
 
 }
+interface StoreStateProp {
+    userInfo: user
+}
 
-type Props = LoginProps & StoreStateProp & StoreDispatchProp
+interface StoreDispatchProp {
+    setUserInfo: (data: user) => void,
+    setLogin: (data: user) => void
+}
 
-class Login extends React.Component<Props, State> {
+type Props = StoreStateProp & StoreDispatchProp
+
+class Login extends Component<Props, State> {
 
     state: State = {
         userInfo: {
@@ -42,59 +46,26 @@ class Login extends React.Component<Props, State> {
         checked: false,
     }
 
-    handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-        const label = e.currentTarget.name,
-            value = e.currentTarget.value,
-            userInfo = {
-                ...this.state.userInfo,
-                [label]: value
-            }
-
-        this.setState({userInfo, messageLogin: ""});
+    handleChange = (e:any) => {
+        const { label, value } = e.target;
+        this.setState({ [label]: value , messageLogin: ""});
     }
-
-    checkValidate = async () => {
-        const {userInfo} = this.state;
-        const validEmail = validate.validEmail(userInfo.email),
-            validPassword = validate.validPassword(userInfo.password)
-        let messageLogin = "";
-
-        if (userInfo.email.length > 0 && userInfo.password.length > 0){
-            if (validEmail && validPassword) {
-                return true
-            } else if (!validEmail) {
-                messageLogin = "Email định dạng sai";
-            } else if (!validPassword) {
-                messageLogin = "Password phải từ 8 ký tự";
-            }
-        }
-
-        this.setState({messageLogin})
-        return false
-    }
-
 
     handleSubmit = async () => {
         const {userInfo} = this.state;
-        const paramUser = userInfo,
-            checkValidate = await this.checkValidate();
         let messageLogin = "";
 
         this.setState({checked: true, loading: true});
 
-        if (checkValidate) {
-            const fnAPI = await API.postApi("login", paramUser);
-
+        if (userInfo.email && userInfo.password) {
+            const fnAPI = await API.postApi("login", userInfo);
             if (fnAPI.data.http_code === 403) {
                 messageLogin = Constant.MESSAGE_CODE["001"];
-            } else if (fnAPI.data.http_code === 200) {
-                this.props.setLogin(fnAPI.data.result);
-                return;
-            } else {
+            }
+            if (fnAPI.data.http_code !== 200) {
                 messageLogin = Constant.MESSAGE_CODE["010"];
             }
-        } else {
-            messageLogin = this.state.messageLogin
+            this.props.setLogin(fnAPI.data.result);
         }
 
         this.setState({loading: false, messageLogin});
@@ -108,7 +79,7 @@ class Login extends React.Component<Props, State> {
             mess: Constant.MESSAGE_CODE["002"]
         };
 
-        return valid
+        return valid;
     }
 
     validatePassword() {
@@ -119,7 +90,7 @@ class Login extends React.Component<Props, State> {
             mess: Constant.MESSAGE_CODE["003"]
         };
 
-        return valid
+        return valid;
     }
 
 
@@ -169,14 +140,7 @@ class Login extends React.Component<Props, State> {
     }
 }
 
-interface StoreStateProp {
-    userInfo: user
-}
 
-interface StoreDispatchProp {
-    setUserInfo: (data: user) => void,
-    setLogin: (data: user) => void
-}
 
 const mapStateToProps = (state: any) => ({
     userInfo: state.userReducer

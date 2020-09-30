@@ -49,7 +49,7 @@ class Table extends React.Component<Props, State> {
                 <tr onClick={() => this.props.onClick(data)} key={this.props.idTable + "_" + index}>
                     <td className="align-center">{index + 1}</td>
                     {columns.map((item, indexTd) => (
-                    <td 
+                    <td
                         width={item.width || widthColumn}
                         key={this.props.idTable + "_td_" + indexTd}>
                         {data[item.idIndex]}
@@ -72,7 +72,7 @@ class Table extends React.Component<Props, State> {
                         {this.renderTableData()}
                     </tbody>
                 </table>
-                <Pagination 
+                <Pagination
                     totalPage={dataSource.totalPage}
                     currentPage={dataSource.currentPage}
                     onChange={currentPage => {
@@ -83,8 +83,7 @@ class Table extends React.Component<Props, State> {
             </div>
         )
     }
-
 }
 
 
-export default Table
+export default Table;

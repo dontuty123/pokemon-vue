@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { user } from '../core/store/types/user';
-import OmProjectManagement from "../containers/OmProjectManagement";
 
 
 const PublicRoute = ({component: Component, restricted, ...rest}: any) => {

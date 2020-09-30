@@ -1,5 +1,5 @@
 import React from 'react';
-import '../login/login.scss';
+import '../Login/login.scss';
 import Logo from '../../assets/img/kobelco.png';
 import TextBox from '../../components/textbox';
 import Button from '../../components/button';
@@ -37,7 +37,7 @@ class ForgotPassword extends React.Component<Props, State> {
     }
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-        const label = e.currentTarget.name, 
+        const label = e.currentTarget.name,
             value = e.currentTarget.value;
 
         this.setState({[label]: value, messageLogin: ""});
@@ -75,7 +75,7 @@ class ForgotPassword extends React.Component<Props, State> {
                 messageLogin = "Email định dạng sai";
             }
         }
-        
+
         this.setState({loading: false, messageLogin, statusLogin});
 
     }
@@ -102,19 +102,19 @@ class ForgotPassword extends React.Component<Props, State> {
                     <div style={{ textAlign: "center" }} onKeyDown={(e) => { if (e.keyCode === 13 && !loading) this.handleSubmit() }}>
                     <h2>FORGOT YOUR PASSWORD ?</h2>
                     <p>Send a link to your email to reset your password</p>
-                        <TextBox 
+                        <TextBox
                             id="email"
-                            type="email" 
+                            type="email"
                             name="userName"
-                            value={userName} 
+                            value={userName}
                             placeholder="Enter your E-mail address"
                             disabled={loading}
-                            onChange={(e) => this.handleChange(e)} 
+                            onChange={(e) => this.handleChange(e)}
                         />
                         <p className="validate" style={{ display: validEmail.display } as Pick<CSSObject, keyof CSSObject>}>{validEmail.mess}</p>
-                        <Button 
-                            value="Send" 
-                            onClick={() => this.handleSubmit()} 
+                        <Button
+                            value="Send"
+                            onClick={() => this.handleSubmit()}
                             disabled={loading}
                         />
                         <p className={statusLogin ? "success" : "validate"} style={{ display: messageLogin.length > 0 ? null : 'none' } as Pick<CSSObject, keyof CSSObject>}>{messageLogin}</p>

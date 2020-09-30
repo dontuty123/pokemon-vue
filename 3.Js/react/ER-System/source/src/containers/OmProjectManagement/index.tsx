@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Header from '../../components/Header';
 import { getApi } from '../../core/api';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
 import Menu from '../../components/Menu';
 import {withTranslation} from "react-i18next";
+
 interface Props {
     t?: any
 }
@@ -16,7 +17,7 @@ interface State {
     projectTypeName: Array<any>
 }
 
-class OmProjectManagement extends React.Component<Props, State> {
+class OmProjectManagement extends Component<Props, State> {
 
     state: State = {
         projects: {
@@ -29,8 +30,6 @@ class OmProjectManagement extends React.Component<Props, State> {
 
     componentDidMount = () => {
         this.getProjects();
-        this.getProjectType();
-        this.getProjectTypeName();
     }
 
     getProjects = async () => {
@@ -50,36 +49,7 @@ class OmProjectManagement extends React.Component<Props, State> {
             ...data.data.result,
             result: data.data.result.employeeProject
         }
-        this.setState({projects: result})
-    }
-
-    getProjectType = async () => {
-
-        const data = await getApi('omproject-list', {
-            "isSearch": 0,
-            "projectId": "",
-            "employeeId":"",
-            "employeeBy": "firstName-ASC",
-            "projectBy": "projectCode-ASC",
-            "currentPage": "",
-            "pageRecord": 20,
-            "sortBy": "projectCode-ASC",
-        })
-        this.setState({projectType: data.data.result.omProject})
-    }
-    getProjectTypeName = async () => {
-
-        const data = await getApi('omproject-list', {
-            "isSearch": 0,
-            "projectId": "",
-            "employeeId":"",
-            "employeeBy": "firstName-ASC",
-            "projectBy": "projectCode-ASC",
-            "currentPage": "",
-            "pageRecord": 20,
-            "sortBy": "projectCode-ASC",
-        })
-        this.setState({projectTypeName: data.data.result.employeeWorking})
+        this.setState({projects: result,projectType: data.data.result.omProject,projectTypeName: data.data.result.employeeWorking})
     }
 
     getTableColumns = () => {
@@ -102,13 +72,13 @@ class OmProjectManagement extends React.Component<Props, State> {
             },
         ]
 
-        return columns
+        return columns;
     }
 
     getFormColumns = () => {
         const {projectType,projectTypeName} = this.state;
-        const optionsCode = [{title: "All", value: 0}].concat(projectType.map(item => ({title: item.projectCode, value: item.id})));
-        const options = [{title: "All", value: 0}].concat(projectTypeName.map(item => ({title: item.employeeName, value: item.id})));
+        const optionsCode = [{title: "All", value: 0}].concat(projectType.map(item => ({title: item.projectCode + '-' + item.projectName, value: item.projectCode})));
+        const options = [{title: "All", value: 0}].concat(projectTypeName.map(item => ({title: item.employeeName, value: item.employeeName})));
         const columns = [
             {
                 title: "Dự án",
@@ -126,7 +96,7 @@ class OmProjectManagement extends React.Component<Props, State> {
             },
         ]
 
-        return columns
+        return columns;
     }
 
     render() {
