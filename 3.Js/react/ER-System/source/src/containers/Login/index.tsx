@@ -5,13 +5,13 @@ import TextBox from '../../components/textbox';
 import Button from '../../components/button';
 import * as Cookie from '../../core/cookie';
 import * as Constant from '../../core/constant';
-import { validate } from '../../core/extend';
-import { connect } from 'react-redux';
-import { setLogin, userInfo } from '../../core/actions/userAction';
-import { Dispatch } from 'redux';
-import { AppActions } from '../../core/types/actions';
+import {validate} from '../../core/extend';
+import {connect} from 'react-redux';
+import {setLogin, userInfo} from '../../core/actions/userAction';
+import {Dispatch} from 'redux';
+import {AppActions} from '../../core/types/actions';
 
-import { user } from '../../core/types/user';
+import {user} from '../../core/types/user';
 import * as API from '../../core/api';
 
 
@@ -20,12 +20,14 @@ interface State {
     messageLogin: string;
     loading: boolean;
     checked: boolean;
+
     [label: string]: any;
 }
 
 interface CSSObject {
 
 }
+
 interface StoreStateProp {
     userInfo: user
 }
@@ -34,7 +36,8 @@ interface StoreDispatchProp {
     setUserInfo: (data: user) => void,
     setLogin: (data: user) => void
 }
-type Props =  StoreStateProp & StoreDispatchProp
+
+type Props = StoreStateProp & StoreDispatchProp
 
 class Login extends React.Component<Props, State> {
 
@@ -59,49 +62,28 @@ class Login extends React.Component<Props, State> {
         this.setState({userInfo, messageLogin: ""});
     }
 
-    checkValidate = async () => {
-        const {userInfo} = this.state;
-        const validEmail = validate.validEmail(userInfo.email),
-            validPassword = validate.validPassword(userInfo.password)
-        let messageLogin = "";
-
-        if (userInfo.email.length > 0 && userInfo.password.length > 0){
-            if (validEmail && validPassword) {
-                return true
-            } else if (!validEmail) {
-                messageLogin = "Email định dạng sai";
-            } else if (!validPassword) {
-                messageLogin = "Password phải từ 8 ký tự";
-            }
-        }
-
-        this.setState({messageLogin})
-        return false
-    }
-
-
     handleSubmit = async () => {
         const {userInfo} = this.state;
-        const paramUser = userInfo,
-            checkValidate = await this.checkValidate();
+        const paramUser = userInfo;
         let messageLogin = "";
 
         this.setState({checked: true, loading: true});
 
-        if (checkValidate) {
+        if (userInfo.email.length > 0 && userInfo.password.length > 0) {
             const fnAPI = await API.postApi("login", paramUser);
-
             if (fnAPI.data.http_code === 403) {
                 messageLogin = Constant.MESSAGE_CODE["001"];
-            } else if (fnAPI.data.http_code === 200) {
-                this.props.setLogin({
-                    user_id: fnAPI.data.result.employeeId,
-                    token: fnAPI.data.result.token
-                });
-                Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
-            } else {
-                messageLogin = Constant.MESSAGE_CODE["010"];
+                return;
             }
+            if (fnAPI.data.http_code !== 200) {
+                messageLogin = Constant.MESSAGE_CODE["010"];
+                return;
+            }
+            this.props.setLogin({
+                user_id: fnAPI.data.result.employeeId,
+                token: fnAPI.data.result.token
+            });
+            Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
         } else {
             messageLogin = this.state.messageLogin
         }
@@ -140,8 +122,10 @@ class Login extends React.Component<Props, State> {
         return (
             <div className="login">
                 <div className="form">
-                    <img className="logo" src={Logo} alt="Logo" />
-                    <div style={{ textAlign: "center" }} onKeyDown={(e) => { if (e.keyCode === 13 && !loading) this.handleSubmit() }}>
+                    <img className="logo" src={Logo} alt="Logo"/>
+                    <div style={{textAlign: "center"}} onKeyDown={(e) => {
+                        if (e.keyCode === 13 && !loading) this.handleSubmit()
+                    }}>
                         <h2>LOGIN</h2>
                         <TextBox
                             id="email"
@@ -152,7 +136,8 @@ class Login extends React.Component<Props, State> {
                             disabled={loading}
                             onChange={(e) => this.handleChange(e)}
                         />
-                        <p className="validate" style={{ display: validEmail.display } as Pick<CSSObject, keyof CSSObject>}>{validEmail.mess}</p>
+                        <p className="validate"
+                           style={{display: validEmail.display} as Pick<CSSObject, keyof CSSObject>}>{validEmail.mess}</p>
                         <TextBox
                             id="password"
                             type="password"
@@ -162,13 +147,15 @@ class Login extends React.Component<Props, State> {
                             disabled={loading}
                             onChange={(e) => this.handleChange(e)}
                         />
-                        <p className="validate" style={{ display: validPassword.display } as Pick<CSSObject, keyof CSSObject>}>{validPassword.mess}</p>
+                        <p className="validate"
+                           style={{display: validPassword.display} as Pick<CSSObject, keyof CSSObject>}>{validPassword.mess}</p>
                         <Button
                             value="Login"
                             onClick={() => this.handleSubmit()}
                             disabled={loading}
                         />
-                        <p className="validate" style={{ display: messageLogin.length > 0 ? null : 'none' } as Pick<CSSObject, keyof CSSObject>}>{messageLogin}</p>
+                        <p className="validate"
+                           style={{display: messageLogin.length > 0 ? null : 'none'} as Pick<CSSObject, keyof CSSObject>}>{messageLogin}</p>
                         <a href="/forgot-password" style={{textDecoration: "none"}}>Forgot your password ?</a>
 
                     </div>
