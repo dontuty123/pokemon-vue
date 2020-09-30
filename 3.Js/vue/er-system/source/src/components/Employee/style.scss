@@ -10,10 +10,16 @@
       line-height: 22px;
       white-space: nowrap;
       text-overflow: ellipsis;
+      width: calc(100% - 50px) !important;
       cursor: pointer;
       -webkit-transition: background .3s ease;
       transition: background .3s ease;
       font-size: 13px;     
+    }
+    .ui.search.dropdown>.text {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
     }
   } 
 }

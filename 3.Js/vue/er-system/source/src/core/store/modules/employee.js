@@ -9,8 +9,8 @@ const employee = {
   state: {
     dataList: {},
     totalRecord: '',
-    positionList: {},
-    departmentList: {},
+    positionList: [],
+    departmentList: [],
   },
   mutations: {
     LOAD_LIST(state, data){
@@ -20,7 +20,7 @@ const employee = {
     POSITION_LIST(state, data){
       state.positionList = data.positionList
     },
-    department_LIST(state, data){
+    DEPARTMENT_LIST(state, data){
       state.departmentList = data.departmentList
     }
   },
@@ -37,7 +37,6 @@ const employee = {
 
     async departmentList( { commit }, param) {
       const respon = await employeeService.getdepartmentList(param)
-      console.log(respon)
       commit('DEPARTMENT_LIST', respon.data.result)
     }
     

@@ -217,7 +217,7 @@
       <div class="w-50">
         <div class="form-edit w-100 mb-1 d-flex">
         <p class="font-weight-bold w-50">
-          <span class="mr-3 pl-5">{{ $t('employee["position"]') }}</span>
+          <span class="mr-3 pl-4">{{ $t('employee["position"]') }}</span>
           <router-link to='/'>{{ $t('employee["new"]') }}</router-link>
         </p>
         <p class="font-weight-bold w-50">
@@ -225,35 +225,50 @@
           <router-link to='/'>{{ $t('employee["new"]') }}</router-link>
         </p>
       </div>
-      <div class="w-100 d-flex">
-        <div class="w-50">
-          <div class="d-flex align-item-center">
-            <b-form-radio class="d-inline mt-1"></b-form-radio>
+      <div>
+        <div class="w-100 d-flex mt-2" v-for="(item, index) in items" :key="index">
+          {{item.positionSelected}}
+        <div class="w-50" v-if="index===0 ? true : isSub">
+          <div class="d-flex align-item-center ">
+            <b-form-radio class="d-inline mt-1" v-model="valueSelect" :value="index" name='selectData'></b-form-radio>
             <model-list-select
               :list="positionList" 
               class="input-select"
               size="sm"
-              v-model="positionSelected"
-              option-value="positionCode"
+              v-model="item.positionSelected"
+              option-value="positionName"
+              :custom-text="customTextPosition"
+              placeholder="All"
             >
             </model-list-select> 
           </div>
          </div>
-         <div class="w-50">
-          <div class="d-flex align-item-center">
-            <!-- <model-list-select 
+         <div class="w-50" v-if="index===0 ? true : isSub">
+          <div class="d-flex align-item-center ">
+            <model-list-select 
+              :list="departmentList"
               class="input-select"
               size="sm"
-            ></model-list-select> -->
-            <b-button>
+              v-model="item.departmentSelected"
+              option-value="departmentName"
+              :custom-text="customTextDepartment"
+              placeholder="All"
+            ></model-list-select>
+            <b-button v-if="index !== 0 ? true : false" class="ml-2" @click="subSelect(item,index)">
+              <b-icon icon="dash" aria-hidden="true"></b-icon>
+            </b-button>
+            <b-button v-if="index === 0 ? true : false" class="ml-2" @click="addSelect(item,index)">
               <b-icon icon="plus" aria-hidden="true"></b-icon>
             </b-button>
           </div>
          </div>
       </div>
       </div>
+      
+      </div>
     </div>
   </div>
+ 
 </template>
 <script>
 import { ModelListSelect } from 'vue-search-select'
@@ -264,22 +279,71 @@ export default {
   data() {
     return {
       selected: 'A',
+      valueSelect: 0,
       positionSelected: {
         positionCode: '',
         positionName: 'All',
         id: 0
-      }
+      },
+      departmentSelected: {
+        departmentCode: '',
+        departmentName: 'All',
+        id: 0
+      },
+      item1: false,
+      items: [
+        {
+          positionSelected: '',
+          departmentSelected: ''
+        }
+      ],
+      showSelect: true,
+      isSub:  true
     }
   },
+  watch: {
+
+  },
   props: {
-   positionList:{
-     type: Array,
+   positionList: {
+      type: Array,
       required: false,
-   }
+   },
+   departmentList: {
+      type: Array,
+      required: false,
+   },
     
   },
   methods: {
-
+    customTextPosition(item) {
+       return item.positionCode !== '' ? `${item.positionName}` : `All`
+    },
+    customTextDepartment(item) {
+      return item.departmentCode !== '' ? `${item.departmentName}` : `All`
+    },
+    addSelect(item) {
+      this.isSub = true
+      const newLenght = this.items.length
+      if (newLenght < 5) {
+        // this.showSelect = true
+        const newItem = {
+           positionSelected: '',
+          departmentSelected: ''
+        }
+        this.items = [...this.items, newItem]
+        
+      }
+      
+    },
+    subSelect(item,index) {
+      this.isSub = false
+      this.items.splice(index,1)
+      setTimeout(() => {
+         this.isSub = true
+      }, 100);
+     
+    },
   }
 }
 </script>

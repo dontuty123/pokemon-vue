@@ -1,8 +1,11 @@
 <template>
   <div>
     <Breadcrumb :breadcrumb="breadcrumb" />
-    <Employee :positionList="positionList"></Employee>
-    {{positionList}}
+    <Employee 
+      :positionList="selectPositon"
+      :departmentList="selectDepartment"
+    >
+    </Employee>
     <TableCommon 
       :fields="fields"
       :items="dataList"
@@ -132,7 +135,7 @@ import Pagination from '@/components/Pagination'
           positionCode: '',
           positionName: '',
           currentPage: 0,
-          pageRecord: 'CONTANT.pageRecord',
+          pageRecord: CONTANT.pageRecord,
           sortBy: 'positionCode-ASC'
         },
         loadDepartment: {
@@ -140,16 +143,30 @@ import Pagination from '@/components/Pagination'
           departmentCode: '',
           departmentName: '',
           currentPage: 0,
-          pageRecord: 'CONTANT.pageRecord',
+          pageRecord: CONTANT.pageRecord,
           sortBy: 'departmentCode-ASC'
         },
-        lengthOfList: this.totalRecord
+        lengthOfList: this.totalRecord,
+        defaultPosition: {
+          id: '',
+          positionCode : '',
+          positionName : 'All'
+        },
+        defaultDepartment: {
+          id: '',
+          departmentCode : '',
+          departmentName : 'All'
+        },
+        selectPositon: [],
+        selectDepartment: []
       }
     },
-    created() {
-      this.$store.dispatch('employee/employeeList', this.employeeList)
-      this.$store.dispatch('employee/positionList', this.loadPosition)
-      this.$store.dispatch('employee/departmentList', this.loadDepartment)
+    async created() {
+      await this.$store.dispatch('employee/employeeList', this.employeeList)
+      await this.$store.dispatch('employee/positionList', this.loadPosition)
+      await this.$store.dispatch('employee/departmentList', this.loadDepartment)
+      this.selectPositon = [this.defaultPosition,...this.positionList]
+      this.selectDepartment = [this.defaultDepartment,...this.departmentList]
     },
     watch: {
       totalRecord(val) {
@@ -160,7 +177,8 @@ import Pagination from '@/components/Pagination'
     ...mapState('employee', {
       dataList : state => state.dataList,
       totalRecord : state => state.totalRecord,
-      positionList : state => state.positionList
+      positionList : state => state.positionList,
+      departmentList : state => state.departmentList
     })
   },
   }
