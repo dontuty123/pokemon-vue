@@ -159,7 +159,7 @@ export default {
       dataSearch.sortBy = this.sortTable
       this.$emit('dataSearch', dataSearch)
       this.stateButton(false, false, true, true)
-     
+
       this.$emit('resetCurrentPage', 1)
     },
 

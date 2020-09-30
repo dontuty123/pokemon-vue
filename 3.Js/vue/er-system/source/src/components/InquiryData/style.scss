@@ -12,6 +12,21 @@
           pointer-events: none;
         }
       }
+      .input-select{
+        position: relative;
+        display: block;
+        padding: 5px 12px;
+        color: rgba(0,0,0,.65);
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        -webkit-transition: background .3s ease;
+        transition: background .3s ease;
+        font-size: 13px;     
+      }
     }
    .label{
      font-weight: 600;
@@ -23,3 +38,4 @@
     }
   } 
 }
+

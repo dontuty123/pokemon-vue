@@ -138,7 +138,6 @@ export default {
 
     //Get params search
     async dataSearch(val) {
-     
       await this.$store.dispatch('omProject/searchOmProject', val);
        if (this.status.error_code === '018') {
         this.noDataMess = this.$t('messages[' + this.status.error_code + ']')

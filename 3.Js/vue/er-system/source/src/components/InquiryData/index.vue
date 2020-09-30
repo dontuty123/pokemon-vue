@@ -2,7 +2,7 @@
 <div>
   <div class="er-inquirydata">
     <div class="list-button mb-3">
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1" @click="btnSearch()">
         <b-icon icon="search"></b-icon>{{$t('button["search"]')}}
       </b-button>
       <b-button class="btn-type btn-type-2">
@@ -65,7 +65,16 @@
               <template v-slot:label>
                 <span class="label">Project</span>
               </template>
-              <b-form-select v-model="projectSelected" :options="project" size="sm"></b-form-select>
+
+              <model-list-select 
+                  :list="listProject"
+                  class="input-select"
+                  v-model="projectSelected"
+                  size="xs"
+                  option-value="projectCode"
+                  :custom-text="customTextProject"
+                >  
+                </model-list-select>
             </b-form-group>
           </div>
           <div class="col-1 pt-1">
@@ -90,11 +99,15 @@
 </div>
 </template>
 <script>
+import { ModelListSelect } from 'vue-search-select'
 import { mapState } from 'vuex';
 import Datepicker from '@/components/DatePicker';
+import funcMemory from '@/core/service/memory.service.js'
+
 export default {
   name: 'InquiryData',
   components: {
+    ModelListSelect,
     Datepicker
   },
   
@@ -104,30 +117,54 @@ export default {
       year: new Date().getFullYear(),
       valFromDate: null,
       valToDate: null,
-      projectSelected: null,
-      project:[
-        { value: null, text: 'Please select an option' },
-        { value: 'a', text: 'This is First option' },
-        { value: 'b', text: 'Selected Option' },
-        { value: { C: '3PO' }, text: 'This is an option with object value' },
-        { value: 'd', text: 'This one is disabled', disabled: true }
-      ]
+      projectSelected: {
+        defaultProject:false,
+        id:0,
+        projectCode: '',
+        projectName: 'All'
+      },
+      requiredMsg: false,
+
     };
   },
+
+  props:['listProject', 'paramsGetWorkLog'],
 
   methods: {
     fromDate(val) {
       this.valFromDate = val
     },
+
     toDate(val) {
       this.valToDate = val
     },
+
+    // Format text  at combobox
+    customTextProject (item) {
+      return item.projectCode !== '' ? `${item.projectCode} - ${item.projectName}` : `${item.projectName}`
+    },
+
+    //Search
+    btnSearch() {
+      const { isSearch, employeeId, month, year, projectId } = this.paramsGetWorkLog
+      const dataSearch = this.paramsGetWorkLog
+      dataSearch.isSearch = 1
+      dataSearch.employeeId = funcMemory.getCookie('employeeId')
+      dataSearch.month = this.month
+      dataSearch.year = this.year
+      dataSearch.projectId = this.projectSelected.id
+      this.$emit('dataSearch', dataSearch)
+    }
+  },
+  mounted() {
+    
   },
 
   computed: {
     months() {
       return Array.from({length: 12}, (value, index) => index+1)
     },
+    
     years() {
       const year = new Date().getFullYear()
       return Array.from({length: year - (year-10)}, (value, index) => (year-9) + index)

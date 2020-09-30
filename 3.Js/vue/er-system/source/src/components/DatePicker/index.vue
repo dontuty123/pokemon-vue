@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Datepicker v-model="dateSeleted"  :lang="lang" format="DD/MM/YYYY" />
+    <Datepicker v-model="dateSeleted"  :lang="lang" format="DD/MM/YYYY" placeholder="DD-MM-YYYY" />
   </div>
 </template>
 

@@ -84,7 +84,7 @@
     "projectCode": "Project Code",
     "projectName": "Project Name",
     "employeeCode": "Employee Code",
-    "employeeName": "Employee Name"
+    "item": "Item"
   },
   "omProject": {
     "Project": "Project",
