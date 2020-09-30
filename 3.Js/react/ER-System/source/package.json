@@ -1,13 +1,13 @@
 {
-  "name": "login-react",
+  "name": "source",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "antd": "^4.6.4",
-    "antd-scss-theme-plugin": "^1.0.8",
+    "@types/react-icons": "^3.0.0",
+    "@types/redux-logger": "^3.0.8",
     "axios": "^0.20.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
@@ -19,7 +19,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=8000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -38,5 +38,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.62",
+    "@types/qs": "^6.9.5",
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-redux": "^7.1.9",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/redux": "^3.6.0",
+    "@types/redux-thunk": "^2.1.0",
+    "redux-devtools-extension": "^2.13.8",
+    "typescript": "^3.9.7"
   }
 }
