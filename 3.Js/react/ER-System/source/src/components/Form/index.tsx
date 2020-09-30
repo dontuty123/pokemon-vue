@@ -20,70 +20,71 @@ class Form extends React.Component<Props, State> {
 
     componentDidUpdate = (prevProps: Props, prevState: State) => {
         if (JSON.stringify(prevProps.dataSource) !== JSON.stringify(this.props.dataSource)) {
-            this.setState({ dataSource: this.props.dataSource})
+            this.setState({ dataSource: this.props.dataSource })
         }
     }
 
-    onChangeData = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const {dataSource} = this.state;
-        const value = e.currentTarget.value,
-             name = e.currentTarget.name,
-             data = {
-                 ...dataSource,
-                 [name]: value
-                };
+    onChangeData = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement | any>) => {
+        const { dataSource } = this.state;
+        const type = e.currentTarget.type,
+            value = type === "checkbox" ? (e.currentTarget.checked ? "1" : "0") : e.currentTarget.value,
+            name = e.currentTarget.name,
+            data = {
+                ...dataSource,
+                [name]: value
+            };
 
-        this.setState({dataSource: data}, () => this.props.onChange(data))
+        this.setState({ dataSource: data }, () => this.props.onChange(data))
     }
 
     renderInput = (item: any) => {
-        const {dataSource} = this.state;
+        const { dataSource } = this.state;
 
-        return <input 
-                    type="text"
-                    name={item.idIndex}
-                    maxLength={item.maxLength} 
-                    className="text-form" 
-                    onChange={(e) => this.onChangeData(e)} 
-                    value={dataSource[item.idIndex]}
-                />
+        return <input
+            type="text"
+            name={item.idIndex}
+            maxLength={item.maxLength}
+            className="text-form"
+            onChange={(e) => this.onChangeData(e)}
+            value={dataSource[item.idIndex] || ""}
+        />
     }
 
     renderSelect = (item: any) => {
-        const {dataSource} = this.state;
+        const { dataSource } = this.state;
         const options: Array<any> = item.options;
 
-        return <select 
-                    className="select-form" 
-                    onChange={(e) => this.onChangeData(e)} 
-                    name={item.idIndex}
-                    value={dataSource[item.idIndex]}
-                >
-                    {options.map((ele, index) => (<option key={this.props.idForm + "_" + index} value={ele.value}>{ele.title}</option>))}
-                </select>
+        return <select
+            className="select-form"
+            onChange={(e) => this.onChangeData(e)}
+            name={item.idIndex}
+            value={dataSource[item.idIndex] || ""}
+        >
+            {options.map((ele, index) => (<option key={this.props.idForm + "_" + index} value={ele.value}>{ele.title}</option>))}
+        </select>
     }
 
     renderFile = (item: any) => {
 
-        return <input 
-                    type="file"
-                    name={item.idIndex}
-                    maxLength={item.maxLength} 
-                    onChange={(e) => this.onChangeData(e)} 
-                    className="file-form"
-                />
+        return <input
+            type="file"
+            name={item.idIndex}
+            maxLength={item.maxLength}
+            onChange={(e) => this.onChangeData(e)}
+            className="file-form"
+        />
     }
 
     renderCheckbox = (item: any) => {
-        const {dataSource} = this.state;
-        const checked = dataSource[item.idIndex] === "1";
-        
-        return <input 
-                    type="checkbox"
-                    name={item.idIndex}
-                    onChange={(e) => this.onChangeData(e)} 
-                    checked={checked}
-                />
+        const { dataSource } = this.state;
+        const checked = dataSource[item.idIndex] !== "" && dataSource[item.idIndex] === "1";
+
+        return <input
+            type="checkbox"
+            name={item.idIndex}
+            onChange={(e) => this.onChangeData(e)}
+            checked={checked}
+        />
     }
 
     renderForm = () => {
@@ -106,14 +107,14 @@ class Form extends React.Component<Props, State> {
             }
 
             return <tr key={item.idForm + "_" + item.idIndex}>
-                        <td>
-                            <span>{item.title}</span>
-                            {item.validate ? <span className="required">*</span> : null}
-                        </td>
-                        <td className="field-form">
-                            {renderType}
-                        </td>
-                    </tr>
+                <td>
+                    <span>{item.title}</span>
+                    {item.validate ? <span className="required">*</span> : null}
+                </td>
+                <td className="field-form">
+                    {renderType}
+                </td>
+            </tr>
         })
     }
 

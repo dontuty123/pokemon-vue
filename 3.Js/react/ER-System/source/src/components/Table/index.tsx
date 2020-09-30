@@ -27,7 +27,7 @@ class Table extends React.Component<Props, State> {
 
     componentDidUpdate = (prevProps: Props, prevState: State) => {
         if (JSON.stringify(prevProps.dataSource) !== JSON.stringify(this.props.dataSource)) {
-            this.setState({ dataSource: this.props.dataSource })
+            this.setState({ dataSource: this.props.dataSource });
         }
     }
 
@@ -36,8 +36,8 @@ class Table extends React.Component<Props, State> {
         let currentBy = "", data = this.state.dataSource;
 
         if(sortBy) {
-            const [name, nameBy] = sortBy.split('-');
-            if (name === item.idIndex && nameBy === "DESC") {
+            const [name, nameBy] = sortBy ? sortBy.split('-') : [];
+            if (name && name === item.idIndex && nameBy && nameBy === "DESC") {
                 currentBy = item.idIndex + "-ASC";
             } else {
                 currentBy = item.idIndex + "-DESC";
@@ -49,14 +49,16 @@ class Table extends React.Component<Props, State> {
             sortBy: currentBy
         }
 
-        this.setState({dataSource: data}, () => this.props.onChange(data))
+        this.setState({dataSource: data}, () => this.props.onChange(data));
     }
 
     iconSortBy = (data: any) => {
+        const sortBy = this.state.dataSource.sortBy;
+
         if (data.sort) {
-            const sortBy = this.state.dataSource.sortBy;
-            const [name, nameBy] = sortBy.split('-');
-            if (name === data.idIndex && nameBy === "DESC") {
+            const [name, nameBy] = sortBy ? sortBy.split('-') : [];
+
+            if (name && name === data.idIndex && nameBy && nameBy === "DESC") {
                 return <BsFillCaretUpFill />
             } else {
                 return <BsFillCaretDownFill />
@@ -65,7 +67,7 @@ class Table extends React.Component<Props, State> {
     }
 
     renderTableHeader() {
-        const header = this.props.columns
+        const header = this.props.columns;
 
         return header.map((item, index) => {
             return <th
@@ -86,7 +88,7 @@ class Table extends React.Component<Props, State> {
 
         const result: Array<any> = dataSource.result;
 
-        return result.length > 0 && result.map((data: any, index) => {
+        return result && result.length > 0 && result.map((data: any, index) => {
             return (
                 <tr onClick={() => this.props.onClick(data)} key={this.props.idTable + "_" + index}>
                     <td className="align-center">{index + 1}</td>
