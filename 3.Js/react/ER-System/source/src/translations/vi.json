@@ -1,0 +1,24 @@
+{
+	"loginLang": {
+		"login": "LOGIN",
+		"placeholder_email": "E-mail address",
+		"placeholder_pwd": "Password",
+		"btn_login": "Login",
+		"link_forgot": "Forgot your password ?"
+	},
+	"menu": {
+		"master": "Danh Mục",
+		"employee": "Nhân viên",
+		"project": "Dự án",
+		"om": "Quản lý dự án OM",
+		"engineer": "Giờ công",
+		"update_work": "Cập nhật giờ công",
+		"total": "Tổng giờ công",
+		"approve": "Phê duyệt",
+		"change_pwd": "Thay đổi mật khẩu",
+		"logout": "Đăng xuất"
+	},
+	"om-project": {
+		"title": "Danh Mục/ Quản lý dự án OM"
+	}
+}

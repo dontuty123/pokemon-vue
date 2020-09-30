@@ -1,9 +1,0 @@
-{
-	"loginLang": {
-		"login": "LOGIN",
-		"placeholder_email": "E-mail address",
-		"placeholder_pwd": "Password",
-		"btn_login": "Login",
-		"link_forgot": "Forgot your password ?"
-	}
-}

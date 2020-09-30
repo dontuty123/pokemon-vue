@@ -2,8 +2,8 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 // ref: https://react.i18next.com/legacy-v9/step-by-step-guide
-import common_vi from "../../translations/vi/common.json";
-import common_en from "../../translations/en/common.json";
+import common_vi from "../../translations/vi.json";
+import common_en from "../../translations/en.json";
 // import common_en from "./translations/en/common.json";
 i18n
     // lazy loading for translations using xhr -> see /public/locales
