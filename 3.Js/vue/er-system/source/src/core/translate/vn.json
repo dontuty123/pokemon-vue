@@ -85,6 +85,14 @@
     "projectName": "Tên dự án",
     "employeeCode": "Mã nhân viên",
     "employeeName": "Tên nhân viên",
+    "nickName": "Biệt danh",
+    "firstName": "Tên",
+    "lastName": "Họ",
+    "position": "Chức vụ",
+    "department": "Phòng ban",
+    "billable": "Công tác phí",
+    "level": "Cấp độ",
+    "status": "Status",
     "item": "Mục"
   },
   "omProject": {
@@ -109,6 +117,21 @@
     "notice": "ARTICLE NOT FOUND",
     "noteLink": "Vui lòng thử một trong các trang sau",
     "button": "Trang Chủ"
-  }
- 
+  },
+  "employee": {
+    "code": "Mã nhân viên",
+    "nickName": "Biệt danh",
+    "firstName": "Tên",
+    "lastName": "Họ",
+    "email": "Email",
+    "role": "Vai trò",
+    "billable": "Công tác phí",
+    "level": "Cấp độ",
+    "status": "Trạng thái",
+    "position": "Chức vụ",
+    "department": "Phòng ban",
+    "new": "Thêm mới",
+    "working" : "Đang làm việc",
+    "nonWorking": "Nghỉ việc"
+  } 
 }

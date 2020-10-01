@@ -4,6 +4,7 @@ import project from './modules/project'
 import omProject from './modules/omProject'
 import login from './modules/login'
 import department from './modules/department'
+import employee from './modules/employee'
 import inquiryData from './modules/inquiryData'
 
 Vue.use(Vuex)
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     project,
     login,
     department,
+    employee,
     inquiryData
   }
 })

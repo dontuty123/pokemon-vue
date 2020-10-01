@@ -84,6 +84,15 @@
     "projectCode": "Project Code",
     "projectName": "Project Name",
     "employeeCode": "Employee Code",
+    "employeeName": "Employee Name",
+    "nickName": "Nick Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "position": "Position",
+    "department": "Department",
+    "billable": "Billable",
+    "level": "Level",
+    "status": "Status",
     "item": "Item"
   },
   "omProject": {
@@ -108,6 +117,22 @@
     "notice": "ARTICLE NOT FOUND",
     "noteLink": "Please try one of the following pages",
     "button": "Home Page"
+  },
+  "employee": {
+    "code": "Employee Code",
+    "nickName": "Nick Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "role": "Role",
+    "billable": "Billable",
+    "level": "Level",
+    "status": "Status",
+    "position": "Position",
+    "department": "Department",
+    "new": "New",
+    "working" : "Working",
+    "nonWorking": "Non-Working"
   }
   
 }
