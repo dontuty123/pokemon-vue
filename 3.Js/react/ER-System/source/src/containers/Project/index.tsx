@@ -1,7 +1,6 @@
 import React from 'react';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
-import Menu from '../../components/Menu';
 import { setCookie } from '../../core/common';
 import { getApi, postApi } from '../../core/services';
 import * as CONSTANT from '../../core/constant';
@@ -20,6 +19,8 @@ interface State {
 }
 
 class Project extends React.Component<Props, State> {
+
+    form: any
 
     state: State = {
         dataSource: {},
@@ -53,13 +54,12 @@ class Project extends React.Component<Props, State> {
             pageRecord: "24",
             sortBy: "projectTypeCode-ASC"
         },
-        loading: false
+        loading: false,
     }
 
     componentDidMount = async () => {
         await this.login();
         this.getDataProjects();
-        this.getDataProjectType();
     }
 
     login = async () => {
@@ -76,28 +76,24 @@ class Project extends React.Component<Props, State> {
     }
 
     getDataProjects = async () => {
-        const { params } = this.state;
+        const { params, paramsProjectType } = this.state;
 
-        const data = await getApi("project-list", params)
+        const [data, dataType] = await Promise.all([
+            getApi("project-list", params),
+            getApi("projecttype-list", paramsProjectType)
+        ])
 
-        if (data.data.http_code === 200) {
+        if (data.data.http_code === 200 && dataType.data.http_code === 200) {
             const result = {
                 ...data.data.result,
                 sortBy: params.sortBy
             }
-            this.setState({ dataSource: result })
+            this.setState({ 
+                dataSource: result,
+                projectsType: dataType.data.result.projectTypeList
+             })
         }
     }
-
-    getDataProjectType = async () => {
-        const { paramsProjectType } = this.state;
-        const data = await getApi("projecttype-list", paramsProjectType)
-
-        if (data.data.http_code === 200) {
-            this.setState({ projectsType: data.data.result.projectTypeList })
-        }
-    }
-
 
     createProject = async () => {
         const { formProject } = this.state;
@@ -190,7 +186,7 @@ class Project extends React.Component<Props, State> {
                 pageRecord: "20",
                 sortBy: "projectCode-ASC"
             }
-        })
+        }, () => this.form.resetValidate())
     }
 
     getButtonMenu = () => {
@@ -207,6 +203,7 @@ class Project extends React.Component<Props, State> {
             {
                 type: "add",
                 onClick: () => {
+                    this.form.setValidate(formProject);
                     this.createProject();
                 }
             },
@@ -230,7 +227,9 @@ class Project extends React.Component<Props, State> {
             },
             {
                 type: "export",
-                onClick: () => { }
+                onClick: () => {
+                    this.form.resetValidate()
+                 }
             },
             {
                 type: "reset",
@@ -334,22 +333,19 @@ class Project extends React.Component<Props, State> {
         const columnsTable = this.getColumnsTable(),
             columnsForm = this.getColumnsForm(),
             buttonsMenu = this.getButtonMenu();
-
+            
         return (
-            <div style={{ padding: 30 }}>
-                <Menu
-                    buttons={buttonsMenu}
+            <div style={{ padding: 30 }}>                
+                <Form
+                    idForm="project"
+                    ref={c => this.form = c}
+                    dataSource={formProject}
+                    columns={columnsForm}
+                    menu={buttonsMenu}
+                    onChange={project => {
+                        this.setState({ formProject: { ...formProject, ...project }, params: { ...params, ...project } })
+                    }}
                 />
-                <div className="form">
-                    <Form
-                        idForm="project"
-                        dataSource={formProject}
-                        columns={columnsForm}
-                        onChange={project => {
-                            this.setState({ formProject: { ...formProject, ...project }, params: { ...params, ...project } })
-                        }}
-                    />
-                </div>
                 <Table
                     idTable="project"
                     dataSource={dataSource}
@@ -364,7 +360,7 @@ class Project extends React.Component<Props, State> {
                         this.setState({ dataSource, params: currentParams }, () => this.getDataProjects())
                     }}
                     onClick={(project) => {
-                        this.setState({ formProject: project })
+                        this.setState({ formProject: project }, () => this.form.setValidate(project))
                     }}
                 />
             </div>

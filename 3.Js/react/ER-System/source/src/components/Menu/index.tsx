@@ -8,6 +8,7 @@ import { FiRefreshCw } from 'react-icons/fi';
 
 interface Props {
     buttons: Array<any>;
+    checkValidate: any;
 }
 
 interface State {
@@ -16,13 +17,21 @@ interface State {
 
 class Menu extends React.Component<Props, State> {
 
+    checkValidate = () => {
+        const { checkValidate } = this.props;
+
+        return Object.values(checkValidate).length === 0 || Object.values(checkValidate).some(item => item);
+    }
+
 
     renderSearch = (item: any) => {
         return <button key={"Menu" + item.type} className="primary-button" {...item}><AiOutlineSearch />Tìm</button>
     }
 
     renderAdd = (item: any) => {
-        return <button key={"Menu" + item.type} className="primary-button" {...item}><AiFillPlusCircle />Thêm</button>
+        const onClick = !this.checkValidate() ? item.onClick : null;
+
+        return <button key={"Menu" + item.type} className="primary-button" {...item} onClick={onClick}><AiFillPlusCircle />Thêm</button>
     }
 
     renderUpdate = (item: any) => {
