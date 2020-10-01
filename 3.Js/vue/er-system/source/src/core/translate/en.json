@@ -69,7 +69,9 @@
     "delete": "Delete",
     "import": "Import",
     "export": "Export",
-    "clear": "Clear All"
+    "clear": "Clear All",
+    "getApproval": "Get Approval",
+    "oTLeave": "Export OT Leave"
   },
   "department": {
     "code": "Department Code",
@@ -82,7 +84,7 @@
     "projectCode": "Project Code",
     "projectName": "Project Name",
     "employeeCode": "Employee Code",
-    "employeeName": "Employee Name"
+    "item": "Item"
   },
   "omProject": {
     "Project": "Project",
@@ -98,11 +100,14 @@
     "department": "Department",
     "project": "Project",
     "updateWorkingHour": "Update Working Hour",
-    "totalRecord": "Total Record"
+    "totalRecord": "Total Record",
+    "engineerHourRecord": "Engineer Hour Record",
+    "inquiryData": "Inquiry Data"
   },
   "error": {
     "notice": "ARTICLE NOT FOUND",
     "noteLink": "Please try one of the following pages",
     "button": "Home Page"
   }
+  
 }

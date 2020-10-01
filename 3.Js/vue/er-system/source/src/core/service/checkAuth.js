@@ -37,6 +37,9 @@ const auth = {
       Error:[
         [ 'teamLeader' , 'manager', 'director', 'supervisor', 'staff' ], 'director', 'admin', 'hr'
       ],
+      inquiryData:[
+        [ 'teamLeader' , 'manager', 'director', 'supervisor', 'staff' ], 'director', 'admin', 'hr'
+      ],
     }
     //if user is staff
     if (urlCheck[url]) {
