@@ -1,8 +1,5 @@
-/**
- *
- * Link api
- */
 export const SERVER_API = "http://103.18.7.212:1239/"
+
 export const MESSAGE_CODE: any = {
     "001": "Sai email hoặc password",
     "002": "Bắt buộc nhập Email",
@@ -33,6 +30,3 @@ export const MESSAGE_CODE: any = {
     "027":"Dữ liệu bị trùng",
     "028":"Bắt buộc nhập mã phòng ban"
 }
-
-
-

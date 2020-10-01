@@ -179,7 +179,7 @@ class Form extends React.Component<Props, State> {
                     buttons={this.props.menu}
                     checkValidate={this.state.checkValidate}
                 />
-                <div className="form form-table">
+                <div className="form-content form-table">
                     <table>
                         <tbody>
                             {this.renderForm()}

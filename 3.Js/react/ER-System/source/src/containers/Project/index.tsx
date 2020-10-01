@@ -1,7 +1,6 @@
 import React from 'react';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
-import { setCookie } from '../../core/common';
 import { getApi, postApi } from '../../core/services';
 import * as CONSTANT from '../../core/constant';
 
@@ -31,7 +30,7 @@ class Project extends React.Component<Props, State> {
             aliasName: "",
             projectTypeId: "",
             defaultProject: "",
-            active: "0"
+            active: ""
         },
         params: {
             isSearch: "0",
@@ -58,21 +57,7 @@ class Project extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
-        await this.login();
         this.getDataProjects();
-    }
-
-    login = async () => {
-        const fnAPI = await postApi("login", {
-            email: "trinc@runsystem.net",
-            password: "Taone123@"
-        });
-
-        if (fnAPI.data.http_code === 403) {
-            return;
-        } else if (fnAPI.data.http_code === 200) {
-            setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
-        }
     }
 
     getDataProjects = async () => {
@@ -335,7 +320,7 @@ class Project extends React.Component<Props, State> {
             buttonsMenu = this.getButtonMenu();
             
         return (
-            <div style={{ padding: 30 }}>                
+            <div>                
                 <Form
                     idForm="project"
                     ref={c => this.form = c}

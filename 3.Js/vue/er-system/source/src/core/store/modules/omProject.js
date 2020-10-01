@@ -21,12 +21,12 @@ const omProject = {
   },
   
   mutations: {
-    ACTION_DONT_RELOAD (state, data) {
+    ACTION_DONT_RELOAD: (state, data) => {
       state.isLoading = false;
       state.status.error_code = data.error_code
       state.status.http_code = data.http_code
     }, 
-    ACTION_SUCCESS (state, data) {
+    ACTION_SUCCESS: (state, data) => {
       state.isLoading = !state.isLoading;
       state.status.error_code = data.error_code
       state.status.http_code = data.http_code
