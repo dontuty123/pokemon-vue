@@ -46,7 +46,7 @@ class App extends React.Component<Props, {}> {
         <div className={`body-content ${isLogin ? "has-header" : ""}`}>
           <Router history={history}>
             {isLogin ? <Header /> : null}
-            <Redirect from="*" to='/' />
+            {/* <Redirect from="*" to='/' /> */}
             <PublicRoute restricted={true} component={ResetPassword} path="/reset-password" />
             <PublicRoute restricted={true} component={ForgotPassword} path="/forgot-password" exact />
             <PublicRoute restricted={true} component={Login} path="/" exact />
