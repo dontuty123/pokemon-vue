@@ -40,7 +40,7 @@ import Pagination from '@/components/Pagination'
         breadcrumb: [
           {
             id:1,
-            label: 'breadcrumb["engineerHour"]',
+            label: 'breadcrumb["engineerHourRecord"]',
             url: '/',
           },
           {

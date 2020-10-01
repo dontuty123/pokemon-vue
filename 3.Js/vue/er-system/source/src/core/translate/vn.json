@@ -69,7 +69,9 @@
     "delete": "Xoá",
     "import": "Nhập dữ liệu",
     "export": "Kết xuất",
-    "clear": "Làm mới"
+    "clear": "Làm mới",
+    "getApproval": "Gửi yêu cầu",
+    "oTLeave": "Báo cáo OT Leave"
   },
   "department": {
     "code": "Mã phòng ban",
@@ -90,7 +92,8 @@
     "department": "Phòng ban",
     "billable": "Công tác phí",
     "level": "Cấp độ",
-    "status": "Status"
+    "status": "Status",
+    "item": "Mục"
   },
   "omProject": {
     "Project": "Dự án",
@@ -107,7 +110,8 @@
     "project": "Dự án",
     "updateWorkingHour": "Cập nhật giờ công",
     "totalRecord": "Tổng giờ công",
-    "engineerHour": "Giờ công"
+    "engineerHourRecord": "Cập nhật giờ công",
+    "inquiryData": "Truy vấn dữ liệu"
   },
   "error": {
     "notice": "ARTICLE NOT FOUND",

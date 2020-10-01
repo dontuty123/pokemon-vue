@@ -73,6 +73,13 @@ const routes = [
     name: 'Position',
     component: () => import('@/views/Position'),
   },
+
+  //inquiryData
+  {
+    path: '/inquiry-data',
+    name: 'inquiryData',
+    component: () => import('@/views/inquiryData'),
+  },
 ]
 const checkInitScreen = (page, check, auth) => {
   let result = ''
