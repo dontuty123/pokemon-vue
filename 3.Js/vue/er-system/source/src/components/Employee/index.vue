@@ -1,15 +1,13 @@
 <template>
   <div class="er-employee">
     <div class="list-button mt-4">
-      <b-button class="btn-type btn-type-1">
+      <b-button class="btn-type btn-type-1" @click="searchData">
         <b-icon icon="search"></b-icon>{{ $t('button["search"]') }}
       </b-button>
-      <b-button class="btn-type btn-type-1">
+      <b-button :disabled="disabled" class="btn-type btn-type-1">
         <b-icon icon="plus-circle-fill"></b-icon>{{ $t('button["add"]') }}
       </b-button>
-      <b-button 
-        class="btn-type btn-type-1"
-        >
+      <b-button class="btn-type btn-type-1" :disabled="disabled">
         <b-icon icon="plus-circle-fill"></b-icon>{{ $t('button["update"]') }}
       </b-button>
       <b-button 
@@ -39,7 +37,7 @@
           <div class="row w-input">
             <div class="col-8">
               <b-form-input 
-                type="text" 
+                type="text" v-model="dataForm.employeeCode"
               ></b-form-input>
             </div>
           </div>
@@ -59,7 +57,7 @@
           <div class="row w-input">
             <div class="col-8">
               <b-form-input 
-                type="text"              
+                type="text" v-model="dataForm.nickName"            
               ></b-form-input>
             </div>
           </div>
@@ -79,7 +77,7 @@
           <div class="row w-input">
             <div class="col-8">
               <b-form-input 
-                type="text"              
+                type="text" v-model="dataForm.firstName"            
               ></b-form-input>
             </div>
           </div>
@@ -99,7 +97,7 @@
           <div class="row w-input">
             <div class="col-8">
               <b-form-input 
-                type="text"              
+                type="text" v-model="dataForm.lastName"              
               ></b-form-input>
             </div>
           </div>
@@ -119,7 +117,7 @@
           <div class="row w-input">
             <div class="col-8">
               <b-form-input 
-                type="text"              
+                type="text" v-model="dataForm.email"             
               ></b-form-input>
             </div>
           </div>
@@ -138,7 +136,7 @@
           </template>
           <div class="row w-input">
             <div class="col-8">
-              <b-form-select              
+              <b-form-select v-model="dataForm.role" :options="listRole"            
               ></b-form-select>
             </div>
           </div>
@@ -157,7 +155,7 @@
           </template>
           <div class="row w-input">
             <div class="col-8">
-              <b-form-select              
+              <b-form-select v-model="dataForm.billable" :options="listBillable"           
               ></b-form-select>
             </div>
           </div>
@@ -176,7 +174,7 @@
           </template>
           <div class="row w-input">
             <div class="col-8">
-              <b-form-select              
+              <b-form-select v-model="dataForm.level" :options="listLevel"            
               ></b-form-select>
             </div>
           </div>
@@ -196,17 +194,17 @@
           <div class="row w-input">
             <div class="col-8 d-flex">
               <b-form-radio 
-                v-model="selected"
+                v-model="dataForm.status"
                 name="some-radios" 
-                value="A"
+                value="0"
                 class="mr-4"
                 >
                 {{ $t('employee["working"]') }}
               </b-form-radio>
               <b-form-radio 
-                v-model="selected" 
+                v-model="dataForm.status" 
                 name="some-radios" 
-                value="B">
+                value="1">
                 {{ $t('employee["nonWorking"]') }}
               </b-form-radio>
             </div>
@@ -225,17 +223,23 @@
           <router-link to='/'>{{ $t('employee["new"]') }}</router-link>
         </p>
       </div>
-      <div>
-        <div class="w-100 d-flex mt-2" v-for="(item, index) in items" :key="index">
-          {{item.positionSelected}}
+      <div v-if="isLoad">
+        <div class="w-100 d-flex mt-2" v-for="(item, index) in dataForm.employeePosition" :key="index">
         <div class="w-50" v-if="index===0 ? true : isSub">
           <div class="d-flex align-item-center ">
-            <b-form-radio class="d-inline mt-1" v-model="valueSelect" :value="index" name='selectData'></b-form-radio>
+            <b-form-radio 
+              class="d-inline mt-1"
+              v-model="item.isMain" value="1" 
+              name='selectData'
+              v-if='isSub'
+              @change="changeRadio(index)"
+              >
+              </b-form-radio>
             <model-list-select
               :list="positionList" 
               class="input-select"
               size="sm"
-              v-model="item.positionSelected"
+              v-model="item.positionName"
               option-value="positionName"
               :custom-text="customTextPosition"
               placeholder="All"
@@ -249,7 +253,7 @@
               :list="departmentList"
               class="input-select"
               size="sm"
-              v-model="item.departmentSelected"
+              v-model="item.departmentName"
               option-value="departmentName"
               :custom-text="customTextDepartment"
               placeholder="All"
@@ -278,8 +282,6 @@ export default {
   },
   data() {
     return {
-      selected: 'A',
-      valueSelect: 0,
       positionSelected: {
         positionCode: '',
         positionName: 'All',
@@ -298,23 +300,72 @@ export default {
         }
       ],
       showSelect: true,
-      isSub:  true
+      isSub:  true,
+      listBillable: [
+        {
+          value: '',
+          text: 'All'
+        },
+        {
+          value: 0,
+          text: 'Yes'
+        },
+        {
+          value: 1,
+          text: 'No'
+        }
+      ],
+      listLevel: [
+        {
+          value: '',
+          text: 'All'
+        },
+        {
+          value: 0,
+          text: 'Staff'
+        },
+        {
+          value: 1,
+          text: 'Manager'
+        },
+         {
+          value: 2,
+          text: 'Director'
+        },
+        {
+          value: 3,
+          text: 'Supervisor'
+        },
+        {
+          value: 4,
+          text: 'Team Leader'
+        }
+      ],
+      listRole: [
+        {
+          value: '',
+          text: 'All'
+        },
+        {
+          value: 0,
+          text: 'Staff'
+        },
+        {
+          value: 1,
+          text: 'HR'
+        },
+         {
+          value: 2,
+          text: 'Admin'
+        },
+        {
+          value: 3,
+          text: 'Director'
+        }
+      ]
     }
   },
-  watch: {
-
-  },
-  props: {
-   positionList: {
-      type: Array,
-      required: false,
-   },
-   departmentList: {
-      type: Array,
-      required: false,
-   },
-    
-  },
+  props: ['positionList', 'departmentList', 'dataForm', 'isLoad', 'disabled'],
   methods: {
     customTextPosition(item) {
        return item.positionCode !== '' ? `${item.positionName}` : `All`
@@ -324,26 +375,43 @@ export default {
     },
     addSelect(item) {
       this.isSub = true
-      const newLenght = this.items.length
+      const newLenght = this.dataForm.employeePosition.length
       if (newLenght < 5) {
         // this.showSelect = true
         const newItem = {
-           positionSelected: '',
-          departmentSelected: ''
+          departmentCode: '',
+          departmentId: '',
+          departmentName: '',
+          isMain: '',
+          positionCode: '',
+          positionId: '',
+          positionName: '',
         }
-        this.items = [...this.items, newItem]
-        
+        this.dataForm.employeePosition = [...this.dataForm.employeePosition, newItem]
       }
-      
     },
     subSelect(item,index) {
       this.isSub = false
-      this.items.splice(index,1)
+      const {employeePosition} = this.dataForm
+      if (employeePosition[index].isMain === '1') {
+        employeePosition[0].isMain = '1'
+      }
+      employeePosition.splice(index,1)      
       setTimeout(() => {
          this.isSub = true
-      }, 100);
-     
+      }, 10);
     },
+    changeRadio(index) {
+      const {employeePosition} = this.dataForm
+      const positionlenght = employeePosition.length
+      for (let i = 0; i < employeePosition.length; i++ ){
+        employeePosition[i].isMain = '0'
+      }
+      employeePosition[index].isMain = '1'
+    },
+    searchData() {
+      this.$emit('searchList', this.dataForm)
+    }
   }
 }
 </script>

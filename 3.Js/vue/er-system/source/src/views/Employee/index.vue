@@ -4,11 +4,16 @@
     <Employee 
       :positionList="selectPositon"
       :departmentList="selectDepartment"
+      :dataForm="dataForm"
+      :isLoad="isLoad"
+      :disabled="disabled"
+      @searchList="searchList"
     >
     </Employee>
     <TableCommon 
       :fields="fields"
       :items="dataList"
+      @valueRowSelect="valueRowSelect"
     ></TableCommon>
     <Pagination
       :lengthOfList="lengthOfList"
@@ -158,7 +163,32 @@ import Pagination from '@/components/Pagination'
           departmentName : 'All'
         },
         selectPositon: [],
-        selectDepartment: []
+        selectDepartment: [],
+        dataForm: {
+          billable: '',
+          email: '',
+          employeeCode: '',
+          employeePosition: [
+            {
+              departmentCode: '',
+              departmentId: '',
+              departmentName: '',
+              isMain: '1',
+              positionCode: '',
+              positionId: '',
+              positionName: '',
+            }
+          ],
+          firstName: '',
+          id: '',
+          lastName: '',
+          level: '',
+          nickName: '',
+          role: '',
+          status: 0,
+        },
+        isLoad: true,
+        disabled: true 
       }
     },
     async created() {
@@ -174,13 +204,65 @@ import Pagination from '@/components/Pagination'
       }
     },
     computed: {
-    ...mapState('employee', {
-      dataList : state => state.dataList,
-      totalRecord : state => state.totalRecord,
-      positionList : state => state.positionList,
-      departmentList : state => state.departmentList
-    })
-  },
+      ...mapState('employee', {
+        dataList : state => state.dataList,
+        totalRecord : state => state.totalRecord,
+        positionList : state => state.positionList,
+        departmentList : state => state.departmentList
+      })
+    },
+    methods: {
+      valueRowSelect(val) {
+        this.dataForm = val
+        this.isLoad = false 
+        setTimeout(() => {
+          this.isLoad = true
+        }, 10);
+      },
+      formatDataSearch(array) {
+        const arrLenght = array.length
+        let data = []
+        let tmpdata = ''
+        for (let i = 0; i < arrLenght; i++) {
+          if (array[i].positionId === '' && array[i].departmentId === '') {
+            tmpdata = ''
+            data = [...data, tmpdata]
+          }
+          if (array[i].positionId !== '' && array[i].departmentId !== '') {
+            tmpdata = array[i].positionId + '-' + array[i].departmentId
+            data = [...data, tmpdata]
+          }
+          if (array[i].positionId !== '' && array[i].departmentId === '') {
+            tmpdata = array[i].positionId 
+            data = [...data, tmpdata]
+          }
+          if (array[i].positionId === '' && array[i].departmentId !== '') {
+            tmpdata = '-' + array[i].departmentId 
+            data = [...data, tmpdata]
+          }
+        }
+        return data.toString()
+      },
+      searchList(val) {
+        const arrSearch = this.formatDataSearch(val.employeePosition)
+        const dataSearch = {
+          isSearch: 1,
+          employeeCode: val.employeeCode,
+          nickName: val.nickName,
+          firstName: val.firstName,
+          lastName: val.lastName,
+          email: val.email,
+          role: val.role,
+          billable: val.billable,
+          status: val.status,
+          'employeePosition[]' : arrSearch,
+          currentPage: 1,
+          pageRecord: CONTANT.pageRecord,
+          sortBy: 'employeeCode-ASC',
+          level: val.level,
+        }
+      }
+    }
   }
 </script>
 
