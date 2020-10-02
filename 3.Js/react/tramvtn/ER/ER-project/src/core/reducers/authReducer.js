@@ -13,6 +13,15 @@ const authReducer = (state = initialState, action) => {
             return {
                 errorCode: action.error
             }
+        case 'RESET':
+            return {
+                errorCode: action.error
+            }
+        case 'CHANGE':
+            return {
+                errorCode: action.error
+            }
+               
         case 'CLEAR':
             return {
                 errorCode: ''

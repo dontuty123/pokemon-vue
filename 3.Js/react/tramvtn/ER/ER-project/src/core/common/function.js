@@ -1,3 +1,7 @@
+import {matchPath} from 'react-router-dom';
+
+
+
 const functionCommon = {};
 
 
@@ -20,6 +24,26 @@ functionCommon.validateEmail = (email) => {
  * At least 8 characters
  */
 functionCommon.validatePass = (password) => {
-    const validate = /([-+=_!@#$%^&*.,;:'\"<>/?`~\[\]\(\)\{\}\\\|\s])^(?=.*[\d]).+$^(?=.*[A-Z]).+$^(?=.*[a-z]).+$/
+    let validate = new RegExp("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     const isValidate = validate.test(password) ? true : false;
+    return isValidate;
 }
+
+/**
+ * function get value key 
+ * get path 
+ */
+functionCommon.getCurrentPath = (pathname, _path) => {
+    const match = matchPath(
+        pathname,
+        { path: _path }
+    );
+    if (match !== null){
+        return match.params.code;
+    } else {
+        window.location = '/login';
+    } 
+    
+}
+
+export default functionCommon;

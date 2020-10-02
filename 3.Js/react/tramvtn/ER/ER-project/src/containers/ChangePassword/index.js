@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo-company.png';
 import { Button, Form, Input } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { LockOutlined } from '@ant-design/icons';
 import "antd/dist/antd.css";
 import CONST_API from '../../core/constant/constant';
 import * as errorData from '../../core/data/en-error.json';
-import functionCommon from '../../core/common/function';
 
 
 class ChangePassword extends Component {
