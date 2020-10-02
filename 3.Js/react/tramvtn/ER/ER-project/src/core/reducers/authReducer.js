@@ -1,10 +1,11 @@
 
 export const initialState = {
-    errorCode : ''
+    errorCode: '',
+    errorCodeReset: 0
 };
 
 const authReducer = (state = initialState, action) => {
-    switch (action.type){
+    switch (action.type) {
         case 'LOGIN':
             return {
                 errorCode: action.error
@@ -15,13 +16,12 @@ const authReducer = (state = initialState, action) => {
             }
         case 'RESET':
             return {
-                errorCode: action.error
+                errorCodeReset: action.error
             }
-        case 'CHANGE':
+        case 'CHECKKEY':
             return {
                 errorCode: action.error
             }
-               
         case 'CLEAR':
             return {
                 errorCode: ''

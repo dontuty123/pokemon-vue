@@ -24,7 +24,7 @@ functionCommon.validateEmail = (email) => {
  * At least 8 characters
  */
 functionCommon.validatePass = (password) => {
-    let validate = new RegExp("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const validate = new RegExp("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     const isValidate = validate.test(password) ? true : false;
     return isValidate;
 }
