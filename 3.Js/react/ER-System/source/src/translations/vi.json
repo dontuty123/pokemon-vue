@@ -26,6 +26,7 @@
 		"title": "Danh Mục/ Quản lý dự án OM",
 		"project_om": "Dự án",
 		"employee": "Nhân viên",
+		"no": "STT",
 		"project_code": "Mã dự án",
 		"project_name": "Tên dự án",
 		"employee_code": "Mã nhân viên",

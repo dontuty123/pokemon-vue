@@ -12,7 +12,7 @@ import i18n from "../../core/util/i18n";
 import {withTranslation, WithTranslation } from "react-i18next";
 import { NavLink } from 'react-router-dom';
 
-type Props = StoreStateProp & StoreDispatchProp & MultiLanguage & WithTranslation 
+type Props = StoreStateProp & StoreDispatchProp & MultiLanguage & WithTranslation
 
 interface StoreStateProp {
     userInfo: user
@@ -75,9 +75,9 @@ const Header = (props: Props) => {
                         <a href="#">VI</a>
                         <ul className="dropdown-content">
                             <li><a onClick={() => i18n.changeLanguage('vi-VN')}>
-                                <img className="img-flag" src={VnImg} alt="VnImg"/> vi</a></li>
+                                <img className="img-flag" src='' alt="VnImg"/> vi</a></li>
                             <li><a onClick={() => i18n.changeLanguage('en-US')}>
-                                <img className="img-flag-en" src={EnImg} alt="EnImg"/> en</a></li>
+                                <img className="img-flag-en" src='' alt="EnImg"/> en</a></li>
                         </ul>
                     </li>
                 </ul>

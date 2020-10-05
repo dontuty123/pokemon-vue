@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import {getApi} from '../../core/services';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
-import {withTranslation, WithTranslation } from "react-i18next";
+import {withTranslation, WithTranslation} from "react-i18next";
 
 type IProps = Props & WithTranslation
 
@@ -13,16 +13,27 @@ interface Props {
 
 interface State {
     projects: any;
+    params: any;
     formProject: object;
     projectType: Array<any>,
     projectTypeName: Array<any>
 }
 
-class OmProjectManagement extends Component<IProps , State> {
+class OmProjectManagement extends Component<IProps, State> {
 
     state: State = {
         projects: {
             result: []
+        },
+        params: {
+            isSearch: 0,
+            projectId: "",
+            employeeId: "",
+            employeeBy: "firstName-ASC",
+            projectBy: "projectCode-ASC",
+            currentPage: 1,
+            pageRecord: 20,
+            sortBy: "projectCode-ASC"
         },
         projectType: [],
         projectTypeName: [],
@@ -59,11 +70,27 @@ class OmProjectManagement extends Component<IProps , State> {
         }
     }
 
+    searchProject = () => {
+        const { params, formProject } = this.state;
+
+        let paramsProject = {
+            ...params,
+            ...formProject,
+            isSearch: 1
+        }
+        delete paramsProject.id;
+        delete paramsProject.projectTypeCode;
+        delete paramsProject.projectTypeName;
+        this.setState({
+            params: paramsProject
+        }, () => this.getProjects())
+    }
     getButtonMenu = () => {
         const buttons = [
             {
                 type: "search",
                 onClick: () => {
+                    this.searchProject();
                 }
             },
             {
@@ -84,7 +111,7 @@ class OmProjectManagement extends Component<IProps , State> {
             {
                 type: "export",
                 onClick: () => {
-                 }
+                }
             },
             {
                 type: "reset",
@@ -94,29 +121,6 @@ class OmProjectManagement extends Component<IProps , State> {
         ]
 
         return buttons
-    }
-
-    getTableColumns = () => {
-        const columns = [
-            {
-                title: "Mã dự án",
-                idIndex: "projectCode",
-            },
-            {
-                title: "Tên dự án",
-                idIndex: "projectName",
-            },
-            {
-                title: "Mã nhân viên",
-                idIndex: "employeeCode",
-            },
-            {
-                title: "Tên nhân viên",
-                idIndex: "employeeName",
-            },
-        ]
-
-        return columns;
     }
 
     getFormColumns = () => {
@@ -156,8 +160,7 @@ class OmProjectManagement extends Component<IProps , State> {
 
     render() {
         const {projects, formProject} = this.state;
-        const tableColumns = this.getTableColumns(),
-            formColumns = this.getFormColumns(),
+        const formColumns = this.getFormColumns(),
             buttonsMenu = this.getButtonMenu();
         const {t} = this.props;
         return (
@@ -176,7 +179,24 @@ class OmProjectManagement extends Component<IProps , State> {
                 <Table
                     idTable={"project"}
                     dataSource={projects}
-                    columns={tableColumns}
+                    columns={[
+                        {
+                            title: t('project_code'),
+                            idIndex: "projectCode",
+                        },
+                        {
+                            title: t('project_name'),
+                            idIndex: "projectName",
+                        },
+                        {
+                            title: t('employee_code'),
+                            idIndex: "employeeCode",
+                        },
+                        {
+                            title: t('employee_name'),
+                            idIndex: "employeeName",
+                        },
+                    ]}
                     onChange={projects => {
                         this.setState({projects}, () => this.getProjects())
                     }}

@@ -2,8 +2,12 @@ import React from 'react';
 import './style.scss';
 import Pagination from './pagination';
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
+import {WithTranslation, withTranslation} from "react-i18next";
+
+type IProps = Props & WithTranslation;
 
 interface Props {
+    t?: any;
     idTable: string;
     dataSource: any;
     columns: Array<any>;
@@ -15,7 +19,7 @@ interface State {
     dataSource: any;
 }
 
-class Table extends React.Component<Props, State> {
+class Table extends React.Component<IProps, State> {
 
     state: State = {
         dataSource: this.props.dataSource || {
@@ -105,12 +109,12 @@ class Table extends React.Component<Props, State> {
 
     render() {
         const { dataSource } = this.state;
-
+        const {t} = this.props;
         return (
             <div className="table">
                 <table>
                     <thead>
-                        <tr><th className="align-center">STT</th>{this.renderTableHeader()}</tr>
+                        <tr><th className="align-center">{t('no')}</th>{this.renderTableHeader()}</tr>
                     </thead>
                     <tbody>
                         {this.renderTableData()}
@@ -130,5 +134,4 @@ class Table extends React.Component<Props, State> {
 
 }
 
-
-export default Table
+export default (withTranslation(["om-project"])(Table));
