@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
 import {getApi, postApi} from '../../core/services';
 import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
+import './style.scss';
 
 type IProps = Props & WithTranslation
 
 interface Props {
     t?: any
+}
+
+interface CSSObject {
+
 }
 
 interface State {
@@ -18,9 +23,10 @@ interface State {
     formProject: any;
     params: any;
     loading: boolean;
+    messageLogin: string;
 }
 
-class OmProjectManagement extends React.Component<IProps, State> {
+class OmProjectManagement extends Component<IProps, State> {
 
     form: any
 
@@ -42,6 +48,7 @@ class OmProjectManagement extends React.Component<IProps, State> {
             pageRecord: 20,
             sortBy: "projectCode-ASC"
         },
+        messageLogin: "",
         loading: false,
     }
 
@@ -71,14 +78,17 @@ class OmProjectManagement extends React.Component<IProps, State> {
         let project = {
             ...formProject
         }
+        let messageLogin = "";
+        this.setState({loading: true});
         const data = await postApi("omproject-create", project);
         if (data.data.http_code === 200) {
             this.resetProject();
             this.getDataProjects();
-            console.log(CONSTANT.MESSAGE_CODE["004"]);
+            messageLogin = CONSTANT.MESSAGE_CODE["004"];
         } else {
-            console.log(CONSTANT.MESSAGE_CODE["027"]);
+            messageLogin = CONSTANT.MESSAGE_CODE["027"];
         }
+        this.setState({loading: false, messageLogin});
     }
 
     updateProject = async () => {
@@ -86,28 +96,33 @@ class OmProjectManagement extends React.Component<IProps, State> {
         let project = {
             ...formProject
         }
+        let messageLogin = "";
+        this.setState({loading: true});
         const data = await postApi("omproject-update", project);
         if (data.data.http_code === 201) {
             this.resetProject();
             this.getDataProjects();
-            console.log(CONSTANT.MESSAGE_CODE["004"]);
+            messageLogin = CONSTANT.MESSAGE_CODE["004"];
         } else {
-            console.log(CONSTANT.MESSAGE_CODE["027"]);
+            messageLogin = CONSTANT.MESSAGE_CODE["027"];
         }
+        this.setState({loading: false, messageLogin});
     }
 
     deleteProject = async () => {
         const {formProject} = this.state;
-
+        let messageLogin = "";
+        this.setState({loading: true});
         const data = await postApi("omproject-delete", {id: formProject.id});
 
         if (data.data.http_code === 200) {
             this.resetProject();
             this.getDataProjects();
-            console.log(CONSTANT.MESSAGE_CODE["004"]);
+            messageLogin = CONSTANT.MESSAGE_CODE["004"];
         } else {
-            console.log(CONSTANT.MESSAGE_CODE["023"]);
+            messageLogin = CONSTANT.MESSAGE_CODE["010"];
         }
+        this.setState({loading: false, messageLogin});
     }
 
     searchProject = () => {
@@ -193,6 +208,7 @@ class OmProjectManagement extends React.Component<IProps, State> {
 
     getColumnsForm = () => {
         const {projectsType, projectTypeName} = this.state;
+        const {t} = this.props;
         const optionsCode = [{
             title: "All",
             value: ""
@@ -203,14 +219,14 @@ class OmProjectManagement extends React.Component<IProps, State> {
         })));
         const columns = [
             {
-                title: "Dự án",
+                title: t('project_om'),
                 idIndex: "projectId",
                 validate: true,
                 type: "select",
                 options: optionsCode
             },
             {
-                title: "Nhân viên",
+                title: t('employee'),
                 idIndex: "employeeId",
                 validate: true,
                 type: "select",
@@ -218,12 +234,11 @@ class OmProjectManagement extends React.Component<IProps, State> {
             },
         ]
 
-        return columns
+        return columns;
     }
 
-
     render() {
-        const {dataSource, params, formProject} = this.state;
+        const {dataSource, params, formProject, messageLogin} = this.state;
         const columnsForm = this.getColumnsForm(),
             buttonsMenu = this.getButtonMenu();
         const {t} = this.props;
@@ -239,6 +254,8 @@ class OmProjectManagement extends React.Component<IProps, State> {
                         this.setState({formProject: {...formProject, ...project}, params: {...params, ...project}})
                     }}
                 />
+                <p className="validate"
+                   style={{display: messageLogin.length > 0 ? null : 'none'} as Pick<CSSObject, keyof CSSObject>}>{messageLogin}</p>
                 <Table
                     idTable="project"
                     dataSource={dataSource}
@@ -274,7 +291,6 @@ class OmProjectManagement extends React.Component<IProps, State> {
                     }}
                 />
             </div>
-
         )
     }
 }
