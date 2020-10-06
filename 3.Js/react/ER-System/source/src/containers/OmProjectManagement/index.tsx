@@ -5,6 +5,7 @@ import {getApi, postApi} from '../../core/services';
 import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
 import './style.scss';
+import {get} from "https";
 
 type IProps = Props & WithTranslation
 
@@ -22,6 +23,7 @@ interface State {
     projectTypeName: Array<any>;
     formProject: any;
     params: any;
+    paramsExport:any;
     loading: boolean;
     messageLogin: string;
 }
@@ -47,6 +49,9 @@ class OmProjectManagement extends Component<IProps, State> {
             currentPage: 1,
             pageRecord: 20,
             sortBy: "projectCode-ASC"
+        },
+        paramsExport: {
+            secretKey: ""
         },
         messageLogin: "",
         loading: false,
@@ -138,6 +143,17 @@ class OmProjectManagement extends Component<IProps, State> {
         }, () => this.getDataProjects())
     }
 
+    secretKey = async () => {
+        const {paramsExport} = this.state;
+        const data = await get('requestSecretKey');
+        const dataExport = await getApi('omProjectExport', data);
+console.log(dataExport);
+
+
+
+
+    }
+
     resetProject = () => {
         this.setState({
             formProject: {
@@ -191,8 +207,9 @@ class OmProjectManagement extends Component<IProps, State> {
             },
             {
                 type: "export",
+                disabled: !checkId,
                 onClick: () => {
-                    this.form.resetValidate()
+                    this.secretKey();
                 }
             },
             {
