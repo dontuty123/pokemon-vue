@@ -1,0 +1,31 @@
+.menu {
+    button {
+        cursor: pointer;
+        white-space: nowrap;
+        color: white;
+        background-color: #4e7081;
+        margin: 0 13px 13px 0;
+        font-size: 0.9em;
+        border: none;
+        vertical-align: baseline;
+        font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+        padding: .78571429em 1.5em;
+        font-weight: 700;
+        line-height: 1em;
+        font-style: normal;
+        text-align: center;
+        border-radius: .28571429rem;
+        background-image: none;
+        &:focus {
+            outline: none;
+        };
+        
+    }
+    .primary-button {
+        background-color: #2185d0;
+        color: #fff;
+        &:hover {
+            background-color: #287bb9;
+        }
+    }
+}

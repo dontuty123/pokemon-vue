@@ -1,4 +1,4 @@
-import { getCookie } from '../common';
+import { getCookie } from '../cookie';
 
 const HeaderSever = () => {
     const resutl = getCookie('result') !== "" ? JSON.parse(getCookie('result')) : null;

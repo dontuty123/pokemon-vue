@@ -1,4 +1,0 @@
-/**
- *
- * Call reducers
- */

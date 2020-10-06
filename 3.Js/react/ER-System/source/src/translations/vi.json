@@ -1,0 +1,34 @@
+{
+	"loginLang": {
+		"login": "LOGIN",
+		"placeholder_email": "E-mail address",
+		"placeholder_pwd": "Password",
+		"btn_login": "Login",
+		"link_forgot": "Forgot your password ?"
+	},
+	"menu": {
+		"master": "Danh Mục",
+		"employee": "Nhân viên",
+		"project": "Dự án",
+		"om": "Quản lý dự án OM",
+		"engineer": "Giờ công",
+		"update_work": "Cập nhật giờ công",
+		"total": "Tổng giờ công",
+		"approve": "Phê duyệt",
+		"change_pwd": "Thay đổi mật khẩu",
+		"logout": "Đăng xuất",
+		"search": "Tìm",
+		"add": "Thêm",
+		"update": "Cập nhật",
+		"delete": "Xóa"
+	},
+	"om-project": {
+		"title": "Danh Mục/ Quản lý dự án OM",
+		"project_om": "Dự án",
+		"employee": "Nhân viên",
+		"project_code": "Mã dự án",
+		"project_name": "Tên dự án",
+		"employee_code": "Mã nhân viên",
+		"employee_name": "Tên nhân viên"
+	}
+}
