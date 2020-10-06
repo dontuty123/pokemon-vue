@@ -132,7 +132,9 @@
     "department": "Department",
     "new": "New",
     "working" : "Working",
-    "nonWorking": "Non-Working"
+    "nonWorking": "Non-Working",
+    "positionName": "Position name",
+    "departmentName": "Department name"
   }
   
 }

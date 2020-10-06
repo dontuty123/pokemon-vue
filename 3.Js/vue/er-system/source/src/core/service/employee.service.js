@@ -14,33 +14,29 @@ employeeService.getdepartmentList = (data) => {
   return funcApi.get('department-list', data)
 }
 
-//Search data in list
-// departmentService.searchList = (data) => {
-//   return funcApi.get('department-list', data)
-// }
+// Search data in list
+employeeService.searchList = (data) => {
+  return funcApi.get('employee-list', data)
+}
 
-//Add data in list
-// departmentService.addList = (data) => {
-//   return funcApi.post('department-create', data)
-// }
+employeeService.addList = (data) => {
+  return funcApi.post('employee-create', data)
+}
 
-//Update data in lisst
-// departmentService.updateList = (data) => {
-//   return funcApi.post('department-update', data)
-// }
+employeeService.updateList = (data) => {
+  return funcApi.post('employee-update', data)
+}
 
-//Delete data in list
-// departmentService.deleteList = (data) => {
-//   return funcApi.post('department-delete', data)
-// }
+employeeService.deleteList = (data) => {
+  return funcApi.post('employee-delete', data)
+}
 
-//Get new secret key
-// departmentService.getKey = (data) => {
-//   return funcApi.get('Department/requestSecretKey', data)
-// }
+employeeService.getKey = (data) => {
+  return funcApi.get('Employee/requestSecretKey', data)
+}
 
-//Export file excel
-// departmentService.exportFile = (data) => {
-//   return funcApi.exportFile('Department/departmentExport', data)
-// }
+// Export file excel
+employeeService .exportFile = (data) => {
+  return funcApi.exportFile('Employee/employeeExport', data)
+}
 export default employeeService

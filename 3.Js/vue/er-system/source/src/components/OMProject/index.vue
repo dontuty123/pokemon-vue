@@ -129,6 +129,7 @@ export default {
   methods: {
     // Format text  at combobox
     customTextProject (item) {
+      console.log(item)
       return item.projectCode !== '' ? `${item.projectCode} - ${item.projectName}` : `${item.projectName}`
     },
 
