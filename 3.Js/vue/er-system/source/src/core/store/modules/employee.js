@@ -127,7 +127,6 @@ const employee = {
 
     //Call Api employee-delete get status http_code and error_code
     async deleteList( { commit }, param) {
-      console.log(param)
       const respon = await employeeService.deleteList(param)
       if (respon.data.http_code === 200) {
         commit('API_SUCCESS', respon.data)
