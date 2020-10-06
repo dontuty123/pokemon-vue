@@ -46,15 +46,15 @@ class Menu extends React.Component<IProps, State> {
     }
 
     renderImport = (item: any) => {
-        return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />Nhập dữ liệu</button>
+        return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />{this.props.t('input_data')}</button>
     }
 
     renderExport = (item: any) => {
-        return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />Kết xuất</button>
+        return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />{this.props.t('export_data')}</button>
     }
 
     renderRest = (item: any) => {
-        return <button key={"Menu" + item.type} {...item}><FiRefreshCw />Làm mới</button>
+        return <button key={"Menu" + item.type} {...item}><FiRefreshCw />{this.props.t('refresh')}</button>
     }
 
     renderButtons = () => {

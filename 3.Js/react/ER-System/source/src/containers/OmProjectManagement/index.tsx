@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import Header from '../../components/Header';
-import {getApi} from '../../core/services';
+import React from 'react';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
+import { getApi, postApi } from '../../core/services';
+import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
 
 type IProps = Props & WithTranslation
@@ -12,18 +12,25 @@ interface Props {
 }
 
 interface State {
-    projects: any;
+    dataSource: Array<any>;
+    projectsType: Array<any>;
+    projectTypeName: Array<any>;
+    formProject: any;
     params: any;
-    formProject: object;
-    projectType: Array<any>,
-    projectTypeName: Array<any>
+    loading: boolean;
 }
 
-class OmProjectManagement extends Component<IProps, State> {
+class OmProjectManagement extends React.Component<IProps, State> {
+
+    form: any
 
     state: State = {
-        projects: {
-            result: []
+        dataSource: [],
+        projectsType: [],
+        projectTypeName: [],
+        formProject: {
+            projectId: "",
+            employeeId: "",
         },
         params: {
             isSearch: 0,
@@ -35,38 +42,76 @@ class OmProjectManagement extends Component<IProps, State> {
             pageRecord: 20,
             sortBy: "projectCode-ASC"
         },
-        projectType: [],
-        projectTypeName: [],
-        formProject: {}
+        loading: false,
     }
 
-    componentDidMount = () => {
-        this.getProjects();
+    componentDidMount = async () => {
+        this.getDataProjects();
     }
 
-    getProjects = async () => {
-        const {projects} = this.state;
+    getDataProjects = async () => {
+        const { params} = this.state;
 
-        const data = await getApi('omproject-list', {
-            "isSearch": 0,
-            "projectId": "",
-            "employeeId": "",
-            "employeeBy": "firstName-ASC",
-            "projectBy": "projectCode-ASC",
-            "currentPage": projects.currentPage || "",
-            "pageRecord": 20,
-            "sortBy": "projectCode-ASC",
-        })
+        const data = await getApi('omproject-list', params);
         if (data.data.http_code === 200) {
             const result = {
-                ...data.data.result,
-                result: data.data.result.employeeProject
+                    ...data.data.result,
+                    result: data.data.result.employeeProject,
+                sortBy: params.sortBy
             }
             this.setState({
-                projects: result,
-                projectType: data.data.result.omProject,
+                dataSource: result,
+                projectsType: data.data.result.omProject,
                 projectTypeName: data.data.result.employeeWorking
             })
+        }
+    }
+
+    createProject = async () => {
+        const { formProject } = this.state;
+        let project = {
+            ...formProject
+        }
+        const data = await postApi("omproject-create", project);
+        if (data.data.http_code === 200) {
+            this.resetProject();
+            this.getDataProjects();
+            console.log(CONSTANT.MESSAGE_CODE["004"]);
+        } else {
+            console.log(CONSTANT.MESSAGE_CODE["023"]);
+        }
+    }
+
+    updateProject = async () => {
+        const { formProject } = this.state;
+        let project = {
+            ...formProject
+        }
+        delete project.projectTypeName;
+        delete project.projectTypeCode;
+
+        const data = await postApi("project-update", project);
+
+        if (data.data.http_code === 201) {
+            this.resetProject();
+            this.getDataProjects();
+            console.log(CONSTANT.MESSAGE_CODE["004"]);
+        } else {
+            console.log(CONSTANT.MESSAGE_CODE["023"]);
+        }
+    }
+
+    deleteProject = async () => {
+        const { formProject } = this.state;
+
+        const data = await postApi("project-delete", { id: formProject.id });
+
+        if (data.data.http_code === 200) {
+            this.resetProject();
+            this.getDataProjects();
+            console.log(CONSTANT.MESSAGE_CODE["004"]);
+        } else {
+            console.log(CONSTANT.MESSAGE_CODE["023"]);
         }
     }
 
@@ -78,14 +123,34 @@ class OmProjectManagement extends Component<IProps, State> {
             ...formProject,
             isSearch: 1
         }
-        delete paramsProject.id;
-        delete paramsProject.projectTypeCode;
-        delete paramsProject.projectTypeName;
         this.setState({
             params: paramsProject
-        }, () => this.getProjects())
+        }, () => this.getDataProjects())
     }
+
+    resetProject = () => {
+        this.setState({
+            formProject: {
+                projectId: "",
+                employeeId: "",
+            },
+            params: {
+                isSearch: 0,
+                projectId: "",
+                employeeId: "",
+                employeeBy: "firstName-ASC",
+                projectBy: "projectCode-ASC",
+                currentPage: 1,
+                pageRecord: 20,
+                sortBy: "projectCode-ASC"
+            }
+        }, () => this.form.resetValidate())
+    }
+
     getButtonMenu = () => {
+        const { formProject } = this.state;
+        const checkId = formProject.id && formProject.id !== ""
+
         const buttons = [
             {
                 type: "search",
@@ -96,26 +161,34 @@ class OmProjectManagement extends Component<IProps, State> {
             {
                 type: "add",
                 onClick: () => {
+                    this.form.setValidate(formProject);
+                    this.createProject();
                 }
             },
             {
                 type: "update",
+                disabled: !checkId,
                 onClick: () => {
+                    this.updateProject();
                 }
             },
             {
                 type: "delete",
+                disabled: !checkId,
                 onClick: () => {
+                    this.deleteProject();
                 }
             },
             {
                 type: "export",
                 onClick: () => {
+                    this.form.resetValidate()
                 }
             },
             {
                 type: "reset",
                 onClick: () => {
+                    this.resetProject();
                 }
             },
         ]
@@ -123,21 +196,10 @@ class OmProjectManagement extends Component<IProps, State> {
         return buttons
     }
 
-    getFormColumns = () => {
-        const {t} = this.props;
-        const {projectType, projectTypeName} = this.state;
-        const optionsCode = [{
-            title: "All",
-            value: 0
-        }].concat(projectType.map(item => ({
-            title: item.projectCode + '-' + item.projectName,
-            value: item.projectCode
-        })));
-
-        const options = [{title: "All", value: 0}].concat(projectTypeName.map(item => ({
-            title: item.employeeName,
-            value: item.employeeName
-        })));
+    getColumnsForm = () => {
+        const { projectsType,projectTypeName } = this.state;
+        const optionsCode = [{ title: "All", value: "" }].concat(projectsType.map(item => ({ title: item.projectCode + '-' + item.projectName, value: item.projectCode })));
+        const options = [{ title: "All", value: "" }].concat(projectTypeName.map(item => ({ title: item.employeeName, value: item.employeeName })));
         const columns = [
             {
                 title: "Dự án",
@@ -155,30 +217,30 @@ class OmProjectManagement extends Component<IProps, State> {
             },
         ]
 
-        return columns;
+        return columns
     }
 
+
     render() {
-        const {projects, formProject} = this.state;
-        const formColumns = this.getFormColumns(),
-            buttonsMenu = this.getButtonMenu();
+        const { dataSource, params, formProject } = this.state;
+        const columnsForm = this.getColumnsForm(),
+              buttonsMenu = this.getButtonMenu();
         const {t} = this.props;
         return (
             <div>
-                <Header/>
-                <h1>{t('title')}</h1>
                 <Form
-                    idForm={"project"}
+                    idForm="project"
+                    ref={c => this.form = c}
                     dataSource={formProject}
-                    columns={formColumns}
+                    columns={columnsForm}
                     menu={buttonsMenu}
-                    onChange={formProject => {
-                        this.setState({formProject})
+                    onChange={project => {
+                        this.setState({ formProject: { ...formProject, ...project }, params: { ...params, ...project } })
                     }}
                 />
                 <Table
-                    idTable={"project"}
-                    dataSource={projects}
+                    idTable="project"
+                    dataSource={dataSource}
                     columns={[
                         {
                             title: t('project_code'),
@@ -197,11 +259,17 @@ class OmProjectManagement extends Component<IProps, State> {
                             idIndex: "employeeName",
                         },
                     ]}
-                    onChange={projects => {
-                        this.setState({projects}, () => this.getProjects())
+                    onChange={dataSource => {
+                        const currentParams = {
+                            ...params,
+                            currentPage: dataSource.currentPage,
+                            sortBy: dataSource.sortBy
+                        }
+
+                        this.setState({ dataSource, params: currentParams }, () => this.getDataProjects())
                     }}
-                    onClick={formProject => {
-                        this.setState({formProject})
+                    onClick={(project) => {
+                        this.setState({ formProject: project }, () => this.form.setValidate(project))
                     }}
                 />
             </div>

@@ -20,7 +20,10 @@
 		"search": "Tìm",
 		"add": "Thêm",
 		"update": "Cập nhật",
-		"delete": "Xóa"
+		"delete": "Xóa",
+		"input_data": "Nhập dữ liệu",
+		"export_data": "Kết xuất",
+		"refresh": "Làm mới"
 	},
 	"om-project": {
 		"title": "Danh Mục/ Quản lý dự án OM",

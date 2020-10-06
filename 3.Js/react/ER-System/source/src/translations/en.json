@@ -20,7 +20,10 @@
 		"search": "Search",
 		"add": "Add",
 		"update": "Update",
-		"delete": "Delete"
+		"delete": "Delete",
+		"input_data": "Import",
+		"export_data": "Export",
+		"refresh": "Clear All"
 	},
 	"om-project": {
 		"title": "Master/ OM Project Management",
