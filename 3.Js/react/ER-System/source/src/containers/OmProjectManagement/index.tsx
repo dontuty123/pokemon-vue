@@ -23,7 +23,7 @@ interface State {
     projectTypeName: Array<any>;
     formProject: any;
     params: any;
-    paramsExport:any;
+    paramsExport: any;
     loading: boolean;
     messageLogin: string;
 }
@@ -145,13 +145,28 @@ class OmProjectManagement extends Component<IProps, State> {
 
     secretKey = async () => {
         const {paramsExport} = this.state;
-        const data = await get('requestSecretKey');
-        const dataExport = await getApi('omProjectExport', data);
-console.log(dataExport);
-
-
-
-
+        const param = {
+            "projectId": "",
+            "employeeId": "",
+            "sortBy": "projectCode-ASC",
+            "secretKey": ""
+        }
+        const dataExport = await getApi('OMProject/omProjectExport', param);
+        return this.comment(dataExport, paramsExport);
+    }
+   // common get key
+    comment = (param: any, url: any) => {
+        const requestSecretKey = this.getSecretKey();
+        const _param = param;
+        _param.requestSecretKey = requestSecretKey;
+        const urlLink = CONSTANT.SERVER_API + url + requestSecretKey;
+        window.open(urlLink, "_blank");
+        return urlLink;
+    }
+   // get secretKey export om project
+    getSecretKey = async () => {
+        const secretKey = await getApi("OMProject/requestSecretKey", '');
+        return secretKey;
     }
 
     resetProject = () => {
@@ -207,7 +222,7 @@ console.log(dataExport);
             },
             {
                 type: "export",
-                disabled: !checkId,
+                // disabled: !checkId,
                 onClick: () => {
                     this.secretKey();
                 }
@@ -220,7 +235,7 @@ console.log(dataExport);
             },
         ]
 
-        return buttons
+        return buttons;
     }
 
     getColumnsForm = () => {
