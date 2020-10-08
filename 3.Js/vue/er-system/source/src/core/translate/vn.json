@@ -132,6 +132,8 @@
     "department": "Phòng ban",
     "new": "Thêm mới",
     "working" : "Đang làm việc",
-    "nonWorking": "Nghỉ việc"
+    "nonWorking": "Nghỉ việc",
+    "positionName": "tên chức vụ",
+    "departmentName": "tên phòng ban"
   } 
 }

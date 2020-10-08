@@ -6,7 +6,7 @@
           v-for="(item, index) in fields"
           :key="index"
           :class="fields[index].class"
-          @click="sortTable(fields[index].valueSort,fields[index].key)"
+          @click="sortTable(fields[index].valueSort,fields[index].key,fields[index].data)"
         >
           <span> {{ $t(fields[index].label) }}</span>
           <b-icon
@@ -32,7 +32,7 @@
             <span 
               v-if="td.type !== 'array' && td.type !== 'checkbox' ? true : false"
             >
-              {{ td.key === 'id' ? index + 1 : td.key !== 'status' ? item[td.key] : item[td.key] === '0' ? 'Working' : ''}}</span>
+              {{ td.key === 'id' ? index + 1 : td.key !== 'status' ? item[td.key] : item[td.key] === '0' ? 'Working' : 'Non-working'}}</span>
             <p v-if="td.type === 'array' ? true : false">
              <span v-for="(name, position) in item[td.key]" :key="position">
                {{name[td.data]}}<br/>
@@ -73,7 +73,7 @@ export default {
       this.$emit('valueRowSelect', JSON.parse(JSON.stringify(val)))
     },
     //Sort Table
-    sortTable(val, key){
+    sortTable(val, key, data){
       if (val === 1) {
          this.rotate1 = !this.rotate1
       }
@@ -84,7 +84,7 @@ export default {
          this.rotate3 = !this.rotate3
       }
       this.sortData = !this.sortData 
-      this.$emit('sortData', this.sortData, val, key)
+      this.$emit('sortData', this.sortData, val, key, data)
     }
   },
 };
