@@ -6,6 +6,7 @@ import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
 import './style.scss';
 import {get} from "https";
+import qs from "qs";
 
 type IProps = Props & WithTranslation
 
@@ -23,7 +24,6 @@ interface State {
     projectTypeName: Array<any>;
     formProject: any;
     params: any;
-    paramsExport: any;
     loading: boolean;
     messageLogin: string;
 }
@@ -49,9 +49,6 @@ class OmProjectManagement extends Component<IProps, State> {
             currentPage: 1,
             pageRecord: 20,
             sortBy: "projectCode-ASC"
-        },
-        paramsExport: {
-            secretKey: ""
         },
         messageLogin: "",
         loading: false,
@@ -142,32 +139,32 @@ class OmProjectManagement extends Component<IProps, State> {
             params: paramsProject
         }, () => this.getDataProjects())
     }
-
+    // get secretKey export om project
+    getSecretKey = async () => {
+        const secretKey = await getApi("OMProject/requestSecretKey", '');
+        return secretKey.data.result.secretKey;
+    }
+   // get secretKey export om project
     secretKey = async () => {
-        const {paramsExport} = this.state;
         const param = {
             "projectId": "",
             "employeeId": "",
             "sortBy": "projectCode-ASC",
             "secretKey": ""
         }
-        const dataExport = await getApi('OMProject/omProjectExport', param);
-        return this.comment(dataExport, paramsExport);
+        return this.comment(param, 'OMProject/omProjectExport?');
     }
    // common get key
-    comment = (param: any, url: any) => {
-        const requestSecretKey = this.getSecretKey();
+    comment = async (param: any, url: any) => {
+        const secretKey = await this.getSecretKey();
+        console.log(secretKey);
         const _param = param;
-        _param.requestSecretKey = requestSecretKey;
-        const urlLink = CONSTANT.SERVER_API + url + requestSecretKey;
+        _param.secretKey = secretKey;
+        const secretParams = qs.stringify(param);
+        const urlLink = CONSTANT.SERVER_API + url + secretParams;
         window.open(urlLink, "_blank");
-        return urlLink;
     }
-   // get secretKey export om project
-    getSecretKey = async () => {
-        const secretKey = await getApi("OMProject/requestSecretKey", '');
-        return secretKey;
-    }
+
 
     resetProject = () => {
         this.setState({
