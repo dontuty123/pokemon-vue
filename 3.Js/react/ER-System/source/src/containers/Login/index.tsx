@@ -70,21 +70,16 @@ class Login extends React.Component<Props, State> {
             const fnAPI = await API.postApi("login", paramUser);
             if (fnAPI.data.http_code === 403) {
                 messageLogin = Constant.MESSAGE_CODE["001"];
-                return;
-            }
-            if (fnAPI.data.http_code !== 200) {
+            } else if (fnAPI.data.http_code === 200) {
+                Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60);
+                this.props.setLogin({
+                    user_id: fnAPI.data.result.employeeId,
+                    token: fnAPI.data.result.token
+                });
+            } else {
                 messageLogin = Constant.MESSAGE_CODE["010"];
-                return;
             }
-            Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
-            this.props.setLogin({
-                user_id: fnAPI.data.result.employeeId,
-                token: fnAPI.data.result.token
-            });
-        } else {
-            messageLogin = this.state.messageLogin
         }
-
         this.setState({loading: false, messageLogin});
     }
 
