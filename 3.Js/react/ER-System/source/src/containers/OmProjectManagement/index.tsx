@@ -157,7 +157,6 @@ class OmProjectManagement extends Component<IProps, State> {
    // common get key
     comment = async (param: any, url: any) => {
         const secretKey = await this.getSecretKey();
-        console.log(secretKey);
         const _param = param;
         _param.secretKey = secretKey;
         const secretParams = qs.stringify(param);
