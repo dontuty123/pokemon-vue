@@ -34,8 +34,19 @@ const putApi = (url: string, data: any) => {
     });
 }
 
+// common get keyExport
+const common = async (param: any, url: any, _secretKey:any) => {
+    const secretKey = _secretKey;
+    const _param = param;
+    _param.secretKey = secretKey;
+    const secretParams = qs.stringify(param);
+    const urlLink = CONSTANT.SERVER_API + url + secretParams;
+    window.open(urlLink, "_blank");
+}
+
 export {
     getApi,
     postApi,
-    putApi
+    putApi,
+    common
 }

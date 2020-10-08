@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
-import {getApi, postApi} from '../../core/services';
+import {getApi, postApi, common} from '../../core/services';
 import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
 import './style.scss';
@@ -139,31 +139,32 @@ class OmProjectManagement extends Component<IProps, State> {
             params: paramsProject
         }, () => this.getDataProjects())
     }
+
     // get secretKey export om project
     getSecretKey = async () => {
         const secretKey = await getApi("OMProject/requestSecretKey", '');
         return secretKey.data.result.secretKey;
     }
-   // get secretKey export om project
+
+    // get secretKey export om project
     secretKey = async () => {
+        const {params} = this.state;
+        let paramsProject = {
+            ...params,
+            isSearch: 1
+        }
+        this.setState({
+            params: paramsProject
+        }, () => this.getDataProjects());
+
         const param = {
-            "projectId": "",
-            "employeeId": "",
+            "projectId": params.projectId ? params.projectId : "",
+            "employeeId": params.employeeId ? params.employeeId : "",
             "sortBy": "projectCode-ASC",
             "secretKey": ""
         }
-        return this.common(param, 'OMProject/omProjectExport?');
+        return common(param, 'OMProject/omProjectExport?', await this.getSecretKey());
     }
-   // common get key
-    common = async (param: any, url: any) => {
-        const secretKey = await this.getSecretKey();
-        const _param = param;
-        _param.secretKey = secretKey;
-        const secretParams = qs.stringify(param);
-        const urlLink = CONSTANT.SERVER_API + url + secretParams;
-        window.open(urlLink, "_blank");
-    }
-
 
     resetProject = () => {
         this.setState({
