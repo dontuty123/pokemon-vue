@@ -1,5 +1,6 @@
 import CONST_API from '../../core/constant/constant';
 import axios from 'axios';
+import functionCommon from '../common/function';
 
 //Login Action
 export const loginAction = (data) => {
@@ -10,6 +11,7 @@ export const loginAction = (data) => {
                 res => {
                     if (!res) return;
                     dispatch(rerponresult(res['error_code']));
+                    functionCommon.setCookie(res['result'],'result');
                 }
             )
     };
@@ -19,6 +21,7 @@ export const loginAction = (data) => {
             error
         }
     }
+    
 }
 
 export const auth = {};
@@ -152,6 +155,64 @@ auth.checkkey = (param) => {
         return res.data;
     }).catch((err) => console.log(err))
 }
+
+//List position Action
+export const listPositionAction = (data) => {
+    return dispatch => {
+        auth.listposition(data)
+            .then(
+                res => {
+                    if (!res) return;
+                    dispatch(rerponresult(res['error_code']));
+                    functionCommon.setCookie(res['result'],'result');
+                }
+            )
+    };
+    function rerponresult(error) {
+        return {
+            type: 'LISTPOSSITION',
+            error
+        }
+    }
+    
+}
+
+auth.listposition = async (param) => {
+    //header api
+    //isSearch
+    //positionCode
+    //positionName
+    //currentPage
+    //pageRecord
+    //sortBy
+    
+}
+
+
+//Create position Action
+export const createPositionAction = (data) => {
+    return dispatch => {
+        auth.createposition(data)
+            .then(
+                res => {
+                    if (!res) return;
+                    dispatch(rerponresult(res['error_code']));
+                    functionCommon.setCookie(res['result'],'result');
+                }
+            )
+    };
+    function rerponresult(error) {
+        return {
+            type: 'CREATEPOSSITION',
+            error
+        }
+    }
+    
+}
+
+auth.createposition = async (param) => {
+}
+
 
 //Clear Action
 export const clearError = () => {

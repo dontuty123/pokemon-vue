@@ -1,7 +1,7 @@
 import {matchPath} from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
-
-
+const cookies = new Cookies();
 const functionCommon = {};
 
 
@@ -45,5 +45,49 @@ functionCommon.getCurrentPath = (pathname, _path) => {
     } 
     
 }
+/**
+ * function set cookie 
+ * set result 
+ */
+functionCommon.setCookie = (data, cookiesName) => {
+    const timestamp = new Date().getTime();
+    const expire = timestamp + (60 * 60 * 24 * 1000 * 1);
+    const expireDate = new Date(expire);
+    cookies.set(cookiesName, data, { expires: expireDate });
+}
+
+/**
+ * function get cookie 
+ * get result 
+ */
+functionCommon.getCookie = (cookiesName) => {
+    let result = cookies.get(cookiesName);
+    return result;
+}
+
+/**
+ * function get api header 
+ * 
+ */
+functionCommon.getApiHeader = () =>{
+    const result = functionCommon.getCookie('result') 
+    // check = !result ? true : false;
+    // console.log("result", result, check);
+
+    if (result) {
+        return { 
+            'token': result.token,
+            'email': result.email,
+            'employeeCode': result.employeeCode
+        };
+    } else {
+        return {
+            'token': '',
+            'email': '',
+            'employeeCode': ''
+        };
+    }
+}
+
 
 export default functionCommon;

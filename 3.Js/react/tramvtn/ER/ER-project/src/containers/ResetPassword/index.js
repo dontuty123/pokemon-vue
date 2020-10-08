@@ -35,10 +35,10 @@ class ResetPassword extends Component {
 
 	componentDidMount() {
 		const code = functionCommon.getCurrentPath(history.location.pathname, '/reset-password/:code');
-		this.props.checkkey({ 'checkkey': code });
 		this.setState({
-			code: code
+			code: code,
 		});
+		this.props.checkkey({ 'checkkey': code });
 	}
 
 	handleChange = (e) => {
@@ -49,6 +49,7 @@ class ResetPassword extends Component {
 		this.setState({
 			[name]: value
 		})
+		//this.props.clear();
 
 		if (name === 'password') {
 			if (value === '') {

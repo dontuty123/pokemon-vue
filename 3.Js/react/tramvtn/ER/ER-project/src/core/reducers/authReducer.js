@@ -22,6 +22,31 @@ const authReducer = (state = initialState, action) => {
             return {
                 errorCode: action.error
             }
+        case 'LISTPOSSITION':
+            return {
+                errorCode: action.error
+
+            }
+        case 'CREATEPOSSITION':
+            return {
+                errorCode: action.error
+            }
+        case 'UPDATEPOSSITION':
+            return {
+                errorCode: action.error
+            }
+        case 'SEARCHPOSSITION':
+            return {
+                errorCode: action.error
+            }
+        case 'DELETEPOSSITION':
+            return {
+                errorCode: action.error
+            }
+        case 'EXPORTPOSSITION':
+            return {
+                errorCode: action.error
+            }
         case 'CLEAR':
             return {
                 errorCode: ''

@@ -74,7 +74,6 @@ class Login extends Component {
 			'email':this.state.email,
 			'password':this.state.password
 		});
-		
 		if (this.state.email === '') {
 			this.setState({
                 errorMail: '002'
@@ -150,14 +149,14 @@ class Login extends Component {
 	}
 };
 
-// const nhan gia tri tra ve
+// // const gets the return value
 const mapStateToProps = state => {
 	return {
 		errorCode : state.authReducer.errorCode
 	}
 };
 
-// const goi action bang ham dispatch
+// const calls action using dispatch function
 const mapDispatchToProps = dispatch => ({
 	login: (param) => dispatch(loginAction(param)),
 	clear: () => dispatch(clearError())

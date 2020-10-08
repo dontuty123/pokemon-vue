@@ -21,6 +21,15 @@ body {
         padding: 30px 15px 15px 15px;
     }
 }
+.body-content {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    padding: 0 30px;
+    @media (max-width: 767px) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
 a{
     color: #0072bb;
 }
