@@ -70,9 +70,7 @@ functionCommon.getCookie = (cookiesName) => {
  * 
  */
 functionCommon.getApiHeader = () =>{
-    const result = functionCommon.getCookie('result') 
-    // check = !result ? true : false;
-    // console.log("result", result, check);
+    const result = functionCommon.getCookie('result')
 
     if (result) {
         return { 
