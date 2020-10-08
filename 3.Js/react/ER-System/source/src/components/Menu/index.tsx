@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './style.scss';
 import { AiOutlineSearch, AiFillPlusCircle, AiOutlineFileExcel } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
@@ -14,47 +14,41 @@ interface Props {
     checkValidate: any;
 }
 
-interface State {
-
-}
-
-class Menu extends React.Component<IProps, State> {
+class Menu extends Component<IProps> {
 
     checkValidate = () => {
         const { checkValidate } = this.props;
-
         return Object.values(checkValidate).length === 0 || Object.values(checkValidate).some(item => item);
     }
 
 
     renderSearch = (item: any) => {
-        return <button key={"Menu" + item.type} className="primary-button" {...item}><AiOutlineSearch />{this.props.t('search')}</button>
+        return <button key={"Menu" + item.type} className="primary-button" {...item}><AiOutlineSearch />{this.props.t('search')}</button>;
     }
 
     renderAdd = (item: any) => {
         const onClick = !this.checkValidate() ? item.onClick : null;
-
-        return <button key={"Menu" + item.type} className="primary-button" {...item} onClick={onClick}><AiFillPlusCircle />{this.props.t('add')}</button>
+        return <button key={"Menu" + item.type} className="primary-button" {...item} onClick={onClick}><AiFillPlusCircle />{this.props.t('add')}</button>;
     }
 
     renderUpdate = (item: any) => {
-        return <button key={"Menu" + item.type} className="primary-button" {...item}><BiEdit />{this.props.t('update')}</button>
+        return <button key={"Menu" + item.type} className="primary-button" {...item}><BiEdit />{this.props.t('update')}</button>;
     }
 
     renderDelete = (item: any) => {
-        return <button key={"Menu" + item.type} className="primary-button" {...item}><RiDeleteBin6Line />{this.props.t('delete')}</button>
+        return <button key={"Menu" + item.type} className="primary-button" {...item}><RiDeleteBin6Line />{this.props.t('delete')}</button>;
     }
 
     renderImport = (item: any) => {
-        return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />{this.props.t('input_data')}</button>
+        return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />{this.props.t('input_data')}</button>;
     }
 
     renderExport = (item: any) => {
-        return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />{this.props.t('export_data')}</button>
+        return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />{this.props.t('export_data')}</button>;
     }
 
     renderRest = (item: any) => {
-        return <button key={"Menu" + item.type} {...item}><FiRefreshCw />{this.props.t('refresh')}</button>
+        return <button key={"Menu" + item.type} {...item}><FiRefreshCw />{this.props.t('refresh')}</button>;
     }
 
     renderButtons = () => {
@@ -86,7 +80,7 @@ class Menu extends React.Component<IProps, State> {
                     break;
             }
 
-            return renderType
+            return renderType;
         })
     }
 

@@ -26,15 +26,15 @@ interface CSSObject {
 }
 
 interface StoreStateProp {
-    userInfo: user
+    userInfo: user;
 }
 
 interface StoreDispatchProp {
     setUserInfo: (data: user) => void,
-    setLogin: (data: user) => void
+    setLogin: (data: user) => void;
 }
 
-type Props = StoreStateProp & StoreDispatchProp
+type Props = StoreStateProp & StoreDispatchProp;
 
 class Login extends React.Component<Props, State> {
 
@@ -45,7 +45,7 @@ class Login extends React.Component<Props, State> {
         },
         messageLogin: "",
         loading: false,
-        checked: false,
+        checked: false
     }
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -54,7 +54,7 @@ class Login extends React.Component<Props, State> {
             userInfo = {
                 ...this.state.userInfo,
                 [label]: value
-            }
+            };
 
         this.setState({userInfo, messageLogin: ""});
     }
@@ -96,7 +96,7 @@ class Login extends React.Component<Props, State> {
             mess: Constant.MESSAGE_CODE["002"]
         };
 
-        return valid
+        return valid;
     }
 
     validatePassword() {
@@ -107,7 +107,7 @@ class Login extends React.Component<Props, State> {
             mess: Constant.MESSAGE_CODE["003"]
         };
 
-        return valid
+        return valid;
     }
 
     render() {
@@ -163,11 +163,11 @@ class Login extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     userInfo: state.userReducer
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
     setUserInfo: (data: user) => dispatch(userInfo(data)),
     setLogin: (data: user) => dispatch(setLogin(data))
-})
+});
 
-export default connect<StoreStateProp, StoreDispatchProp>(mapStateToProps, mapDispatchToProps)(Login)
+export default connect<StoreStateProp, StoreDispatchProp>(mapStateToProps, mapDispatchToProps)(Login);

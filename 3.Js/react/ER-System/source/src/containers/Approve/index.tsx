@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Table from '../../components/Table';
 import { user } from '../../core/types/user';
 import { getApi } from '../../core/services';
@@ -20,9 +20,9 @@ interface State {
     loading: boolean;
 }
 
-class Project extends React.Component<IProps, State> {
+class Project extends Component<IProps, State> {
 
-    form: any
+    form: any;
 
     state: State = {
         dataSource: {},
@@ -50,7 +50,7 @@ class Project extends React.Component<IProps, State> {
                 result: data.data.result.employeeWorkLog,
                 sortBy: params.sortBy
             }
-            this.setState({ 
+            this.setState({
                 dataSource: result,
              })
         }
@@ -73,19 +73,19 @@ class Project extends React.Component<IProps, State> {
             {
                 title: "Dự án hoạt động",
                 idIndex: "active",
-                render: (value: string, record: any) => {
-                    return <button>{value}</button>
+                render: (value: string) => {
+                    return <button>{value}</button>;
                 }
             },
         ]
 
-        return columns
+        return columns;
     }
 
     render() {
         const { dataSource, params } = this.state;
         const columnsTable = this.getColumnsTable();
-            
+
         return (
             <div>
                 <Table
@@ -111,6 +111,6 @@ class Project extends React.Component<IProps, State> {
 
 const mapStateToProps = (state: any) => ({
     userInfo: state.userReducer
-})
+});
 
-export default connect<StoreStateProp, {}>(mapStateToProps, {})(Project)
+export default connect<StoreStateProp, {}>(mapStateToProps, {})(Project);

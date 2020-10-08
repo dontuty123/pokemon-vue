@@ -42,7 +42,7 @@ const common = async (param: any, url: any, _secretKey:any) => {
     const secretParams = qs.stringify(param);
     const urlLink = CONSTANT.SERVER_API + url + secretParams;
     window.open(urlLink, "_blank");
-}
+};
 
 export {
     getApi,

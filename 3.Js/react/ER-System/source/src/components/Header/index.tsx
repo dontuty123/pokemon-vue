@@ -1,8 +1,6 @@
 import React from 'react';
 import './style.scss';
 import Logo from '../../assets/img/kobelco.png';
-import VnImg from '../../assets/img/img_vn.png';
-import EnImg from '../../assets/img/img_en.png';
 import {AppActions} from "../../core/types/actions";
 import {user} from "../../core/types/user";
 import {Dispatch} from 'redux';
@@ -12,30 +10,30 @@ import i18n from "../../core/util/i18n";
 import {withTranslation, WithTranslation } from "react-i18next";
 import { NavLink } from 'react-router-dom';
 
-type Props = StoreStateProp & StoreDispatchProp & MultiLanguage & WithTranslation
+type Props = StoreStateProp & StoreDispatchProp & MultiLanguage & WithTranslation;
 
 interface StoreStateProp {
-    userInfo: user
+    userInfo: user;
 }
 
 interface StoreDispatchProp {
-    setLogout: () => void
+    setLogout: () => void;
 }
 
 interface MultiLanguage {
-    t?: any
+    t?: any;
 }
 
 const Header = (props: Props) => {
 
     const getEmployee = () => {
-        const code = props.userInfo.employeeCodeSimple, name = props.userInfo.employeeName
-        return `${code}-${name}`
-    }
+        const code = props.userInfo.employeeCodeSimple, name = props.userInfo.employeeName;
+        return `${code}-${name}`;
+    };
 
     const logout = () => {
-        props.setLogout()
-    }
+        props.setLogout();
+    };
     const {t} = props;
     return (
         <div className="header">
@@ -89,9 +87,9 @@ const Header = (props: Props) => {
 
 const mapStateToProps = (state: any) => ({
     userInfo: state.userReducer
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
     setLogout: () => dispatch(setLogout())
-})
+});
 export default connect<StoreStateProp, StoreDispatchProp>(mapStateToProps, mapDispatchToProps)(withTranslation(["menu"])(Header));

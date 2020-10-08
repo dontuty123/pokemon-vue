@@ -19,6 +19,6 @@ interface StoreStateProp {
 
 const mapStateToProps = (state: any) => ({
     userInfo: state.userReducer
-})
+});
 
 export default connect<StoreStateProp, {}>(mapStateToProps, {})(PrivateRoute);

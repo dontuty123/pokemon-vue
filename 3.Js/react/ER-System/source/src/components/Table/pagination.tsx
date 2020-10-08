@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 interface Props {
     totalPage: number;
@@ -10,7 +10,7 @@ interface State {
     currentPage: number;
 }
 
-class Pagination extends React.Component<Props, State> {
+class Pagination extends Component<Props, State> {
 
     state: State = {
         currentPage: 1
@@ -23,14 +23,14 @@ class Pagination extends React.Component<Props, State> {
 
         for (let i = 1; i < totalPage + 1; i++) {
             const actived = currentPage === i;
-            render.push(<li key={"page_" + i}><button onClick={e => this.handleChange(e, i)} className={actived ? "active" : ""} >{i}</button></li>)
+            render.push(<li key={"page_" + i}><button onClick={e => this.handleChange(e, i)} className={actived ? "active" : ""} >{i}</button></li>);
         }
-        
-        return render
+
+        return render;
     }
 
     handleChange = (e: any, index: number) => {
-        this.setState({currentPage: index}, () => this.props.onChange(index))
+        this.setState({currentPage: index}, () => this.props.onChange(index));
     }
 
     handleMoveLeft = () => {
@@ -38,7 +38,7 @@ class Pagination extends React.Component<Props, State> {
 
         if (checkButtonLeft) {
             const currentPage = this.state.currentPage - 1;
-            this.setState({currentPage}, () => this.props.onChange(currentPage))
+            this.setState({currentPage}, () => this.props.onChange(currentPage));
         }
     }
 
@@ -47,16 +47,16 @@ class Pagination extends React.Component<Props, State> {
 
         if (checkButtonRight) {
             const currentPage = this.state.currentPage + 1;
-            this.setState({currentPage}, () => this.props.onChange(currentPage))
+            this.setState({currentPage}, () => this.props.onChange(currentPage));
         }
     }
 
     checkButtonLeft = () => {
-        return this.state.currentPage > 1
+        return this.state.currentPage > 1;
     }
 
     checkButtonRight = () => {
-        return this.state.currentPage < this.props.totalPage
+        return this.state.currentPage < this.props.totalPage;
     }
 
     render() {
@@ -72,8 +72,8 @@ class Pagination extends React.Component<Props, State> {
                     <li><button disabled={!checkButtonRight} onClick={() => this.handleMoveRight()} className="button-right">{">"}</button></li>
                 </ul>
             </div>
-        )
+        );
     }
 }
 
-export default Pagination
+export default Pagination;

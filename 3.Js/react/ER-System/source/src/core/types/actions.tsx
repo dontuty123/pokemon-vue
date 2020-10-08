@@ -18,6 +18,6 @@ export interface setUserLogout {
     type: typeof SET_LOGOUT
 }
 
-export type UserActionTypes = setUserInfo | setUserLogin | setUserLogout
+export type UserActionTypes = setUserInfo | setUserLogin | setUserLogout;
 
-export type AppActions = UserActionTypes
+export type AppActions = UserActionTypes;

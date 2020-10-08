@@ -13,7 +13,7 @@ interface Props {
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
-const TextBox: React.FC<Props> = (props) => {
+const TextBox = (props:Props) => {
 
     const getIcon = () => {
         let icon = null;
@@ -43,4 +43,4 @@ const TextBox: React.FC<Props> = (props) => {
     )
 }
 
-export default TextBox
+export default TextBox;

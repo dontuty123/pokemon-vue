@@ -5,8 +5,6 @@ import {getApi, postApi, common} from '../../core/services';
 import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
 import './style.scss';
-import {get} from "https";
-import qs from "qs";
 
 type IProps = Props & WithTranslation
 
@@ -79,7 +77,7 @@ class OmProjectManagement extends Component<IProps, State> {
         const {formProject} = this.state;
         let project = {
             ...formProject
-        }
+        };
         let messageLogin = "";
         this.setState({loading: true});
         const data = await postApi("omproject-create", project);
@@ -97,7 +95,7 @@ class OmProjectManagement extends Component<IProps, State> {
         const {formProject} = this.state;
         let project = {
             ...formProject
-        }
+        };
         let messageLogin = "";
         this.setState({loading: true});
         const data = await postApi("omproject-update", project);
@@ -134,10 +132,10 @@ class OmProjectManagement extends Component<IProps, State> {
             ...params,
             ...formProject,
             isSearch: 1
-        }
+        };
         this.setState({
             params: paramsProject
-        }, () => this.getDataProjects())
+        }, () => this.getDataProjects());
     }
 
     // get secretKey export om project
@@ -152,7 +150,7 @@ class OmProjectManagement extends Component<IProps, State> {
         let paramsProject = {
             ...params,
             isSearch: 1
-        }
+        };
         this.setState({
             params: paramsProject
         }, () => this.getDataProjects());
@@ -162,7 +160,7 @@ class OmProjectManagement extends Component<IProps, State> {
             "employeeId": params.employeeId ? params.employeeId : "",
             "sortBy": "projectCode-ASC",
             "secretKey": ""
-        }
+        };
         return common(param, 'OMProject/omProjectExport?', await this.getSecretKey());
     }
 
@@ -182,12 +180,12 @@ class OmProjectManagement extends Component<IProps, State> {
                 pageRecord: 20,
                 sortBy: "projectCode-ASC"
             }
-        }, () => this.form.resetValidate())
+        }, () => this.form.resetValidate());
     }
 
     getButtonMenu = () => {
         const {formProject} = this.state;
-        const checkId = formProject.id && formProject.id !== ""
+        const checkId = formProject.id && formProject.id !== "";
 
         const buttons = [
             {
@@ -219,7 +217,6 @@ class OmProjectManagement extends Component<IProps, State> {
             },
             {
                 type: "export",
-                // disabled: !checkId,
                 onClick: () => {
                     this.secretKey();
                 }
@@ -261,7 +258,7 @@ class OmProjectManagement extends Component<IProps, State> {
                 type: "select",
                 options: options
             },
-        ]
+        ];
 
         return columns;
     }

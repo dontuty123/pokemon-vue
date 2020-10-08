@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Menu from '../../components/Menu';
 import './style.scss';
 
@@ -15,7 +15,7 @@ interface State {
     checkValidate: any;
 }
 
-class Form extends React.Component<Props, State> {
+class Form extends Component<Props, State> {
 
     state: State = {
         dataSource: {},
@@ -24,7 +24,7 @@ class Form extends React.Component<Props, State> {
 
     componentDidUpdate = (prevProps: Props, prevState: State) => {
         if (JSON.stringify(prevProps.dataSource) !== JSON.stringify(this.props.dataSource)) {
-            this.setState({ dataSource: this.props.dataSource })
+            this.setState({ dataSource: this.props.dataSource });
         }
     }
 
@@ -42,10 +42,9 @@ class Form extends React.Component<Props, State> {
                 [name]: false,
             };
 
-        this.setState({ dataSource: data, checkValidate: check}, () => this.props.onChange(data))
+        this.setState({ dataSource: data, checkValidate: check}, () => this.props.onChange(data));
     }
 
-    
     setValidate = (data: any) => {
         const { columns } = this.props;
         let setValidate = {};
@@ -65,11 +64,11 @@ class Form extends React.Component<Props, State> {
             }
         })
 
-        this.setState({checkValidate: setValidate})
+        this.setState({checkValidate: setValidate});
     }
 
     resetValidate = () => {
-        this.setState({checkValidate: {}})
+        this.setState({checkValidate: {}});
     }
 
     renderInput = (item: any) => {
@@ -100,7 +99,6 @@ class Form extends React.Component<Props, State> {
     }
 
     renderFile = (item: any) => {
-
         return <input
             type="file"
             name={item.idIndex}
@@ -161,7 +159,7 @@ class Form extends React.Component<Props, State> {
                         <td></td>
                         <td className="field-form-error">
                             {`Bắt buộc ${action} ${item.title}`}
-                        </td>
+                        </td>;
                     </tr> : null
             ]
         })
@@ -169,7 +167,6 @@ class Form extends React.Component<Props, State> {
 
     handleSubmit = (e: any) => {
         e.preventDefault();
-        // this.setValidate(this.state.dataSource);
     }
 
     render() {
@@ -191,4 +188,4 @@ class Form extends React.Component<Props, State> {
     }
 }
 
-export default Form
+export default Form;
