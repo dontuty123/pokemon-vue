@@ -152,10 +152,10 @@ class OmProjectManagement extends Component<IProps, State> {
             "sortBy": "projectCode-ASC",
             "secretKey": ""
         }
-        return this.comment(param, 'OMProject/omProjectExport?');
+        return this.common(param, 'OMProject/omProjectExport?');
     }
    // common get key
-    comment = async (param: any, url: any) => {
+    common = async (param: any, url: any) => {
         const secretKey = await this.getSecretKey();
         const _param = param;
         _param.secretKey = secretKey;
