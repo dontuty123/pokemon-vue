@@ -6,7 +6,7 @@ import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
 import './style.scss';
 
-type IProps = Props & WithTranslation
+type IProps = Props & WithTranslation;
 
 interface Props {
     t?: any
@@ -28,7 +28,7 @@ interface State {
 
 class OmProjectManagement extends Component<IProps, State> {
 
-    form: any
+    form: any;
 
     state: State = {
         dataSource: [],
@@ -50,11 +50,11 @@ class OmProjectManagement extends Component<IProps, State> {
         },
         messageLogin: "",
         loading: false,
-    }
+    };
 
     componentDidMount = async () => {
         this.getDataProjects();
-    }
+    };
 
     getDataProjects = async () => {
         const {params} = this.state;
@@ -64,14 +64,14 @@ class OmProjectManagement extends Component<IProps, State> {
                 ...data.data.result,
                 result: data.data.result.employeeProject,
                 sortBy: params.sortBy
-            }
+            };
             this.setState({
                 dataSource: result,
                 projectsType: data.data.result.omProject,
                 projectTypeName: data.data.result.employeeWorking
             })
         }
-    }
+    };
 
     createProject = async () => {
         const {formProject} = this.state;
@@ -89,7 +89,7 @@ class OmProjectManagement extends Component<IProps, State> {
             messageLogin = CONSTANT.MESSAGE_CODE["027"];
         }
         this.setState({loading: false, messageLogin});
-    }
+    };
 
     updateProject = async () => {
         const {formProject} = this.state;
@@ -107,7 +107,7 @@ class OmProjectManagement extends Component<IProps, State> {
             messageLogin = CONSTANT.MESSAGE_CODE["027"];
         }
         this.setState({loading: false, messageLogin});
-    }
+    };
 
     deleteProject = async () => {
         const {formProject} = this.state;
@@ -123,7 +123,7 @@ class OmProjectManagement extends Component<IProps, State> {
             messageLogin = CONSTANT.MESSAGE_CODE["010"];
         }
         this.setState({loading: false, messageLogin});
-    }
+    };
 
     searchProject = () => {
         const {params, formProject} = this.state;
@@ -136,13 +136,13 @@ class OmProjectManagement extends Component<IProps, State> {
         this.setState({
             params: paramsProject
         }, () => this.getDataProjects());
-    }
+    };
 
     // get secretKey export om project
     getSecretKey = async () => {
         const secretKey = await getApi("OMProject/requestSecretKey", '');
         return secretKey.data.result.secretKey;
-    }
+    };
 
     // get secretKey export om project
     secretKey = async () => {
@@ -162,7 +162,7 @@ class OmProjectManagement extends Component<IProps, State> {
             "secretKey": ""
         };
         return common(param, 'OMProject/omProjectExport?', await this.getSecretKey());
-    }
+    };
 
     resetProject = () => {
         this.setState({
@@ -181,7 +181,7 @@ class OmProjectManagement extends Component<IProps, State> {
                 sortBy: "projectCode-ASC"
             }
         }, () => this.form.resetValidate());
-    }
+    };
 
     getButtonMenu = () => {
         const {formProject} = this.state;
@@ -227,10 +227,10 @@ class OmProjectManagement extends Component<IProps, State> {
                     this.resetProject();
                 }
             },
-        ]
+        ];
 
         return buttons;
-    }
+    };
 
     getColumnsForm = () => {
         const {projectsType, projectTypeName} = this.state;
@@ -261,7 +261,7 @@ class OmProjectManagement extends Component<IProps, State> {
         ];
 
         return columns;
-    }
+    };
 
     render() {
         const {dataSource, params, formProject, messageLogin} = this.state;
@@ -308,7 +308,7 @@ class OmProjectManagement extends Component<IProps, State> {
                             ...params,
                             currentPage: dataSource.currentPage,
                             sortBy: dataSource.sortBy
-                        }
+                        };
 
                         this.setState({dataSource, params: currentParams}, () => this.getDataProjects())
                     }}
