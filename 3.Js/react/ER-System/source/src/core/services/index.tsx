@@ -32,10 +32,17 @@ const putApi = (url: string, data: any) => {
         headers: HeaderSever(),
         data: qs.stringify(data)
     });
-}
+};
+
+// get secretKey export
+const getSecretKey = async (nameExport:string) => {
+    const _nameExport = nameExport;
+    const secretKey = await getApi(_nameExport, '');
+    return secretKey.data.result.secretKey;
+};
 
 // common get keyExport
-const common = async (param: any, url: any, _secretKey:any) => {
+const common = async (param: any, url: string, _secretKey:string) => {
     const secretKey = _secretKey;
     const _param = param;
     _param.secretKey = secretKey;
@@ -48,5 +55,6 @@ export {
     getApi,
     postApi,
     putApi,
-    common
+    common,
+    getSecretKey
 }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
-import {getApi, postApi, common} from '../../core/services';
+import {getApi, postApi, common, getSecretKey} from '../../core/services';
 import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
 import './style.scss';
@@ -9,7 +9,7 @@ import './style.scss';
 type IProps = Props & WithTranslation;
 
 interface Props {
-    t?: any
+    t?: string;
 }
 
 interface CSSObject {
@@ -75,7 +75,7 @@ class OmProjectManagement extends Component<IProps, State> {
 
     createProject = async () => {
         const {formProject} = this.state;
-        let project = {
+        const project = {
             ...formProject
         };
         let messageLogin = "";
@@ -93,7 +93,7 @@ class OmProjectManagement extends Component<IProps, State> {
 
     updateProject = async () => {
         const {formProject} = this.state;
-        let project = {
+        const project = {
             ...formProject
         };
         let messageLogin = "";
@@ -127,8 +127,7 @@ class OmProjectManagement extends Component<IProps, State> {
 
     searchProject = () => {
         const {params, formProject} = this.state;
-
-        let paramsProject = {
+        const paramsProject = {
             ...params,
             ...formProject,
             isSearch: 1
@@ -138,16 +137,10 @@ class OmProjectManagement extends Component<IProps, State> {
         }, () => this.getDataProjects());
     };
 
-    // get secretKey export om project
-    getSecretKey = async () => {
-        const secretKey = await getApi("OMProject/requestSecretKey", '');
-        return secretKey.data.result.secretKey;
-    };
-
-    // get secretKey export om project
+    // get secretKey export
     secretKey = async () => {
         const {params} = this.state;
-        let paramsProject = {
+        const paramsProject = {
             ...params,
             isSearch: 1
         };
@@ -161,7 +154,7 @@ class OmProjectManagement extends Component<IProps, State> {
             "sortBy": "projectCode-ASC",
             "secretKey": ""
         };
-        return common(param, 'OMProject/omProjectExport?', await this.getSecretKey());
+        return common(param, 'OMProject/omProjectExport?', await getSecretKey("OMProject/requestSecretKey"));
     };
 
     resetProject = () => {
