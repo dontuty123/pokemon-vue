@@ -7,6 +7,6 @@ const Footer = () => {
             <p>Copyright © 2019 Kobelco. All rights reserved</p>
         </div>
     );
-}
+};
 
 export default Footer;

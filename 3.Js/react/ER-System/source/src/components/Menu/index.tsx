@@ -19,37 +19,37 @@ class Menu extends Component<IProps> {
     checkValidate = () => {
         const { checkValidate } = this.props;
         return Object.values(checkValidate).length === 0 || Object.values(checkValidate).some(item => item);
-    }
+    };
 
 
     renderSearch = (item: any) => {
         return <button key={"Menu" + item.type} className="primary-button" {...item}><AiOutlineSearch />{this.props.t('search')}</button>;
-    }
+    };
 
     renderAdd = (item: any) => {
         const onClick = !this.checkValidate() ? item.onClick : null;
         return <button key={"Menu" + item.type} className="primary-button" {...item} onClick={onClick}><AiFillPlusCircle />{this.props.t('add')}</button>;
-    }
+    };
 
     renderUpdate = (item: any) => {
         return <button key={"Menu" + item.type} className="primary-button" {...item}><BiEdit />{this.props.t('update')}</button>;
-    }
+    };
 
     renderDelete = (item: any) => {
         return <button key={"Menu" + item.type} className="primary-button" {...item}><RiDeleteBin6Line />{this.props.t('delete')}</button>;
-    }
+    };
 
     renderImport = (item: any) => {
         return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />{this.props.t('input_data')}</button>;
-    }
+    };
 
     renderExport = (item: any) => {
         return <button key={"Menu" + item.type} {...item}><AiOutlineFileExcel />{this.props.t('export_data')}</button>;
-    }
+    };
 
     renderRest = (item: any) => {
         return <button key={"Menu" + item.type} {...item}><FiRefreshCw />{this.props.t('refresh')}</button>;
-    }
+    };
 
     renderButtons = () => {
         const { buttons } = this.props;
@@ -82,7 +82,7 @@ class Menu extends Component<IProps> {
 
             return renderType;
         })
-    }
+    };
 
     render() {
         return (

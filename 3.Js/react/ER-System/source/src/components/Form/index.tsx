@@ -20,13 +20,13 @@ class Form extends Component<Props, State> {
     state: State = {
         dataSource: {},
         checkValidate: {},
-    }
+    };
 
     componentDidUpdate = (prevProps: Props, prevState: State) => {
         if (JSON.stringify(prevProps.dataSource) !== JSON.stringify(this.props.dataSource)) {
             this.setState({ dataSource: this.props.dataSource });
         }
-    }
+    };
 
     onChangeData = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement | any>) => {
         const { dataSource, checkValidate } = this.state;
@@ -43,7 +43,7 @@ class Form extends Component<Props, State> {
             };
 
         this.setState({ dataSource: data, checkValidate: check}, () => this.props.onChange(data));
-    }
+    };
 
     setValidate = (data: any) => {
         const { columns } = this.props;
@@ -62,14 +62,14 @@ class Form extends Component<Props, State> {
                     [item.idIndex]: false
                 }
             }
-        })
+        });
 
         this.setState({checkValidate: setValidate});
-    }
+    };
 
     resetValidate = () => {
         this.setState({checkValidate: {}});
-    }
+    };
 
     renderInput = (item: any) => {
         const { dataSource } = this.state;
@@ -82,7 +82,7 @@ class Form extends Component<Props, State> {
             onChange={(e) => this.onChangeData(e)}
             value={dataSource[item.idIndex] || ""}
         />
-    }
+    };
 
     renderSelect = (item: any) => {
         const { dataSource } = this.state;
@@ -96,7 +96,7 @@ class Form extends Component<Props, State> {
         >
             {options.map((ele, index) => (<option key={this.props.idForm + "_" + index} value={ele.value}>{ele.title}</option>))}
         </select>
-    }
+    };
 
     renderFile = (item: any) => {
         return <input
@@ -106,7 +106,7 @@ class Form extends Component<Props, State> {
             onChange={(e) => this.onChangeData(e)}
             className="file-form"
         />
-    }
+    };
 
     renderCheckbox = (item: any) => {
         const { dataSource } = this.state;
@@ -118,7 +118,7 @@ class Form extends Component<Props, State> {
             onChange={(e) => this.onChangeData(e)}
             checked={checked}
         />
-    }
+    };
 
     renderForm = () => {
         const { checkValidate } = this.state;
@@ -167,7 +167,7 @@ class Form extends Component<Props, State> {
 
     handleSubmit = (e: any) => {
         e.preventDefault();
-    }
+    };
 
     render() {
         return (

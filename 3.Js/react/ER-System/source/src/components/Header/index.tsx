@@ -82,7 +82,7 @@ const Header = (props: Props) => {
             </div>
         </div>
     )
-}
+};
 
 
 const mapStateToProps = (state: any) => ({

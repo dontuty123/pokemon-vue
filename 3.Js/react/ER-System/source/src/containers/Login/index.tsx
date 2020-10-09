@@ -46,7 +46,7 @@ class Login extends React.Component<Props, State> {
         messageLogin: "",
         loading: false,
         checked: false
-    }
+    };
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         const label = e.currentTarget.name,
@@ -57,7 +57,7 @@ class Login extends React.Component<Props, State> {
             };
 
         this.setState({userInfo, messageLogin: ""});
-    }
+    };
 
     handleSubmit = async () => {
         const {userInfo} = this.state;
@@ -81,7 +81,7 @@ class Login extends React.Component<Props, State> {
             }
         }
         this.setState({loading: false, messageLogin});
-    }
+    };
 
     validateEmail() {
         const {userInfo, checked} = this.state;

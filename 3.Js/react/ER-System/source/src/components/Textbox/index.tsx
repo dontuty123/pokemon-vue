@@ -33,7 +33,7 @@ const TextBox = (props:Props) => {
         }
 
         return icon;
-    }
+    };
 
     return (
         <div>
@@ -41,6 +41,6 @@ const TextBox = (props:Props) => {
             <input className="textbox" style={getIcon() ? ({paddingLeft: '40px', width: '84%'}) : null} type="text" {...props} />
         </div>
     )
-}
+};
 
 export default TextBox;

@@ -19,7 +19,7 @@ interface State {
 
 class Project extends React.Component<Props, State> {
 
-    form: any
+    form: any;
 
     state: State = {
         dataSource: {},
@@ -73,7 +73,7 @@ class Project extends React.Component<Props, State> {
                 ...data.data.result,
                 sortBy: params.sortBy
             }
-            this.setState({ 
+            this.setState({
                 dataSource: result,
                 projectsType: dataType.data.result.projectTypeList
              })
@@ -318,9 +318,9 @@ class Project extends React.Component<Props, State> {
         const columnsTable = this.getColumnsTable(),
             columnsForm = this.getColumnsForm(),
             buttonsMenu = this.getButtonMenu();
-            
+
         return (
-            <div>                
+            <div>
                 <Form
                     idForm="project"
                     ref={c => this.form = c}

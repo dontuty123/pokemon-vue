@@ -14,7 +14,7 @@ class Pagination extends Component<Props, State> {
 
     state: State = {
         currentPage: 1
-    }
+    };
 
     renderNumberPage = () => {
         const {totalPage} = this.props;
@@ -27,11 +27,11 @@ class Pagination extends Component<Props, State> {
         }
 
         return render;
-    }
+    };
 
     handleChange = (e: any, index: number) => {
         this.setState({currentPage: index}, () => this.props.onChange(index));
-    }
+    };
 
     handleMoveLeft = () => {
         const checkButtonLeft = this.checkButtonLeft();
@@ -40,7 +40,7 @@ class Pagination extends Component<Props, State> {
             const currentPage = this.state.currentPage - 1;
             this.setState({currentPage}, () => this.props.onChange(currentPage));
         }
-    }
+    };
 
     handleMoveRight = () => {
         const checkButtonRight = this.checkButtonRight();
@@ -49,15 +49,15 @@ class Pagination extends Component<Props, State> {
             const currentPage = this.state.currentPage + 1;
             this.setState({currentPage}, () => this.props.onChange(currentPage));
         }
-    }
+    };
 
     checkButtonLeft = () => {
         return this.state.currentPage > 1;
-    }
+    };
 
     checkButtonRight = () => {
         return this.state.currentPage < this.props.totalPage;
-    }
+    };
 
     render() {
         const {totalPage} = this.props;

@@ -41,7 +41,7 @@ class ForgotPassword extends React.Component<Props, State> {
             value = e.currentTarget.value;
 
         this.setState({[label]: value, messageLogin: ""});
-    }
+    };
 
 
     handleSubmit = async () => {
@@ -78,7 +78,7 @@ class ForgotPassword extends React.Component<Props, State> {
 
         this.setState({loading: false, messageLogin, statusLogin});
 
-    }
+    };
 
     validateEmail() {
         const {userName, checked} = this.state;
@@ -123,10 +123,8 @@ class ForgotPassword extends React.Component<Props, State> {
                     </div>
                 </div>
             </div>
-
-
         )
     }
 }
 
-export default ForgotPassword
+export default ForgotPassword;

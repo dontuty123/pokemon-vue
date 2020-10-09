@@ -27,13 +27,13 @@ class Table extends React.Component<IProps, State> {
             currentPage: "",
             sortBy: ""
         },
-    }
+    };
 
     componentDidUpdate = (prevProps: Props, prevState: State) => {
         if (JSON.stringify(prevProps.dataSource) !== JSON.stringify(this.props.dataSource)) {
             this.setState({ dataSource: this.props.dataSource });
         }
-    }
+    };
 
     triggleSortBy = (item: any) => {
         const sortBy = this.state.dataSource.sortBy;
@@ -51,10 +51,10 @@ class Table extends React.Component<IProps, State> {
         data = {
             ...data,
             sortBy: currentBy
-        }
+        };
 
         this.setState({dataSource: data}, () => this.props.onChange(data));
-    }
+    };
 
     iconSortBy = (data: any) => {
         const sortBy = this.state.dataSource.sortBy;
@@ -68,7 +68,7 @@ class Table extends React.Component<IProps, State> {
                 return <BsFillCaretDownFill />
             }
         }
-    }
+    };
 
     renderTableHeader() {
         const header = this.props.columns;

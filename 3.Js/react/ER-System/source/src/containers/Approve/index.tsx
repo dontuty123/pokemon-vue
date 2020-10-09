@@ -33,11 +33,11 @@ class Project extends Component<IProps, State> {
             supervisorId: this.props.userInfo.employeeId
         },
         loading: false,
-    }
+    };
 
     componentDidMount = async () => {
         this.getDataProjects();
-    }
+    };
 
     getDataProjects = async () => {
         const { params } = this.state;
@@ -54,7 +54,7 @@ class Project extends Component<IProps, State> {
                 dataSource: result,
              })
         }
-    }
+    };
 
     getColumnsTable = () => {
         const columns = [
@@ -77,10 +77,10 @@ class Project extends Component<IProps, State> {
                     return <button>{value}</button>;
                 }
             },
-        ]
+        ];
 
         return columns;
-    }
+    };
 
     render() {
         const { dataSource, params } = this.state;
@@ -96,7 +96,7 @@ class Project extends Component<IProps, State> {
                         const currentParams = {
                             ...params,
                             sortBy: dataSource.sortBy
-                        }
+                        };
 
                         this.setState({ dataSource, params: currentParams }, () => this.getDataProjects())
                     }}

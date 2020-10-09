@@ -75,7 +75,7 @@ class ResetPassword extends React.Component<Props, State> {
         }
 
         this.setState({ [label]: value, messageError: { ...this.state.messageError, [label]: error } });
-    }
+    };
 
 
     handleSubmit = async () => {
@@ -106,7 +106,7 @@ class ResetPassword extends React.Component<Props, State> {
 
         this.setState({ loading: false, messageError: error });
 
-    }
+    };
 
     render() {
         const { newPassword, confirmPassword, loading, messageError, checkKey } = this.state;

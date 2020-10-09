@@ -9,6 +9,6 @@ interface Props {
 
 const Button = (props:Props) => {
     return (<input className="button" {...props} type="button" />);
-}
+};
 
 export default Button;
