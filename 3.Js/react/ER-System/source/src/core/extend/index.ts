@@ -17,5 +17,5 @@ export const validate = {
     validPasswordConfirm(password: string, confirmPassword: string) {
         return password === confirmPassword;
     }
-}
+};
 

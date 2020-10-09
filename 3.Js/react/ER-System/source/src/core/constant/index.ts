@@ -29,4 +29,4 @@ export const MESSAGE_CODE: any = {
     "026":"Mã loại dự án bị trùng",
     "027":"Dữ liệu bị trùng",
     "028":"Bắt buộc nhập mã phòng ban"
-}
+};

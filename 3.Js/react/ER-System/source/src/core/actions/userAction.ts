@@ -7,21 +7,21 @@ const userInfo = (data: user): AppActions => {
         type: USER_INFO,
         data
     };
-}
+};
 
 const setLogin = (data: user): AppActions => {
     return {
         type: SET_LOGIN,
         data
     };
-}
+};
 
 const setLogout = (): AppActions => {
     Cookie.removeCookie('result');
     return {
         type: SET_LOGOUT,
     };
-}
+};
 
 export {
     USER_INFO,

@@ -43,6 +43,7 @@ const putApi = (url: string, data: any) => {
             return res.data;
         }
     ).catch((error) => {
+
         errorHandle(error);
     });
 };
