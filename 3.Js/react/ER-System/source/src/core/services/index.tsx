@@ -48,7 +48,7 @@ const putApi = (url: string, data: any) => {
 };
 
 const errorHandle = (error:string) => {
-
+     // will add after, because now not have page error html
 };
 
 // get secretKey export
