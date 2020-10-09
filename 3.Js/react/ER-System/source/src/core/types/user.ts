@@ -4,4 +4,5 @@ export interface user {
     token: string;
     employeeCodeSimple?: string;
     employeeName?: string;
+    employeeId?: number;
 }

@@ -8,7 +8,7 @@ const PublicRoute = ({component: Component, restricted, ...rest}: any) => {
     return (
         <Route {...rest} render={props => (
             rest.userInfo.isLoggedIn && restricted ?
-                <Redirect to="/om-project-management" />
+                <Redirect to="/project" />
             : <Component {...props} />
         )} />
     );

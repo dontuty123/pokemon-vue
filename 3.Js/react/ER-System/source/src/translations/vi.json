@@ -20,12 +20,16 @@
 		"search": "Tìm",
 		"add": "Thêm",
 		"update": "Cập nhật",
-		"delete": "Xóa"
+		"delete": "Xóa",
+		"input_data": "Nhập dữ liệu",
+		"export_data": "Kết xuất",
+		"refresh": "Làm mới"
 	},
 	"om-project": {
 		"title": "Danh Mục/ Quản lý dự án OM",
 		"project_om": "Dự án",
 		"employee": "Nhân viên",
+		"no": "STT",
 		"project_code": "Mã dự án",
 		"project_name": "Tên dự án",
 		"employee_code": "Mã nhân viên",

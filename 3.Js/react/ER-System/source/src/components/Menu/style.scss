@@ -19,13 +19,14 @@
         &:focus {
             outline: none;
         };
+        &:disabled {
+            cursor: default;
+            opacity: 0.6;
+        }
         
     }
     .primary-button {
         background-color: #2185d0;
         color: #fff;
-        &:hover {
-            background-color: #287bb9;
-        }
     }
 }

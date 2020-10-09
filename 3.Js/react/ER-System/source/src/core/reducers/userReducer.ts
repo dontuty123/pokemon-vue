@@ -10,29 +10,25 @@ const initialState: user = {
     employeeCodeSimple: ""
 }
 
-const userReducer = (state = initialState, action: UserActionTypes): user => {
+export const userReducer = (state = initialState, action: UserActionTypes): user => {
     switch (action.type) {
         case SET_LOGIN:
             return {
                 ...state,
                 ...action.data,
                 isLoggedIn: true
-            }
+            };
         case SET_LOGOUT:
             return {
                 ...state,
                 isLoggedIn: false
-            }
+            };
         case USER_INFO:
             return {
                 ...state,
                 ...action.data
-            }
+            };
         default:
-            return state
+            return state;
     }
-}
-
-export {
-    userReducer
 }

@@ -1,14 +1,17 @@
 .table {
     max-width: 1170px;
     min-width: 1170px;
-    width: fit-content;
+    width: 100%;
     padding-top: 35px;
-    
+    .sort-column {
+        background-color: rgba(0,0,0,.05);
+        cursor: pointer;
+        -webkit-user-select: none;
+    }
     .align-center {
         text-align: center;
     }
     table, th, td {
-        cursor: default;
         border: 1px solid rgba(34,36,38,.1);
         border-collapse: collapse;
     }
@@ -16,6 +19,7 @@
     td, th {
         font-size: .9em;
         padding: 5px 10px;
+        text-align: start;
     }
     
     table {

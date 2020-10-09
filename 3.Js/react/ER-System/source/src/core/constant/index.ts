@@ -1,4 +1,4 @@
-export const SERVER_API = "http://103.18.7.212:1239/"
+export const SERVER_API = "http://103.18.7.212:1239/";
 
 export const MESSAGE_CODE: any = {
     "001": "Sai email hoặc password",
@@ -20,5 +20,13 @@ export const MESSAGE_CODE: any = {
     "017": "Yêu cầu thất bại (phòng ban vẫn còn nhân viên)",
     "018": "Không có dữ liệu",
     "019": "Mã nhân viên hoặc email bị trùng",
-    "020": "Vui lòng nhập một địa chỉ email hợp lệ"
-}
+    "020": "Vui lòng nhập một địa chỉ email hợp lệ",
+    "021":"Mã chức vụ bị trùng",
+    "022":"Mã phòng ban bị trùng",
+    "023":"Mã dự án bị trùng",
+    "024":"Yêu cầu thất bại (vẫn còn dự án thuộc loại này)",
+    "025":"Bắt buộc nhập mã loại dự án",
+    "026":"Mã loại dự án bị trùng",
+    "027":"Dữ liệu bị trùng",
+    "028":"Bắt buộc nhập mã phòng ban"
+};

@@ -3,7 +3,7 @@ const setCookie = (cname: string, cvalue: string, exTime?: any) => {
     d.setTime(d.getTime() + (exTime * 1000));
     const expires = "expires=" + d.toString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+};
 
 const getCookie = (cname: string) => {
     const name = cname + "=";
@@ -18,12 +18,12 @@ const getCookie = (cname: string) => {
         }
     }
     return "";
-}
+};
 
 const removeCookie = (cname: string) => {
     const name = cname + "=";
     document.cookie = name +" ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-}
+};
 
 export {
     setCookie,
