@@ -68,14 +68,14 @@ class Project extends React.Component<Props, State> {
             getApi("projecttype-list", paramsProjectType)
         ])
 
-        if (data.data.http_code === 200 && dataType.data.http_code === 200) {
+        if (data.http_code === 200 && dataType.http_code === 200) {
             const result = {
-                ...data.data.result,
+                ...data.result,
                 sortBy: params.sortBy
             }
             this.setState({
                 dataSource: result,
-                projectsType: dataType.data.result.projectTypeList
+                projectsType: dataType.result.projectTypeList
              })
         }
     }

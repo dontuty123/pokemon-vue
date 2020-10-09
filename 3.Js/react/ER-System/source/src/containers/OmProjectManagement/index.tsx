@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
-import {getApi, postApi, common, getSecretKey} from '../../core/services';
+import {common, getSecretKey} from '../../core/services';
+import {getOmProject, createOmProject, updateOmProject, delOmProject} from '../../core/services/omProjectService';
+
 import * as CONSTANT from '../../core/constant';
 import {withTranslation, WithTranslation} from "react-i18next";
 import './style.scss';
@@ -58,17 +60,17 @@ class OmProjectManagement extends Component<IProps, State> {
 
     getDataProjects = async () => {
         const {params} = this.state;
-        const data = await getApi('omproject-list', params);
-        if (data.data.http_code === 200) {
+        const data = await getOmProject(params);
+        if (data.http_code === 200) {
             const result = {
-                ...data.data.result,
-                result: data.data.result.employeeProject,
+                ...data.result,
+                result: data.result.employeeProject,
                 sortBy: params.sortBy
             };
             this.setState({
                 dataSource: result,
-                projectsType: data.data.result.omProject,
-                projectTypeName: data.data.result.employeeWorking
+                projectsType: data.result.omProject,
+                projectTypeName: data.result.employeeWorking
             })
         }
     };
@@ -80,8 +82,8 @@ class OmProjectManagement extends Component<IProps, State> {
         };
         let messageLogin = "";
         this.setState({loading: true});
-        const data = await postApi("omproject-create", project);
-        if (data.data.http_code === 200) {
+        const data = await createOmProject(project);
+        if (data.http_code === 200) {
             this.resetProject();
             this.getDataProjects();
             messageLogin = CONSTANT.MESSAGE_CODE["004"];
@@ -98,8 +100,8 @@ class OmProjectManagement extends Component<IProps, State> {
         };
         let messageLogin = "";
         this.setState({loading: true});
-        const data = await postApi("omproject-update", project);
-        if (data.data.http_code === 201) {
+        const data = await updateOmProject(project);
+        if (data.http_code === 201) {
             this.resetProject();
             this.getDataProjects();
             messageLogin = CONSTANT.MESSAGE_CODE["004"];
@@ -113,9 +115,8 @@ class OmProjectManagement extends Component<IProps, State> {
         const {formProject} = this.state;
         let messageLogin = "";
         this.setState({loading: true});
-        const data = await postApi("omproject-delete", {id: formProject.id});
-
-        if (data.data.http_code === 200) {
+        const data = await delOmProject({id: formProject.id});
+        if (data.http_code === 200) {
             this.resetProject();
             this.getDataProjects();
             messageLogin = CONSTANT.MESSAGE_CODE["004"];
@@ -160,7 +161,6 @@ class OmProjectManagement extends Component<IProps, State> {
     resetProject = () => {
         this.setState({
             formProject: {
-                projectId: "",
                 employeeId: "",
             },
             params: {
