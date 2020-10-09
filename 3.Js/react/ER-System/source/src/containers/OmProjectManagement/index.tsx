@@ -173,7 +173,7 @@ class OmProjectManagement extends Component<IProps, State> {
                 pageRecord: 20,
                 sortBy: "projectCode-ASC"
             }
-        }, () => this.form.resetValidate());
+        }, () => this.props.form.resetValidate());
     };
 
     getButtonMenu = () => {
@@ -190,7 +190,7 @@ class OmProjectManagement extends Component<IProps, State> {
             {
                 type: "add",
                 onClick: () => {
-                    this.form.setValidate(formProject);
+                    this.props.form.setValidate(formProject);
                     this.createProject();
                 }
             },
@@ -265,7 +265,6 @@ class OmProjectManagement extends Component<IProps, State> {
             <div>
                 <Form
                     idForm="project"
-                    ref={c => this.form = c}
                     dataSource={formProject}
                     columns={columnsForm}
                     menu={buttonsMenu}
@@ -306,7 +305,7 @@ class OmProjectManagement extends Component<IProps, State> {
                         this.setState({dataSource, params: currentParams}, () => this.getDataProjects())
                     }}
                     onClick={(project) => {
-                        this.setState({formProject: project}, () => this.form.setValidate(project))
+                        this.setState({formProject: project}, () => this.props.form.setValidate(project))
                     }}
                 />
             </div>
