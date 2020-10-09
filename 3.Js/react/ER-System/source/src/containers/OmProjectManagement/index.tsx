@@ -12,6 +12,7 @@ type IProps = Props & WithTranslation;
 
 interface Props {
     t?: string;
+    form: any;
 }
 
 interface CSSObject {
@@ -26,12 +27,10 @@ interface State {
     params: any;
     loading: boolean;
     messageLogin: string;
+    form: any;
 }
 
 class OmProjectManagement extends Component<IProps, State> {
-
-    form: any;
-
     state: State = {
         dataSource: [],
         projectsType: [],
@@ -52,6 +51,7 @@ class OmProjectManagement extends Component<IProps, State> {
         },
         messageLogin: "",
         loading: false,
+        form: ""
     };
 
     componentDidMount = async () => {
