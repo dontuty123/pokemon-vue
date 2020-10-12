@@ -102,9 +102,7 @@ class Login extends Component {
 	errorMessage = (code) => {
 		const errorName = errorData.error[code];
 		if (code === '004'){
-			return (
-				<p className="success-message">{errorName}</p>
-			);
+			return 
 		}else {
 			return (
 				<p className="error-message">{errorName}</p>

@@ -8,7 +8,7 @@ import EnLogo from './../../assets/images/en_logo.svg';
 import ViLogo from './../../assets/images/vi_logo.png';
 import { Button, Form, Input } from 'antd';
 import {
-    CaretDownOutlined, CaretUpOutlined, UserOutlined, SearchOutlined, PlusCircleFilled, EditFilled,
+    CaretDownOutlined, UserOutlined, SearchOutlined, PlusCircleFilled, EditFilled,
     DeleteFilled, FileExcelFilled, ClearOutlined, LeftOutlined, RightOutlined
 } from '@ant-design/icons';
 import "antd/dist/antd.less";
@@ -18,6 +18,8 @@ import { listPositionAction, createPositionAction, clearError } from '../../core
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import './styles.scss';
+
+import Table from '../../components/Table';
 
 class Position extends Component {
 
@@ -36,9 +38,55 @@ class Position extends Component {
                 positionCode: '',
                 positionName: ''
             },
+            headerTable: [
+                {
+                    label: "Position Code",
+                    type: "positionCode"
+                },
+                {
+                    label: "Description",
+                    type: "positionName"
+                }
+            ],
             listdata: [],
+            headerTable1: [
+                {
+                    label: "Tên",
+                    type: "name"
+                },
+                {
+                    label: "Tuổi",
+                    type: "age"
+                },
+                {
+                    label: "Địa chỉ",
+                    type: "address"
+                }
+            ],
+            listdata1: [
+                {
+                    id: 1,
+                    name: "Trâm",
+                    age: "18",
+                    address: "abcd"
+                },
+                {
+                    id: 2,
+                    name: "My",
+                    age: "21",
+                    address: "abc"
+                },
+                {
+                    id: 3,
+                    name: "hien",
+                    age: "30",
+                    address: "abc"
+                }
+            ],
             value: '',
-            totalPage: ''
+            totalPage: '',
+            prev: 'prev-disable',
+            next: 'next-able'
         };
     }
 
@@ -49,12 +97,15 @@ class Position extends Component {
             headers: functionCommon.getApiHeader()
         })
         this.setState({
+            param:{
+                currentPage: 1
+            },
             listdata: data.data.result.positionList,
-            totalpage: data.data.result.totalPage
+            totalPage: data.data.result.totalPage
         });
     }
 
-    sortDescCode = async () => {
+    sortDescCode = async (val) => {
         await this.setState({
             param: {
                 isSearch: '0',
@@ -62,7 +113,7 @@ class Position extends Component {
                 positionName: '',
                 currentPage: '1',
                 pageRecord: '20',
-                sortBy: this.state.param.sortBy === 'positionCode-ASC' ? 'positionCode-DESC' : 'positionCode-ASC'
+                sortBy: val
             }
         });
         const data = await axios({
@@ -75,7 +126,7 @@ class Position extends Component {
         });
     }
 
-    sortDescName = async () => {
+    sortDescName = async (val) => {
         await this.setState({
             param: {
                 isSearch: '0',
@@ -83,7 +134,7 @@ class Position extends Component {
                 positionName: '',
                 currentPage: '1',
                 pageRecord: '20',
-                sortBy: this.state.param.sortBy === 'positionName-DESC' ? 'positionName-ASC' : 'positionName-DESC'
+                sortBy: val
             }
         });
         const data = await axios({
@@ -132,29 +183,54 @@ class Position extends Component {
         this.setState({
             listdata: data.data.result.positionList
         });
+        if (this.state.param.currentPage !== 1){
+            this.setState({
+                prev: 'prev-able'
+            })
+        } else {
+            this.setState({
+                prev: 'prev-disable'
+            })
+        }
+        if (this.state.param.currentPage !== this.state.totalPage){
+            this.setState({
+                next: 'next-able'
+            })
+        } else {
+            this.setState({
+                next: 'next-disable'
+            })
+        }
     }
 
     prevClick = () =>{
         if(this.state.param.currentPage>1){
             const prevnum = this.state.param.currentPage;
-            {this.clickPage( prevnum- 1)}
+            {this.clickPage( prevnum - 1)}
         }
     }
 
     nextClick = () =>{
         if(this.state.param.currentPage < this.state.totalPage){
             const nextvnum = this.state.param.currentPage;
-            {this.clickPage( nextvnum+ 1)}
+            {this.clickPage( nextvnum + 1)}
         }
     }
+
+    onChange = (e) =>{
+        const target = e.target;
+		const name = target.name;
+		const value = target.value;
+		
+		this.setState(prevState => ({
+            position: {
+                ...prevState.position,
+                [name]: value
+            }	
+        }));
+    }
+
     render() {
-        const items = this.state.listdata.map((item) =>
-            <tr key={item.id} onClick={() => this.onRowClick(item)}>
-                <td >{item.id}</td>
-                <td>{item.positionCode}</td>
-                <td>{item.positionName}</td>
-            </tr>
-        );
         
         return (
             <div className="body-content">
@@ -261,35 +337,31 @@ class Position extends Component {
                         <Form>
                             <Form.Item className="input-position">
                                 <p className="label">Position Code</p>
-                                <Input value={this.state.position.positionCode} />
+                                <Input type="text" name="positionCode" onChange = {this.onChange} value={this.state.position.positionCode} />
                             </Form.Item>
                             <Form.Item  className="input-position">
                                 <p className="label">Description</p>
-                                <Input value={this.state.position.positionName} />
+                                <Input type="text" name="positionName" onChange = {this.onChange} value={this.state.position.positionName} />
                             </Form.Item>
                         </Form>
                         
                     </div>
                     <div className="position-list">
-                        <table className="ui small celled sortable table">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th onClick={this.sortDescCode}>Position Code <span>{this.state.param.sortBy === 'positionCode-ASC' ? <CaretDownOutlined /> : <CaretUpOutlined />}</span></th>
-                                    <th onClick={this.sortDescName}>Description <span>{this.state.param.sortBy === 'positionName-DESC' ? <CaretUpOutlined /> : <CaretDownOutlined />}</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {items}
-                            </tbody>
-                            <tfoot></tfoot>
-                        </table>
+
+                        <Table 
+                            dataHeader={this.state.headerTable}
+                            dataBody={this.state.listdata}
+                            onRowClick={this.onRowClick}
+                            sortDescCode={this.sortDescCode}
+                            sortDescName={this.sortDescName}
+                        />
+
                         <ul className="pagination">
-                            <li className="list" onClick={this.prevClick}>
+                            <li className={this.state.prev} onClick={this.prevClick}>
                                 <span><LeftOutlined /></span>
                             </li>
-                            {this.createPages(this.state.totalpage)}
-                            <li className="list" onClick={this.nextClick}>
+                            {this.createPages(this.state.totalPage)}
+                            <li className={this.state.next} onClick={this.nextClick}>
                                 <span><RightOutlined /></span>
                             </li>
                         </ul>

@@ -12,6 +12,7 @@ export const loginAction = (data) => {
                     if (!res) return;
                     dispatch(rerponresult(res['error_code']));
                     functionCommon.setCookie(res['result'],'result');
+                    window.location = "/position"
                 }
             )
     };
@@ -27,7 +28,7 @@ export const loginAction = (data) => {
 export const auth = {};
 
 auth.login = async (param) => {
-    const _body = "email=" + param.email + "&password=" + param.password;
+    const _body = "email=" + param.email + "&password=" + encodeURIComponent(param.password);
     if (param.email !== '' && param.password !== '') {
         return axios({
             method: 'post',
