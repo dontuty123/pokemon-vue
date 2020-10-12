@@ -1,12 +1,12 @@
 import React from 'react';
-import '../Login/login.scss';
+import '../Login/style.scss';
 import Logo from '../../assets/img/kobelco.png';
-import TextBox from '../../components/textbox';
-import Button from '../../components/button';
+import TextBox from '../../components/Textbox';
+import Button from '../../components/Button';
 import * as Constant from '../../core/constant';
 import { validate } from '../../core/extend';
 import history from '../../history';
-import * as API from '../../core/api';
+import * as API from '../../core/services';
 
 interface Props {
     location: any;
@@ -75,7 +75,7 @@ class ResetPassword extends React.Component<Props, State> {
         }
 
         this.setState({ [label]: value, messageError: { ...this.state.messageError, [label]: error } });
-    }
+    };
 
 
     handleSubmit = async () => {
@@ -106,7 +106,7 @@ class ResetPassword extends React.Component<Props, State> {
 
         this.setState({ loading: false, messageError: error });
 
-    }
+    };
 
     render() {
         const { newPassword, confirmPassword, loading, messageError, checkKey } = this.state;

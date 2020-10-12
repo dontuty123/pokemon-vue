@@ -1,8 +1,13 @@
 import React from 'react';
-import './table-style.scss';
+import './style.scss';
 import Pagination from './pagination';
+import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
+import {WithTranslation, withTranslation} from "react-i18next";
+
+type IProps = Props & WithTranslation;
 
 interface Props {
+    t?: any;
     idTable: string;
     dataSource: any;
     columns: Array<any>;
@@ -11,29 +16,72 @@ interface Props {
 }
 
 interface State {
-    dataSource: any
+    dataSource: any;
 }
 
-class Table extends React.Component<Props, State> {
+class Table extends React.Component<IProps, State> {
 
     state: State = {
-        dataSource: {
+        dataSource: this.props.dataSource || {
             result: [],
-            currentPage: ""
+            currentPage: "",
+            sortBy: ""
         },
-    }
+    };
 
     componentDidUpdate = (prevProps: Props, prevState: State) => {
         if (JSON.stringify(prevProps.dataSource) !== JSON.stringify(this.props.dataSource)) {
-            this.setState({ dataSource: this.props.dataSource})
+            this.setState({ dataSource: this.props.dataSource });
         }
-    }
+    };
+
+    triggleSortBy = (item: any) => {
+        const sortBy = this.state.dataSource.sortBy;
+        let currentBy = "", data = this.state.dataSource;
+
+        if(sortBy) {
+            const [name, nameBy] = sortBy ? sortBy.split('-') : [];
+            if (name && name === item.idIndex && nameBy && nameBy === "DESC") {
+                currentBy = item.idIndex + "-ASC";
+            } else {
+                currentBy = item.idIndex + "-DESC";
+            }
+        }
+
+        data = {
+            ...data,
+            sortBy: currentBy
+        };
+
+        this.setState({dataSource: data}, () => this.props.onChange(data));
+    };
+
+    iconSortBy = (data: any) => {
+        const sortBy = this.state.dataSource.sortBy;
+
+        if (data.sort) {
+            const [name, nameBy] = sortBy ? sortBy.split('-') : [];
+
+            if (name && name === data.idIndex && nameBy && nameBy === "DESC") {
+                return <BsFillCaretUpFill />
+            } else {
+                return <BsFillCaretDownFill />
+            }
+        }
+    };
 
     renderTableHeader() {
-        const header = this.props.columns
+        const header = this.props.columns;
 
         return header.map((item, index) => {
-            return <th key={index}>{item.title}</th>
+            return <th
+                        className={item.sort ? "sort-column" : ""}
+                        key={index}
+                        onClick={() => item.sort ? this.triggleSortBy(item) : null}
+                    >
+                        {item.title}
+                        {this.iconSortBy(item)}
+                    </th>
         })
     }
 
@@ -44,16 +92,16 @@ class Table extends React.Component<Props, State> {
 
         const result: Array<any> = dataSource.result;
 
-        return result.length > 0 && result.map((data: any, index) => {
+        return result && result.length > 0 && result.map((data: any, index) => {
             return (
                 <tr onClick={() => this.props.onClick(data)} key={this.props.idTable + "_" + index}>
                     <td className="align-center">{index + 1}</td>
                     {columns.map((item, indexTd) => (
-                    <td
-                        width={item.width || widthColumn}
-                        key={this.props.idTable + "_td_" + indexTd}>
-                        {data[item.idIndex]}
-                    </td>))}
+                        <td
+                            width={item.width || widthColumn}
+                            key={this.props.idTable + "_td_" + indexTd}>
+                            {item.render ? item.render(data[item.idIndex], data) : data[item.idIndex]}
+                        </td>))}
                 </tr>
             )
         })
@@ -61,12 +109,12 @@ class Table extends React.Component<Props, State> {
 
     render() {
         const { dataSource } = this.state;
-
+        const {t} = this.props;
         return (
             <div className="table">
                 <table>
                     <thead>
-                        <tr><th className="align-center">STT</th>{this.renderTableHeader()}</tr>
+                        <tr><th className="align-center">{t('no')}</th>{this.renderTableHeader()}</tr>
                     </thead>
                     <tbody>
                         {this.renderTableData()}
@@ -76,14 +124,14 @@ class Table extends React.Component<Props, State> {
                     totalPage={dataSource.totalPage}
                     currentPage={dataSource.currentPage}
                     onChange={currentPage => {
-                        const data = {...dataSource, currentPage}
+                        const data = { ...dataSource, currentPage }
                         this.props.onChange(data)
                     }}
                 />
             </div>
         )
     }
+
 }
 
-
-export default Table;
+export default (withTranslation(["om-project"])(Table));

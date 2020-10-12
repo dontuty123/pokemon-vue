@@ -1,8 +1,8 @@
 import React from 'react';
-import './login.scss';
+import './style.scss';
 import Logo from '../../assets/img/kobelco.png';
-import TextBox from '../../components/textbox';
-import Button from '../../components/button';
+import TextBox from '../../components/Textbox';
+import Button from '../../components/Button';
 import * as Cookie from '../../core/cookie';
 import * as Constant from '../../core/constant';
 import {connect} from 'react-redux';
@@ -10,7 +10,7 @@ import {setLogin, userInfo} from '../../core/actions/userAction';
 import {Dispatch} from 'redux';
 import {AppActions} from '../../core/types/actions';
 import {user} from '../../core/types/user';
-import * as API from '../../core/api';
+import * as API from '../../core/services';
 
 interface State {
     userInfo: any;
@@ -26,15 +26,15 @@ interface CSSObject {
 }
 
 interface StoreStateProp {
-    userInfo: user
+    userInfo: user;
 }
 
 interface StoreDispatchProp {
     setUserInfo: (data: user) => void,
-    setLogin: (data: user) => void
+    setLogin: (data: user) => void;
 }
 
-type Props = StoreStateProp & StoreDispatchProp
+type Props = StoreStateProp & StoreDispatchProp;
 
 class Login extends React.Component<Props, State> {
 
@@ -45,8 +45,8 @@ class Login extends React.Component<Props, State> {
         },
         messageLogin: "",
         loading: false,
-        checked: false,
-    }
+        checked: false
+    };
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         const label = e.currentTarget.name,
@@ -54,10 +54,10 @@ class Login extends React.Component<Props, State> {
             userInfo = {
                 ...this.state.userInfo,
                 [label]: value
-            }
+            };
 
         this.setState({userInfo, messageLogin: ""});
-    }
+    };
 
     handleSubmit = async () => {
         const {userInfo} = this.state;
@@ -70,23 +70,18 @@ class Login extends React.Component<Props, State> {
             const fnAPI = await API.postApi("login", paramUser);
             if (fnAPI.data.http_code === 403) {
                 messageLogin = Constant.MESSAGE_CODE["001"];
-                return;
-            }
-            if (fnAPI.data.http_code !== 200) {
+            } else if (fnAPI.data.http_code === 200) {
+                Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60);
+                this.props.setLogin({
+                    user_id: fnAPI.data.result.employeeId,
+                    token: fnAPI.data.result.token
+                });
+            } else {
                 messageLogin = Constant.MESSAGE_CODE["010"];
-                return;
             }
-            this.props.setLogin({
-                user_id: fnAPI.data.result.employeeId,
-                token: fnAPI.data.result.token
-            });
-             Cookie.setCookie('result', JSON.stringify(fnAPI.data.result), 120 * 60)
-        } else {
-            messageLogin = this.state.messageLogin
         }
-
         this.setState({loading: false, messageLogin});
-    }
+    };
 
     validateEmail() {
         const {userInfo, checked} = this.state;
@@ -96,7 +91,7 @@ class Login extends React.Component<Props, State> {
             mess: Constant.MESSAGE_CODE["002"]
         };
 
-        return valid
+        return valid;
     }
 
     validatePassword() {
@@ -107,7 +102,7 @@ class Login extends React.Component<Props, State> {
             mess: Constant.MESSAGE_CODE["003"]
         };
 
-        return valid
+        return valid;
     }
 
     render() {
@@ -163,11 +158,11 @@ class Login extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
     userInfo: state.userReducer
-})
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<AppActions>) => ({
     setUserInfo: (data: user) => dispatch(userInfo(data)),
     setLogin: (data: user) => dispatch(setLogin(data))
-})
+});
 
-export default connect<StoreStateProp, StoreDispatchProp>(mapStateToProps, mapDispatchToProps)(Login)
+export default connect<StoreStateProp, StoreDispatchProp>(mapStateToProps, mapDispatchToProps)(Login);

@@ -20,21 +20,3 @@
 	position: absolute;
 	padding: 15px;
 }
-.button {
-	cursor: pointer;
-	border: none;
-	border-radius: 3px;
-	padding: 10px;
-	font-size: large;
-	margin: 5px;
-	width: 95%;
-	background-color: #296fc0;
-	color: #fff;
-	&:focus {
-		outline: none;
-	};
-	&:disabled {
-		cursor: default;
-        opacity: 0.8;
-	}
-}

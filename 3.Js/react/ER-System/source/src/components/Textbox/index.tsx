@@ -1,5 +1,5 @@
 import React from 'react';
-import './css.scss';
+import './style.scss';
 import {BsFillPersonFill, BsFillLockFill, BsFillEnvelopeFill} from "react-icons/bs";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
     onChange: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
-const TextBox: React.FC<Props> = (props) => {
+const TextBox = (props:Props) => {
 
     const getIcon = () => {
         let icon = null;
@@ -33,7 +33,7 @@ const TextBox: React.FC<Props> = (props) => {
         }
 
         return icon;
-    }
+    };
 
     return (
         <div>
@@ -41,6 +41,6 @@ const TextBox: React.FC<Props> = (props) => {
             <input className="textbox" style={getIcon() ? ({paddingLeft: '40px', width: '84%'}) : null} type="text" {...props} />
         </div>
     )
-}
+};
 
-export default TextBox
+export default TextBox;
