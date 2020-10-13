@@ -62,7 +62,6 @@ class ForgotPassword extends Component {
 			this.setState({
                 errorMail: '002'
 			});
-			console.log('errorCode: ', this.state.errorCode)
 		}else {
             this.setState({
                 errorMail :''

@@ -1,3 +1,7 @@
+import {matchPath} from 'react-router-dom';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 const functionCommon = {};
 
 
@@ -20,6 +24,68 @@ functionCommon.validateEmail = (email) => {
  * At least 8 characters
  */
 functionCommon.validatePass = (password) => {
-    const validate = /([-+=_!@#$%^&*.,;:'\"<>/?`~\[\]\(\)\{\}\\\|\s])^(?=.*[\d]).+$^(?=.*[A-Z]).+$^(?=.*[a-z]).+$/
+    const validate = new RegExp("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     const isValidate = validate.test(password) ? true : false;
+    return isValidate;
 }
+
+/**
+ * function get value key 
+ * get path 
+ */
+functionCommon.getCurrentPath = (pathname, _path) => {
+    const match = matchPath(
+        pathname,
+        { path: _path }
+    );
+    if (match !== null){
+        return match.params.code;
+    } else {
+        window.location = '/login';
+    } 
+    
+}
+/**
+ * function set cookie 
+ * set result 
+ */
+functionCommon.setCookie = (data, cookiesName) => {
+    const timestamp = new Date().getTime();
+    const expire = timestamp + (60 * 60 * 24 * 1000 * 1);
+    const expireDate = new Date(expire);
+    cookies.set(cookiesName, data, { expires: expireDate });
+}
+
+/**
+ * function get cookie 
+ * get result 
+ */
+functionCommon.getCookie = (cookiesName) => {
+    let result = cookies.get(cookiesName);
+    return result;
+}
+
+/**
+ * function get api header 
+ * 
+ */
+functionCommon.getApiHeader = () =>{
+    const result = functionCommon.getCookie('result')
+
+    if (result) {
+        return { 
+            'token': result.token,
+            'email': result.email,
+            'employeeCode': result.employeeCode
+        };
+    } else {
+        return {
+            'token': '',
+            'email': '',
+            'employeeCode': ''
+        };
+    }
+}
+
+
+export default functionCommon;
