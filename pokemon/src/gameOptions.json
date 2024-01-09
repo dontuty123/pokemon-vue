@@ -1,0 +1,34 @@
+[
+  {
+    "level": 0,
+    "levelMode": "4x4",
+    "levelTitle": "Easy",
+    "totalCard": 16,
+    "width": 150,
+    "height": 200
+  },
+  {
+    "level": 1,
+    "levelMode": "6x6",
+    "levelTitle": "Normal",
+    "totalCard": 36,
+    "width": 100,
+    "height": 125
+  },
+  {
+    "level": 2,
+    "levelMode": "8x8",
+    "levelTitle": "Hard",
+    "totalCard": 64,
+    "width": 70,
+    "height": 90
+  },
+  {
+    "level": 3,
+    "levelMode": "10x10",
+    "levelTitle": "Super Hard",
+    "totalCard": 100,
+    "width": 52,
+    "height": 65
+  }
+]
