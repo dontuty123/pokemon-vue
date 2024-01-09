@@ -1,6 +1,0 @@
-/**
- *
- * Call reducers
- */
-
-export {}
