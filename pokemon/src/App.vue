@@ -12,7 +12,7 @@ type TGameState = {
 };
 
 const initGameState: TGameState = {
-  status: 1,
+  status: 0,
   level: 0,
   time: 0,
 };
@@ -29,17 +29,23 @@ const handleGameState = (newGameState: TGameState) => {
     <StartScreen
       v-if="state.status === 0"
       @change-game-state="handleGameState"
-      :state="state"
+      :status="state.status"
+      :level="state.level"
+      :time="state.time"
     />
     <CardScreen
       v-if="state.status === 1"
       @change-game-state="handleGameState"
-      :state="state"
+      :status="state.status"
+      :level="state.level"
+      :time="state.time"
     />
     <ResultScreen
       v-if="state.status === 2"
       @change-game-state="handleGameState"
-      :state="state"
+      :status="state.status"
+      :level="state.level"
+      :time="state.time"
     />
   </div>
 
