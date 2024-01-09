@@ -1,30 +1,68 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import StartScreen from "@/components/StartScreen.vue";
+import CardScreen from "@/components/CardScreen.vue";
+import ResultScreen from "@/components/ResultScreen.vue";
+
+import { ref } from "vue";
+
+type TGameState = {
+  status: number;
+  level: number;
+  time: number;
+};
+
+const initGameState: TGameState = {
+  status: 1,
+  level: 0,
+  time: 0,
+};
+
+const state = ref<TGameState>(initGameState);
+
+const handleGameState = (newGameState: TGameState) => {
+  state.value = newGameState;
+};
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="cover-body">
+    <StartScreen
+      v-if="state.status === 0"
+      @change-game-state="handleGameState"
+      :state="state"
+    />
+    <CardScreen
+      v-if="state.status === 1"
+      @change-game-state="handleGameState"
+      :state="state"
+    />
+    <ResultScreen
+      v-if="state.status === 2"
+      @change-game-state="handleGameState"
+      :state="state"
+    />
   </div>
-  <HelloWorld msg="Vite + Vue" />
+
+  <div class="cover-footer">
+    <span class="made-by">This game was made by Thucpt</span>
+  </div>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<style lang="css" scoped>
+.cover-body {
+  max-height: 90vh;
+  margin-bottom: 10vh;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.cover-footer {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.made-by {
+  font-weight: 600;
+  font-size: 24px;
+  color: #ee9d9d;
 }
 </style>
