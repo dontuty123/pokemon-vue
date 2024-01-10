@@ -50,7 +50,6 @@ const onClick = (level: number) => {
 }
 
 .common-text {
-  font-family: Arial, sans-serif;
   color: #ee9d9d;
   line-height: 1;
 }

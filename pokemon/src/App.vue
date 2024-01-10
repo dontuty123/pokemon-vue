@@ -57,7 +57,8 @@ const handleGameState = (newGameState: TGameState) => {
 <style lang="css" scoped>
 .cover-body {
   max-height: 90vh;
-  margin-bottom: 10vh;
+  margin-bottom: calc(10vh - 20px);
+  padding-top: 20px;
 }
 
 .cover-footer {
