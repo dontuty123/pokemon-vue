@@ -9,6 +9,7 @@
         v-for="option in gameConfigJson"
         :key="option.level"
         class="select-mode-box"
+        @click="onClick(option.level)"
       >
         <span class="common-text level-mode">{{ option.levelMode }}</span>
         <span class="common-text level-title">{{ option.levelTitle }}</span>
@@ -19,6 +20,12 @@
 
 <script setup lang="ts">
 import gameConfigJson from "@/gameOptions.json";
+
+const emit = defineEmits(["changeGameState"]);
+
+const onClick = (level: number) => {
+  emit("changeGameState", { status: 1, level: level });
+};
 </script>
 
 <style lang="css" scoped>
@@ -43,7 +50,6 @@ import gameConfigJson from "@/gameOptions.json";
 }
 
 .common-text {
-  font-family: Arial, sans-serif;
   color: #ee9d9d;
   line-height: 1;
 }
