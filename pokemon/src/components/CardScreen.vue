@@ -52,8 +52,8 @@ indexMap.sort(() => Math.random() - 0.5);
 
 for (const element of indexMap) {
   cards.value.push({
-    backImage: "/src/assets/images/icon_back.png",
-    frontImage: `/src/assets/images/${element}.png`,
+    backImage: "src/assets/images/icon_back.png",
+    frontImage: `src/assets/images/${element}.png`,
     flipped: false,
     height: getDataMap().height,
     width: getDataMap().width,
